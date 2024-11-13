@@ -1,6 +1,6 @@
 ##### Dockerfile #####
 ## build stage ##
-FROM node:21-alpine as build
+FROM node:20.18-alpine as build
 
 WORKDIR /app
 COPY . .
