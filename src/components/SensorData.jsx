@@ -3,7 +3,7 @@ import { MdWaterDrop } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
 import { TbAirConditioning } from "react-icons/tb";
 
-const PLatforms = () => {
+const SensorData = () => {
   return (
     <div className='p-5 shadow dark:bg-gray-800 rounded-xl'>
         <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>Data</h1>
@@ -40,4 +40,4 @@ const PLatforms = () => {
   )
 }
 
-export default PLatforms
+export default SensorData

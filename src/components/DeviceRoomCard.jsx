@@ -5,7 +5,7 @@ const DeviceRoomCard = ({deviceRoom}) => {
   return (
     <div className='flex flex-col gap-2 dark:bg-slate-700 rounded-lg' >
         <div className="flex justify-between p-4">
-            <div className="p-2 max-w-40">
+            <div className="p-2 max-w-40 max-h-40">
                 <img src={deviceRoom.picture} alt="" className="" />
             </div>
             <div className="flex flex-col gap-4 items-center pt-5">
