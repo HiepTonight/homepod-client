@@ -1,7 +1,6 @@
-import React from 'react'
 import ProjectStatics from '../components/ProjectStatics'
 import MyRoom from '../components/MyRoom'
-import PLatforms from '../components/PLatforms'
+import Platforms from '../components/PLatforms'
 import DeviceCard from '../components/DeviceCard'
 
 import { CgSmartHomeRefrigerator } from "react-icons/cg"
@@ -49,8 +48,8 @@ const Home = () => {
     <div className='p-5'>
       <div className='grid grid-cols-2 gap-4 pb-5'>
         <div className='grid grid-cols-2 gap-4'>
-          <PLatforms />
-          <PLatforms />
+          <Platforms />
+          <Platforms />
         </div>
         <ProjectStatics className="col-span-2" />
       </div>

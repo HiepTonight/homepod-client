@@ -1,4 +1,3 @@
-import React from 'react'
 import { FaTemperatureHalf } from "react-icons/fa6";
 import { MdWaterDrop } from "react-icons/md";
 import { CiLight } from "react-icons/ci";
