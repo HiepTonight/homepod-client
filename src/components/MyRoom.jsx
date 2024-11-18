@@ -37,21 +37,22 @@ const MyRoom = () => {
             <p>Garage</p>
         </div>
         
-        <div className='grid grid-cols-5 gap-4'>
-            <div className='col-span-3 flex flex-col justify-between gap-4'>
-                <img src="/room-prv.png" alt="" className='rounded-xl' />
-                
-                {/* <div className='p-8 dark:bg-gray-600 rounded-md'>Music player</div> */}
-
+        <div className='grid grid-cols-2 gap-4 '>
+            <div className='flex flex-col justify-between gap-4 '>
+                <img src="/room-prv.png" alt="" className='rounded-xl object-fill w-full h-full object-cover' />
+                {/* <div className='bg-white p-4 flex items-center justify-center'>hello</div> */}
+              
             </div>
 
-            <div className='col-span-2'>
-                <div className='grid grid-cols-2 gap-4'>
+            <div className='row-span-2'>
+                <div className='grid grid-cols-2 gap-4 h-full'>
                     {
                         devices && devices.map((deviceRoom)=> <DeivceRoomCard deviceRoom={deviceRoom} />)
                     }
                 </div>
             </div>
+
+            <div className='p-8 dark:bg-gray-600 rounded-xl'>Music player</div>
 
         </div>
 
