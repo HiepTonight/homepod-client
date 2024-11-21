@@ -108,7 +108,7 @@ const ProjectStatics = () => {
 
   return (
     <div>    
-        <div className="w-full bg-white rounded-xl shadow dark:bg-gray-800 p-4 md:p-6">
+        <div className="w-full rounded-xl shadow bg-[#1a1c1e] p-4 md:p-6">
         <div className="flex justify-between">
             <div>
             <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Feeling Great</h5>

@@ -1,26 +1,31 @@
 import React from 'react'
 import {GoBell} from 'react-icons/go'
+import { HiChevronDown } from "react-icons/hi2";
 
 const Header = () => {
   return (
     <div className='flex justify-between items-center p-4'>
       <div>
-        <h1 className='text-xs'>Welcome Back!</h1>
-        <p className='text-xl font-semibold'>Hiep Tran</p>
+        <h1 className='text-xs text-white'>Welcome Back!</h1>
+        <p className='text-xl font-semibold text-white'>Hiep Tran</p>
       </div>
       <div className='flex items-center space-x-5'>
         <div className='hidden md:flex'>
           <input 
             type="text" 
             placeholder='Search...' 
-            className='bg-indigo-100/30 px-4 py-2 rounded-lg focus:ring-indigo-600' />
+            className='bg-[#1a1c1e] px-4 py-2 rounded-lg focus:ring-indigo-600' />
         </div>
         <div className='flex items-center space-x-5'>
-          <button className='relative text-2xl text-gray-600'>
-            <GoBell size={32} />
-            <span className='absolute top-0 right-0 -mt-1 -mr-1 flex justify-center items-center bg-indigo-600 text-white font-semibold text-[10px] w-5 h-4 rounded-full border-2 border-white'>9</span>
+          <button className='relative text-2xl text-gray-600 bg-[#1a1c1e] rounded-lg p-2'>
+            <GoBell />
+            <span className='absolute top-0 right-0 -mt-1 -mr-1 flex justify-center items-center bg-red-600 text-white font-semibold text-[10px] w-5 h-4 rounded-full border-2 border-white'>9</span>
           </button>
-          <img className='w-8 g=8 rounded-full border-2 border-indigo-300' src="https://randomuser.me/api/portraits/men/50.jpg" alt="" />
+          <div className='flex justify-around items-center gap-2 bg-[#1a1c1e] p-2 rounded-lg'>
+            <img className='w-6 g=6 rounded-full border-2 border-gray-500' src="https://randomuser.me/api/portraits/men/50.jpg" alt="" />
+            <p className='text-[#808183] font-semibold'>Hiep Tran</p>
+            <HiChevronDown className='text-[#808183]'/>
+          </div>
         </div>
       </div>
     </div>
