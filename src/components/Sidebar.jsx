@@ -6,6 +6,8 @@ import { HiTemplate } from "react-icons/hi";
 import { FaSuitcase } from 'react-icons/fa'
 import { TbUser } from 'react-icons/tb'
 import { HiHomeModern } from "react-icons/hi2";
+import { SiHomeassistant } from "react-icons/si";
+
 
 const Sidebar = () => {
   const [activeLink ,setActiveLink] = useState(0);
@@ -21,26 +23,27 @@ const Sidebar = () => {
     {id:6, path: "/work", name: "Work Plan", icon:LuCalendar}
   ]
   return (
-    <div className='w-16 md:w-56 fixed left-0 top-0 z-10 h-screen boder-r pt-8 px-4 bg-white'>
+    <div className='w-16 md:w-56 fixed left-0 top-0 z-10 h-screen boder-r pt-8 px-4 bg-[#1a1c1e]'>
       {/* logo */}
-      <div className='mb-8'>
-        <p>Chua ve logo</p>
-        <img src="" alt="logo" className='w-28 hidden md:flex' />
-        <img src="" alt="logo" className='w-8 flex md:hidden' />
+      <div className='mb-8 flex justify-around'>
+        <SiHomeassistant className='text-3xl text-white' />
+        <p className='text-2xl font-semibold text text-white'>Smarthome</p>
+        {/* <img src="" alt="logo" className='w-28 hidden md:flex' />
+        <img src="" alt="logo" className='w-8 flex md:hidden' /> */}
       </div>
 
       {/* Navigation Links */}
-      <ul className='mt-6 space-y-6'>
+      <ul className='mt-6 space-y-6 text-[#9ea3b0]'>
         {
           SIDEBAR_LINKS.map((link, index)=>(
-            <li key={index} className={`font-medium rounded-md py-y px-5 hover:bg-gray-100 hover:text-indigo-500 ${activeLink === index ? "bg-indigo-100 text-indigo-500": ""}`} >
+            <li key={index} className={`font-medium rounded-md py-y px-5  hover:bg-[#317ff3] hover:text-white ${activeLink === index ? "bg-[#317ff3] text-white": ""}`} >
               <Link 
               to={link.path} 
               className='flex items-center md:space-x-5'
               onClick={() => handleLinkClick(index)}
               >
-                <span>{link.icon()}</span>
-                <span>{link.name}</span>
+                <span >{link.icon()}</span>
+                <span >{link.name}</span>
               </Link>
             </li>
           ))

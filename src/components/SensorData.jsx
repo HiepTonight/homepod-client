@@ -5,7 +5,7 @@ import { TbAirConditioning } from "react-icons/tb";
 
 const SensorData = () => {
   return (
-    <div className='p-5 shadow dark:bg-gray-800 rounded-xl'>
+    <div className='p-5 shadow bg-[#1a1c1e] rounded-xl'>
         <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>Data</h1>
         <div className='p-2 grid grid-cols-2 gap-8'>
             <div className='space-y-3 text-gray-500 dark:text-gray-400'>

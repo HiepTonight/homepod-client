@@ -56,7 +56,7 @@ const Home = () => {
 
       <div className='pb-4'>
         <div className='flex justify-between items-center'>
-          <h1 className='text-lg font-semibold'>Device</h1>
+          <h1 className='text-lg font-semibold text-white'>Device</h1>
           <p className='tex-sm underline text-indigo-600'></p>
         </div>
 

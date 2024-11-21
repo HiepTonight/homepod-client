@@ -11,7 +11,7 @@ const MyRoom = () => {
         {specific: "Thermostat", name: "Google Thermostat", picture: "/thermostat.png"}
     ]
   return (
-    <div className='bg-white rounded-xl shadow dark:bg-gray-800 p-4 md:p-6'>
+    <div className='rounded-xl shadow bg-[#1a1c1e] p-4 md:p-6'>
         <div className='flex justify-between items-center pb-6'>
             <h1 className='text-xl font-semibold text-gray-500 dark:text-white'>My Rooms</h1>
             <p className='tex-sm underline text-indigo-600'></p>
@@ -28,7 +28,7 @@ const MyRoom = () => {
             </div>
         </div>
 
-        <div className='text-gray-500 dark:text-gray-400 flex justify-start gap-8 cursor-pointer pb-8'>
+        <div className='text-gray-500 dark:text-gray-400 flex justify-start gap-8 cursor-pointer pb-8 shadow-lg'>
             <p>Living Room</p>
             <p>Dining Room</p>
             <p>Bed Room</p>
@@ -38,7 +38,7 @@ const MyRoom = () => {
         </div>
         
         <div className='grid grid-cols-2 gap-4 '>
-            <div className='flex flex-col justify-between gap-4 '>
+            <div className='flex flex-col justify-between gap-4 shadow-lg'>
                 <img src="/room-prv.png" alt="" className='rounded-xl object-fill w-full h-full object-cover' />
                 {/* <div className='bg-white p-4 flex items-center justify-center'>hello</div> */}
               
@@ -52,7 +52,7 @@ const MyRoom = () => {
                 </div>
             </div>
 
-            <div className='p-8 dark:bg-gray-600 rounded-xl'>Music player</div>
+            <div className='p-8 bg-[#272a30] rounded-xl shadow-lg'>Music player</div>
 
         </div>
 
