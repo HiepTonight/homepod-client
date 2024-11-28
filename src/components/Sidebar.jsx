@@ -27,7 +27,7 @@ const Sidebar = () => {
       {/* logo */}
       <div className='mb-8 flex justify-around'>
         <SiHomeassistant className='text-3xl text-white' />
-        <p className='text-2xl font-semibold text text-white'>Smarthome</p>
+        <p className='hidden md:flex text-2xl font-semibold text text-white'>Smarthome</p>
         {/* <img src="" alt="logo" className='w-28 hidden md:flex' />
         <img src="" alt="logo" className='w-8 flex md:hidden' /> */}
       </div>
@@ -36,14 +36,14 @@ const Sidebar = () => {
       <ul className='mt-6 space-y-6 text-[#9ea3b0]'>
         {
           SIDEBAR_LINKS.map((link, index)=>(
-            <li key={index} className={`font-medium rounded-md py-y px-5  hover:bg-[#317ff3] hover:text-white ${activeLink === index ? "bg-[#317ff3] text-white": ""}`} >
+            <li key={index} className={`flex font-medium rounded-md py-y px-2 md:px-5 hover:bg-[#317ff3] hover:text-white ${activeLink === index ? "bg-[#317ff3] text-white": ""}`} >
               <Link 
               to={link.path} 
               className='flex items-center md:space-x-5'
               onClick={() => handleLinkClick(index)}
               >
                 <span >{link.icon()}</span>
-                <span >{link.name}</span>
+                <span className='hidden md:flex item'>{link.name}</span>
               </Link>
             </li>
           ))
