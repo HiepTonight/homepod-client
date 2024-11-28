@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
 
-const ProjectStatics = () => {
+const DataStatics = () => {
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const options = {
@@ -130,4 +130,4 @@ const ProjectStatics = () => {
   )
 }
 
-export default ProjectStatics
+export default DataStatics

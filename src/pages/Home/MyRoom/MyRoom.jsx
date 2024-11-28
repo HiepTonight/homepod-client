@@ -1,5 +1,5 @@
 import React from 'react'
-import DeivceRoomCard from '../components/DeviceRoomCard'
+import DeivceRoomCard from './DeviceRoomCard/DeviceRoomCard.jsx'
 import { GoPlus } from "react-icons/go";
 import { TiEdit } from "react-icons/ti";
 
@@ -13,8 +13,7 @@ const MyRoom = () => {
   return (
     <div className='rounded-xl shadow bg-[#1a1c1e] p-4 md:p-6'>
         <div className='flex justify-between items-center pb-6'>
-            <h1 className='text-xl font-semibold text-gray-500 dark:text-white'>My Rooms</h1>
-            <p className='tex-sm underline text-indigo-600'></p>
+            <h1 className='text-xl font-semibold text-gray-500 text-white'>My Rooms</h1>
             <div className='flex justify-between gap-2'>
               <div className='flex justify-between items-center gap-[3px] text-gray-500 dark:text-gray-400 dark:bg-gray-700 rounded-md p-1 px-3 cursor-pointer'>
                 <p className=''>Edit</p>
