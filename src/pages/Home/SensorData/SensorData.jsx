@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
-import { FaTemperatureHalf } from "react-icons/fa6";
-import { MdWaterDrop } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-import { TbAirConditioning } from "react-icons/tb";
-import { getLatestSensorData } from "../../../apis/getLatestSensorData.js"; // Adjust the import path as needed
+import { useEffect, useState } from "react"
+import { FaTemperatureHalf } from "react-icons/fa6"
+import { MdWaterDrop } from "react-icons/md"
+import { CiLight } from "react-icons/ci"
+import { TbAirConditioning } from "react-icons/tb"
+import { getLatestSensorData } from "../../../apis/SensorData/getLatestSensorData.js"
 
 const SensorData = () => {
   const [sensorData, setSensorData] = useState(null);
@@ -24,34 +24,34 @@ const SensorData = () => {
   const { temp, humi, light } = sensorData?.data || {};
 
   return (
-    <div className='p-5 shadow bg-[#1a1c1e] rounded-xl'>
-      <h1 className='text-2xl font-bold text-gray-900 dark:text-white'>Data</h1>
+    <div className='p-5 shadow bg-gradient-to-r from-[#1a1c1e] to-[#090d11] rounded-xl'>
+      <h1 className='text-2xl font-bold text-white mb-4'>Sensor Data</h1>
       <div className='p-2 grid grid-cols-2 gap-8'>
-        <div className='space-y-3 text-gray-500 dark:text-gray-400'>
+        <div className='space-y-3 text-gray-300'>
           <h1 className='text-2xl font-bold'>{temp} ℃</h1>
-          <p className='flex items-center space-x2'>
-            <FaTemperatureHalf/> <span>Temperature</span>
+          <p className='flex items-center space-x-2'>
+            <FaTemperatureHalf className="text-yellow-500"/> <span>Temperature</span>
           </p>
         </div>
         
-        <div className='space-y-3 text-gray-500 dark:text-gray-400'>
+        <div className='space-y-3 text-gray-300'>
           <h1 className='text-2xl font-bold'>{humi} %</h1>
-          <p className='flex items-center space-x2'>
-            <MdWaterDrop/> <span>Humidity</span>
+          <p className='flex items-center space-x-2'>
+            <MdWaterDrop className="text-blue-500"/> <span>Humidity</span>
           </p>
         </div>
         
-        <div className='space-y-3 text-gray-500 dark:text-gray-400'>
+        <div className='space-y-3 text-gray-300'>
           <h1 className='text-2xl font-bold'>{light} %</h1>
-          <p className='flex items-center space-x2'>
-            <CiLight/> <span>Light</span>
+          <p className='flex items-center space-x-2'>
+            <CiLight className="text-yellow-300"/> <span>Light</span>
           </p>
         </div>
         
-        <div className='space-y-3 text-gray-500 dark:text-gray-400'>
+        <div className='space-y-3 text-gray-300'>
           <h1 className='text-2xl font-bold'>50</h1>
-          <p className='flex items-center space-x2'>
-            <TbAirConditioning/> <span>Air</span>
+          <p className='flex items-center space-x-2'>
+            <TbAirConditioning className="text-green-500"/> <span>Air Quality</span>
           </p>
         </div>
       </div>

@@ -65,7 +65,7 @@ const Devices = () => {
     };
    
   return (
-    <div className='pb-4 max-w col-span-2 rounded-xl shadow bg-[#1a1c1e] p-4 md:p-6'>
+    <div className='pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6'>
           <div className='flex justify-between items-center pb-6'>
             <h1 className='text-xl font-semibold text-white'>Device</h1>
             

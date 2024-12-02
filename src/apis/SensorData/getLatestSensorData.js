@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_ROOT } from '../utils/constants'
+import { API_ROOT } from '../../utils/constants'
 
 //Catch lỗi tập trung tại Intercepters
 

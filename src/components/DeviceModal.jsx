@@ -30,6 +30,7 @@ const DeviceModal = ({ isVisible, onClose, addDevice }) => {
             setDeviceData({ name: '', icon: '', description: '', status: 0 }); // Reset form data
             onClose();
         } catch (error) {
+            console.error('Error:', error);
         }
     };
 
