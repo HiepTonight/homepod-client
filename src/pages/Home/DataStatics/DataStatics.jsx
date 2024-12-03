@@ -1,33 +1,37 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react'
 import Chart from 'chart.js/auto';
 import { Line } from 'react-chartjs-2';
+import getYesterdaySensorData from '../../../apis/SensorData/GetYesterdaySensorData';
+import getTodaySensorData from '../../../apis/SensorData/GetTodaySensorData';
+import get7daySensorData from '../../../apis/SensorData/Get7daySensorData';
 
 const DataStatics = () => {
     const [selectedData, setSelectedData] = useState('Temp');
-    const [selectedDayRange, setSelectedDayRange] = useState('Last 7 days');
+    const [selectedDayRange, setSelectedDayRange] = useState('Today'); // Set default to 'Today'
+    const [apiData, setApiData] = useState([]); // Add state for API data
 
-    const dataOptions = {
+    const dataOptions = useMemo(() => ({
         Temp: {
-            'Yesterday': Array.from({ length: 8 }, (_, i) => 29 + i % 2),
-            'Today': Array.from({ length: 7 }, (_, i) => 30 + i % 2),
-            'Last 7 days': [30, 32, 31, 29, 28, 27, 26]
+            'Yesterday': apiData.map(item => item.temp),
+            'Today': apiData.map(item => item.temp),
+            'Last 7 days': apiData.map(item => item.temp)
         },
         Humi: {
-            'Yesterday': Array.from({ length: 8 }, (_, i) => 65 + i % 5),
-            'Today': Array.from({ length: 8 }, (_, i) => 70 + i % 5),
-            'Last 7 days': [70, 65, 75, 80, 60, 55, 50]
+            'Yesterday': apiData.map(item => item.humi),
+            'Today': apiData.map(item => item.humi),
+            'Last 7 days': apiData.map(item => item.humi)
         },
         Light: {
-            'Yesterday': Array.from({ length: 8 }, (_, i) => 350 + i * 10),
-            'Today': Array.from({ length: 8 }, (_, i) => 300 + i * 10),
-            'Last 7 days': [300, 350, 400, 450, 500, 550, 600]
+            'Yesterday': apiData.map(item => item.light),
+            'Today': apiData.map(item => item.light),
+            'Last 7 days': apiData.map(item => item.light)
         }
-    };
-    console.log(dataOptions);
+    }), [apiData]);
+
     const options = useMemo(() => ({
         xaxis: {
             show: true,
-            categories: selectedDayRange === 'Yesterday' || selectedDayRange === 'Today' ? Array.from({ length: 8 }, (_, i) => `${i * 3}:00`) : ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb'],
+            categories: selectedDayRange === 'Last 7 days' ? apiData.map(item => new Date(item.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })) : apiData.map(item => new Date(item.createdAt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })), // Use API data for x-axis labels
             labels: {
                 show: true,
                 style: {
@@ -104,7 +108,7 @@ const DataStatics = () => {
         grid: {
             show: false,
         },
-    }), [selectedData, selectedDayRange]);
+    }), [selectedData, selectedDayRange, apiData]);
 
     const chartRef = useRef(null)
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -131,6 +135,28 @@ const DataStatics = () => {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let response;
+                if (selectedDayRange === 'Yesterday') {
+                    response = await getYesterdaySensorData();
+                } else if (selectedDayRange === 'Today') {
+                    response = await getTodaySensorData();
+                } else if (selectedDayRange === 'Last 7 days') {
+                    response = await get7daySensorData();
+                }
+                if (response.success) {
+                    setApiData(response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, [selectedDayRange]);
+
+    useEffect(() => {
         if (chartRef.current && typeof ApexCharts !== "undefined") {
             const chart = new ApexCharts(chartRef.current, options)
             chart.render()
@@ -141,13 +167,26 @@ const DataStatics = () => {
         }
     }, [options])
 
+    const getTimelineText = () => {
+        switch (selectedData) {
+            case 'Temp':
+                return 'Temperature Data Timeline';
+            case 'Humi':
+                return 'Humidity Data Timeline';
+            case 'Light':
+                return 'Light Data Timeline';
+            default:
+                return 'Data Timeline';
+        }
+    };
+
     return (
         <div>
             <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative">
                 <div className="flex justify-between">
                     <div>
-                        <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Feeling Great</h5>
-                        <p className="text-base font-normal text-gray-500 dark:text-gray-400">Data timeline</p>
+                        <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Data Chart</h5>
+                        <p className="text-base font-normal text-gray-500 dark:text-gray-400">{getTimelineText()}</p>
                     </div>
                     <div className="flex justify-between">
                         <div className="relative">
