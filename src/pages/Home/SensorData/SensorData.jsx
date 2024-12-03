@@ -4,9 +4,30 @@ import { MdWaterDrop } from "react-icons/md"
 import { CiLight } from "react-icons/ci"
 import { TbAirConditioning } from "react-icons/tb"
 import { getLatestSensorData } from "../../../apis/SensorData/getLatestSensorData.js"
+import { io } from "socket.io-client" // Add this import
 
 const SensorData = () => {
   const [sensorData, setSensorData] = useState(null);
+
+  useEffect(() => {
+    const socket = io('http://192.168.0.105:18085'); // Replace with your server URL
+
+    socket.on("connect", () => {
+      console.log("Connected to socket server");
+    });
+
+    socket.on("sensorData", (data) => {
+      setSensorData(data);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from socket server");
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
