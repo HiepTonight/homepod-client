@@ -1,31 +1,36 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { FaTemperatureHalf } from "react-icons/fa6"
 import { MdWaterDrop } from "react-icons/md"
 import { CiLight } from "react-icons/ci"
 import { TbAirConditioning } from "react-icons/tb"
 import { getLatestSensorData } from "../../../apis/SensorData/getLatestSensorData.js"
-import { io } from "socket.io-client" // Add this import
+import { connect, disconnect } from "../../../apis/Mqtt.js"
 
 const SensorData = () => {
-  const [sensorData, setSensorData] = useState(null);
+
+  const [temp, setTemp] = useState(null);
+  const [humi, setHumi] = useState(null);
+  const [light, setLight] = useState(null);
 
   useEffect(() => {
-    const socket = io('http://192.168.0.105:18085'); // Replace with your server URL
+    // const socket = new WebSocket('ws://localhost:8080/api/v1/websocket'); // Replace with your WebSocket server URL
 
-    socket.on("connect", () => {
-      console.log("Connected to socket server");
-    });
+    const handleMessage = (data) => {
+      console.log('Received message:', data);
+      setTemp(data.temp);
+      setHumi(data.humi);
+      setLight(data.light);
+    };
 
-    socket.on("sensorData", (data) => {
-      setSensorData(data);
-    });
+    // Handle connection errors
+    const handleError = (error) => {
+      console.error('MQTT error:', error);
+    };
 
-    socket.on("disconnect", () => {
-      console.log("Disconnected from socket server");
-    });
+    connect(handleMessage, handleError);
 
     return () => {
-      socket.disconnect();
+      disconnect();
     };
   }, []);
 
@@ -33,7 +38,10 @@ const SensorData = () => {
     const fetchData = async () => {
       try {
         const data = await getLatestSensorData();
-        setSensorData(data);
+        setTemp(data.data.temp);
+        setHumi(data.data.humi);
+        setLight(data.data.light);
+        // console.log('Sensor data:', data.data);
       } catch (err) {
         console.log(err.message || 'Có lỗi xảy ra khi gọi API');
       }
@@ -42,7 +50,7 @@ const SensorData = () => {
     fetchData();
   }, []);
 
-  const { temp, humi, light } = sensorData?.data || {};
+  // const { temp, humi, light } = sensorData?.data || {};
 
   return (
     <div className='p-5 shadow bg-gradient-to-r from-[#1a1c1e] to-[#090d11] rounded-xl'>
