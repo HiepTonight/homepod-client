@@ -1,6 +1,6 @@
-import mqtt from 'mqtt';
+import mqtt from 'mqtt'
 
-let mqttClient = null;
+let mqttClient = null
 
 export const connect = (onMessageReceived, onError) => {
   const options = {
@@ -14,38 +14,38 @@ export const connect = (onMessageReceived, onError) => {
   };
 
   // Connect to MQTT broker with credentials
-  mqttClient = mqtt.connect('wss://897e4e4bd28b411ba2464a4019281121.s1.eu.hivemq.cloud:8884/mqtt', options);
+  mqttClient = mqtt.connect('wss://897e4e4bd28b411ba2464a4019281121.s1.eu.hivemq.cloud:8884/mqtt', options)
 
   mqttClient.on('connect', () => {
-    console.log('Connected to MQTT broker');
+    console.log('Connected to MQTT broker')
     
     mqttClient.subscribe('sensorData', (err) => {
       if (err) {
-        console.error('Subscription error:', err);
-        if (onError) onError(err);
+        console.error('Subscription error:', err)
+        if (onError) onError(err)
       }
     });
   });
 
   mqttClient.on('message', (topic, message) => {
     try {
-      const data = JSON.parse(message.toString());
-      onMessageReceived(data);
+      const data = JSON.parse(message.toString())
+      onMessageReceived(data)
     } catch (error) {
-      console.error('Error parsing message:', error);
-      if (onError) onError(error);
+      console.error('Error parsing message:', error)
+      if (onError) onError(error)
     }
   });
 
   mqttClient.on('error', (error) => {
-    console.error('MQTT connection error:', error);
-    if (onError) onError(error);
-  });
-};
+    console.error('MQTT connection error:', error)
+    if (onError) onError(error)
+  })
+}
 
 export const disconnect = () => {
   if (mqttClient) {
-    mqttClient.end();
-    console.log('Disconnected from MQTT broker');
+    mqttClient.end()
+    console.log('Disconnected from MQTT broker')
   }
-};
+}
