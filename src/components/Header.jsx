@@ -1,4 +1,3 @@
-import React from 'react'
 import {GoBell} from 'react-icons/go'
 import { HiChevronDown } from "react-icons/hi2";
 
