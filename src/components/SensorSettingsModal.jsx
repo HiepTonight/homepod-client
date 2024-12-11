@@ -132,13 +132,13 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                     )}
                 </div>
             </div>
-            <div className="mt-1 space-y-2 grid grid-cols-2 gap-3">
+            <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-3 items-center">
                 {settings[sensor][`${condition}Devices`].map(device => {
                     const deviceInfo = devices.find(d => d.id === device.id);
                     const DeviceIcon = deviceInfo ? deviceInfo.icon : null;
                     return (
-                        <div key={device.id} className="flex justify-between items-center space-x-4 mt-3">
-                            <div className='flex items-center justify-around'>
+                        <div key={device.id} className="flex justify-between items-center bg-[#12171b] rounded-lg p-1 shadow-lg">
+                            <div className='flex items-center justify-around ml-1'>
                                 {DeviceIcon && <DeviceIcon className="mr-1 text-gray-500" />}
                                 <span className="ml-2 text-gray-400">{deviceInfo.name}</span>
                                 <button
@@ -169,6 +169,8 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
             const formattedSettings = {
                 temperature: {
                     ...settings.temperature,
+                    high: parseFloat(settings.temperature.high),
+                    low: parseFloat(settings.temperature.low),
                     highDevices: settings.temperature.highDevices.map(device => ({
                         id: device.id,
                         name: device.name,
@@ -184,6 +186,8 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                 },
                 humidity: {
                     ...settings.humidity,
+                    high: parseFloat(settings.humidity.high),
+                    low: parseFloat(settings.humidity.low),
                     highDevices: settings.humidity.highDevices.map(device => ({
                         id: device.id,
                         name: device.name,
@@ -199,6 +203,8 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                 },
                 light: {
                     ...settings.light,
+                    high: parseFloat(settings.light.high),
+                    low: parseFloat(settings.light.low),
                     highDevices: settings.light.highDevices.map(device => ({
                         id: device.id,
                         name: device.name,
@@ -225,7 +231,7 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-[#1b1c1d] rounded-lg shadow-lg p-6 w-full max-w-6xl transform transition-all duration-300 ease-in-out">
+            <div className="bg-[#1b1c1d] rounded-lg shadow-lg p-6 w-full max-w-7xl transform transition-all duration-300 ease-in-out">
                 <h2 className="text-2xl font-bold mb-4 text-center text-white">Sensor Settings</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
