@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { GoPlus } from "react-icons/go";
 import { TiEdit } from "react-icons/ti";
@@ -37,6 +37,12 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
         lightHigh: false,
         lightLow: false
     });
+    const [controlType, setControlType] = useState('threshold'); // New state for control type
+    const [schedule, setSchedule] = useState({
+        temperature: { fromTime: '', toTime: '', dateOption: 'today', specificDates: [], devices: [] },
+        humidity: { fromTime: '', toTime: '', dateOption: 'today', specificDates: [], devices: [] },
+        light: { fromTime: '', toTime: '', dateOption: 'today', specificDates: [], devices: [] }
+    });
 
     const toggleEditMode = (sensor, condition) => {
         setEditMode(prev => ({
@@ -51,6 +57,31 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
         setSettings(prev => ({
             ...prev,
             [sensor]: { ...prev[sensor], [type]: value }
+        }));
+    };
+
+    const handleScheduleChange = (e) => {
+        const { name, value } = e.target;
+        const [sensor, type] = name.split('.');
+        setSchedule(prev => ({
+            ...prev,
+            [sensor]: { ...prev[sensor], [type]: value }
+        }));
+    };
+
+    const handleSpecificDatesChange = (sensor, e) => {
+        const dates = Array.from(e.target.selectedOptions, option => option.value);
+        setSchedule(prev => ({
+            ...prev,
+            [sensor]: { ...prev[sensor], specificDates: dates }
+        }));
+    };
+
+    const handleSpecificDateChange = (sensor, e) => {
+        const date = e.target.value;
+        setSchedule(prev => ({
+            ...prev,
+            [sensor]: { ...prev[sensor], specificDates: [date] }
         }));
     };
 
@@ -84,6 +115,24 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
         setDropdownVisible(false);
     };
 
+    const handleAddScheduleDevice = (sensor, deviceId) => {
+        const deviceExists = schedule[sensor].devices.some(device => device.id === deviceId);
+        if (!deviceExists) {
+            const deviceInfo = devices.find(d => d.id === deviceId);
+            setSchedule(prev => ({
+                ...prev,
+                [sensor]: {
+                    ...prev[sensor],
+                    devices: [
+                        ...prev[sensor].devices,
+                        { id: deviceId, name: deviceInfo.name, enabled: true, action: 'ON' }
+                    ]
+                }
+            }));
+        }
+        setDropdownVisible(false);
+    };
+
     const handleRemoveDevice = (sensor, condition, deviceId) => {
         setSettings(prev => ({
             ...prev,
@@ -94,11 +143,11 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
         }));
     };
 
-    const DeviceControls = ({ sensor, condition }) => (
+    const DeviceControls = ({ sensor, condition, isSchedule }) => (
         <div className="mt-2">
             <div className='flex justify-between items-center'>
                 <label className="block text-sm font-medium text-gray-200">
-                    Devices to Control ({condition})
+                    Devices to Control {isSchedule ? '' : `(${condition})`}
                 </label>
                 <div className="relative">
                     <div className='flex justify-around gap-1'>
@@ -121,7 +170,7 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                             {devices.map(device => (
                                 <button
                                     key={device.id}
-                                    onClick={() => handleAddDevice(sensor, condition, device.id)}
+                                    onClick={() => isSchedule ? handleAddScheduleDevice(sensor, device.id) : handleAddDevice(sensor, condition, device.id)}
                                     className="flex items-center w-full text-left px-4 py-2 text-white hover:bg-gray-400"
                                 >
                                     <device.icon className="mr-2" />
@@ -133,7 +182,7 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                 </div>
             </div>
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-3 items-center">
-                {settings[sensor][`${condition}Devices`].map(device => {
+                {(isSchedule ? schedule[sensor].devices : settings[sensor][`${condition}Devices`]).map(device => {
                     const deviceInfo = devices.find(d => d.id === device.id);
                     const DeviceIcon = deviceInfo ? deviceInfo.icon : null;
                     return (
@@ -163,64 +212,82 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
         </div>
     );
 
+    const handleControlTypeChange = (e) => {
+        setControlType(e.target.value);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const formattedSettings = {
-                temperature: {
-                    ...settings.temperature,
-                    high: parseFloat(settings.temperature.high),
-                    low: parseFloat(settings.temperature.low),
-                    highDevices: settings.temperature.highDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    })),
-                    lowDevices: settings.temperature.lowDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    }))
-                },
-                humidity: {
-                    ...settings.humidity,
-                    high: parseFloat(settings.humidity.high),
-                    low: parseFloat(settings.humidity.low),
-                    highDevices: settings.humidity.highDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    })),
-                    lowDevices: settings.humidity.lowDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    }))
-                },
-                light: {
-                    ...settings.light,
-                    high: parseFloat(settings.light.high),
-                    low: parseFloat(settings.light.low),
-                    highDevices: settings.light.highDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    })),
-                    lowDevices: settings.light.lowDevices.map(device => ({
-                        id: device.id,
-                        name: device.name,
-                        enabled: device.enabled,
-                        action: device.action
-                    }))
-                }
-            };
-            // await axios.post('/api/sensor/settings', formattedSettings);
-            console.log('Settings saved:', formattedSettings);
+            if (controlType === 'threshold') {
+                const formattedSettings = {
+                    controlType,
+                    temperature: {
+                        ...settings.temperature,
+                        high: parseFloat(settings.temperature.high),
+                        low: parseFloat(settings.temperature.low),
+                        highDevices: settings.temperature.highDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        })),
+                        lowDevices: settings.temperature.lowDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        }))
+                    },
+                    humidity: {
+                        ...settings.humidity,
+                        high: parseFloat(settings.humidity.high),
+                        low: parseFloat(settings.humidity.low),
+                        highDevices: settings.humidity.highDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        })),
+                        lowDevices: settings.humidity.lowDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        }))
+                    },
+                    light: {
+                        ...settings.light,
+                        high: parseFloat(settings.light.high),
+                        low: parseFloat(settings.light.low),
+                        highDevices: settings.light.highDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        })),
+                        lowDevices: settings.light.lowDevices.map(device => ({
+                            id: device.id,
+                            name: device.name,
+                            enabled: device.enabled,
+                            action: device.action
+                        }))
+                    }
+                };
+                // await axios.post('/api/sensor/settings/threshold', formattedSettings);
+                console.log('Threshold settings saved:', formattedSettings);
+            } else if (controlType === 'schedule') {
+                const formattedSchedule = {
+                    controlType,
+                    fromTime: schedule.temperature.fromTime,
+                    toTime: schedule.temperature.toTime,
+                    dateOption: schedule.temperature.dateOption,
+                    specificDates: schedule.temperature.specificDates,
+                    devices: schedule.temperature.devices
+                };
+                // await axios.post('/api/sensor/settings/schedule', formattedSchedule);
+                console.log('Schedule settings saved:', formattedSchedule);
+            }
             onClose();
         } catch (error) {
             console.error('Error saving settings:', error);
@@ -235,110 +302,177 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
                 <h2 className="text-2xl font-bold mb-4 text-center text-white">Sensor Settings</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
-                        <h3 className="text-xl font-semibold capitalize mb-2 text-white">Temperature</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">High Threshold</label>
-                                <input
-                                    type="number"
-                                    name="temperature.high"
-                                    value={settings.temperature.high}
-                                    onChange={handleChange}
-                                    placeholder='℃'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="temperature"
-                                    condition="high"
-                                />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
-                                <input
-                                    type="number"
-                                    name="temperature.low"
-                                    value={settings.temperature.low}
-                                    onChange={handleChange}
-                                    placeholder='℃'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="temperature"
-                                    condition="low"
-                                />
-                            </div>
-                        </div>
+                        <label className="block text-sm font-medium text-gray-400">Control Type</label>
+                        <select
+                            value={controlType}
+                            onChange={handleControlTypeChange}
+                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                        >
+                            <option value="threshold">Threshold</option>
+                            <option value="schedule">Schedule</option>
+                        </select>
                     </div>
-                    <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
-                        <h3 className="text-xl font-semibold capitalize mb-2 text-white">Humidity</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">High Threshold</label>
-                                <input
-                                    type="number"
-                                    name="humidity.high"
-                                    value={settings.humidity.high}
-                                    onChange={handleChange}
-                                    placeholder='%'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="humidity"
-                                    condition="high"
-                                />
+                    {controlType === 'schedule' && (
+                        <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
+                            <h3 className="text-xl font-semibold capitalize mb-2 text-white">Schedule</h3>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400">From Time</label>
+                                    <input
+                                        type="time"
+                                        name="temperature.fromTime"
+                                        value={schedule.temperature.fromTime}
+                                        onChange={handleScheduleChange}
+                                        className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400">To Time</label>
+                                    <input
+                                        type="time"
+                                        name="temperature.toTime"
+                                        value={schedule.temperature.toTime}
+                                        onChange={handleScheduleChange}
+                                        className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-400">Date Option</label>
+                                    <select
+                                        name="temperature.dateOption"
+                                        value={schedule.temperature.dateOption}
+                                        onChange={handleScheduleChange}
+                                        className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                    >
+                                        <option value="today">Today</option>
+                                        <option value="everyday">Everyday</option>
+                                        <option value="specific">Specific Date</option>
+                                    </select>
+                                </div>
+                                {schedule.temperature.dateOption === 'specific' && (
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">Specific Date</label>
+                                        <input
+                                            type="date"
+                                            name="temperature.specificDate"
+                                            onChange={(e) => handleSpecificDateChange('temperature', e)}
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                    </div>
+                                )}
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
-                                <input
-                                    type="number"
-                                    name="humidity.low"
-                                    value={settings.humidity.low}
-                                    onChange={handleChange}
-                                    placeholder='%'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="humidity"
-                                    condition="low"
-                                />
-                            </div>
+                            <DeviceControls sensor="temperature" condition="devices" isSchedule={true} />
                         </div>
-                    </div>
-                    <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
-                        <h3 className="text-xl font-semibold capitalize mb-2 text-white">Light</h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">High Threshold</label>
-                                <input
-                                    type="number"
-                                    name="light.high"
-                                    value={settings.light.high}
-                                    onChange={handleChange}
-                                    placeholder='Lux'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="light"
-                                    condition="high"
-                                />
+                    )}
+                    {controlType === 'threshold' && (
+                        <>
+                            <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
+                                <h3 className="text-xl font-semibold capitalize mb-2 text-white">Temperature</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">High Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="temperature.high"
+                                            value={settings.temperature.high}
+                                            onChange={handleChange}
+                                            placeholder='℃'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="temperature"
+                                            condition="high"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="temperature.low"
+                                            value={settings.temperature.low}
+                                            onChange={handleChange}
+                                            placeholder='℃'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="temperature"
+                                            condition="low"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
-                                <input
-                                    type="number"
-                                    name="light.low"
-                                    value={settings.light.low}
-                                    onChange={handleChange}
-                                    placeholder='Lux'
-                                    className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
-                                />
-                                <DeviceControls
-                                    sensor="light"
-                                    condition="low"
-                                />
+                            <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
+                                <h3 className="text-xl font-semibold capitalize mb-2 text-white">Humidity</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">High Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="humidity.high"
+                                            value={settings.humidity.high}
+                                            onChange={handleChange}
+                                            placeholder='%'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="humidity"
+                                            condition="high"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="humidity.low"
+                                            value={settings.humidity.low}
+                                            onChange={handleChange}
+                                            placeholder='%'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="humidity"
+                                            condition="low"
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                            <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
+                                <h3 className="text-xl font-semibold capitalize mb-2 text-white">Light</h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">High Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="light.high"
+                                            value={settings.light.high}
+                                            onChange={handleChange}
+                                            placeholder='Lux'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="light"
+                                            condition="high"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-400">Low Threshold</label>
+                                        <input
+                                            type="number"
+                                            name="light.low"
+                                            value={settings.light.low}
+                                            onChange={handleChange}
+                                            placeholder='Lux'
+                                            className="bg-[#1b1c1d] mt-1 block w-full p-2 border border-gray-700 rounded-md focus:ring-blue-500 focus:border-blue-500 text-white"
+                                        />
+                                        <DeviceControls
+                                            sensor="light"
+                                            condition="low"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    )}
                     <div className="flex justify-end">
                         <button
                             type="button"
