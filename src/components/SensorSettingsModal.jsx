@@ -258,26 +258,27 @@ const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
         event.preventDefault();
         try {
             const formattedSettings = {
-                tempAutoOption: {
-                    high: parseFloat(settings.temperature.high),
-                    low: parseFloat(settings.temperature.low),
+                controlType,
+                temperature: {
+                    high: settings.temperature.high !== '' ? parseFloat(settings.temperature.high) : null,
+                    low: settings.temperature.low !== '' ? parseFloat(settings.temperature.low) : null,
                     highDevices: settings.temperature.highDevices,
                     lowDevices: settings.temperature.lowDevices
                 },
-                humiAutoOption: {
-                    high: parseFloat(settings.humidity.high),
-                    low: parseFloat(settings.humidity.low),
+                humidity: {
+                    high: settings.humidity.high !== '' ? parseFloat(settings.humidity.high) : null,
+                    low: settings.humidity.low !== '' ? parseFloat(settings.humidity.low) : null,
                     highDevices: settings.humidity.highDevices,
                     lowDevices: settings.humidity.lowDevices
                 },
-                lightAutoOption: {
-                    high: parseFloat(settings.light.high),
-                    low: parseFloat(settings.light.low),
+                light: {
+                    high: settings.light.high !== '' ? parseFloat(settings.light.high) : null,
+                    low: settings.light.low !== '' ? parseFloat(settings.light.low) : null,
                     highDevices: settings.light.highDevices,
                     lowDevices: settings.light.lowDevices
                 }
             };
-            const response = await applyHomeOption(homeId, formattedSettings);
+            const response = await applyHomeOption(home, formattedSettings);
             console.log('Settings applied:', response.data);
             onClose();
         } catch (error) {
