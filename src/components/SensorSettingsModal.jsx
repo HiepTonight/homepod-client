@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { GoPlus } from "react-icons/go";
 import { TiEdit } from "react-icons/ti";
 import { FaMinus } from "react-icons/fa6";
+import getHomeOption from '../apis/Homes/GetHomeOption';
+import applyHomeOption from '../apis/Homes/ApplyHomeOption';
 
-const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
+const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
+    const home = "675d1648a9e8034a78b32495";
+
     const [settings, setSettings] = useState({
         temperature: {
             high: '',
@@ -25,6 +29,40 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
             lowDevices: []
         }
     });
+
+    useEffect(() => {
+        const fetchHomeOption = async () => {
+            try {
+                const data = await getHomeOption(home);
+                setSettings({
+                    temperature: {
+                        high: data.data.tempAutoOption.high ?? '',
+                        low: data.data.tempAutoOption.low ?? '',
+                        highDevices: data.data.tempAutoOption.highDevices,
+                        lowDevices: data.data.tempAutoOption.lowDevices
+                    },
+                    humidity: {
+                        high: data.data.humiAutoOption.high ?? '',
+                        low: data.data.humiAutoOption.low ?? '',
+                        highDevices: data.data.humiAutoOption.highDevices,
+                        lowDevices: data.data.humiAutoOption.lowDevices
+                    },
+                    light: {
+                        high: data.data.lightAutoOption.high ?? '',
+                        low: data.data.lightAutoOption.low ?? '',
+                        highDevices: data.data.lightAutoOption.highDevices,
+                        lowDevices: data.data.lightAutoOption.lowDevices
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching home option:', error);
+            }
+        };
+
+        if (isVisible) {
+            fetchHomeOption();
+        }
+    }, [isVisible, homeId]);
 
     const [dropdownVisible, setDropdownVisible] = useState(false);
     const [selectedSensor, setSelectedSensor] = useState(null);
@@ -219,75 +257,29 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            if (controlType === 'threshold') {
-                const formattedSettings = {
-                    controlType,
-                    temperature: {
-                        ...settings.temperature,
-                        high: parseFloat(settings.temperature.high),
-                        low: parseFloat(settings.temperature.low),
-                        highDevices: settings.temperature.highDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        })),
-                        lowDevices: settings.temperature.lowDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        }))
-                    },
-                    humidity: {
-                        ...settings.humidity,
-                        high: parseFloat(settings.humidity.high),
-                        low: parseFloat(settings.humidity.low),
-                        highDevices: settings.humidity.highDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        })),
-                        lowDevices: settings.humidity.lowDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        }))
-                    },
-                    light: {
-                        ...settings.light,
-                        high: parseFloat(settings.light.high),
-                        low: parseFloat(settings.light.low),
-                        highDevices: settings.light.highDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        })),
-                        lowDevices: settings.light.lowDevices.map(device => ({
-                            id: device.id,
-                            name: device.name,
-                            enabled: device.enabled,
-                            action: device.action
-                        }))
-                    }
-                };
-                // await axios.post('/api/sensor/settings/threshold', formattedSettings);
-                console.log('Threshold settings saved:', formattedSettings);
-            } else if (controlType === 'schedule') {
-                const formattedSchedule = {
-                    controlType,
-                    fromTime: schedule.temperature.fromTime,
-                    toTime: schedule.temperature.toTime,
-                    dateOption: schedule.temperature.dateOption,
-                    specificDates: schedule.temperature.specificDates,
-                    devices: schedule.temperature.devices
-                };
-                // await axios.post('/api/sensor/settings/schedule', formattedSchedule);
-                console.log('Schedule settings saved:', formattedSchedule);
-            }
+            const formattedSettings = {
+                controlType,
+                temperature: {
+                    high: settings.temperature.high !== '' ? parseFloat(settings.temperature.high) : null,
+                    low: settings.temperature.low !== '' ? parseFloat(settings.temperature.low) : null,
+                    highDevices: settings.temperature.highDevices,
+                    lowDevices: settings.temperature.lowDevices
+                },
+                humidity: {
+                    high: settings.humidity.high !== '' ? parseFloat(settings.humidity.high) : null,
+                    low: settings.humidity.low !== '' ? parseFloat(settings.humidity.low) : null,
+                    highDevices: settings.humidity.highDevices,
+                    lowDevices: settings.humidity.lowDevices
+                },
+                light: {
+                    high: settings.light.high !== '' ? parseFloat(settings.light.high) : null,
+                    low: settings.light.low !== '' ? parseFloat(settings.light.low) : null,
+                    highDevices: settings.light.highDevices,
+                    lowDevices: settings.light.lowDevices
+                }
+            };
+            const response = await applyHomeOption(home, formattedSettings);
+            console.log('Settings applied:', response.data);
             onClose();
         } catch (error) {
             console.error('Error saving settings:', error);
@@ -298,7 +290,7 @@ const SensorSettingsModal = ({ isVisible, onClose, devices }) => {
 
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-[#1b1c1d] rounded-lg shadow-lg p-6 w-full max-w-7xl transform transition-all duration-300 ease-in-out">
+            <div className="bg-[#1b1c1d] rounded-lg shadow-lg p-6 w-full max-w-7xl transform transition-all duration-300 ease-in-out overflow-y-auto max-h-screen">
                 <h2 className="text-2xl font-bold mb-4 text-center text-white">Sensor Settings</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg">
