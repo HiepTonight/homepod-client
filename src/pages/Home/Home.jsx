@@ -38,7 +38,7 @@ const Home = () => {
           <WeatherForecast homeId={homeId} homePodId={homeData.homePodId} />
         </div>
         <DataStatics homeId={homeId} className="" />
-        <Devices homeId={homeId} />
+        <Devices homeId={homeId} homePodId={homeData.homePodId} />
       </div>
       <MyRoom homeId={homeId} />
     </div>

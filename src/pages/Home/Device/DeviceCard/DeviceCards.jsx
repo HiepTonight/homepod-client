@@ -6,7 +6,7 @@ import Dropdown from '../../../../components/Dropdown'
 import deleteDevice from '../../../../apis/Devices/DeleteDevice'
 import triggerDevice from '../../../../apis/Devices/TriggerDevice'
 
-const DeviceCard = ({device, removeDevice, isEditMode }) => {
+const DeviceCard = ({device, removeDevice, isEditMode, homePodId }) => {
     const [isChecked, setIsChecked] = useState(device.status === 1)
     const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +18,8 @@ const DeviceCard = ({device, removeDevice, isEditMode }) => {
         const newStatus = isChecked ? 0 : 1
         setIsChecked(!isChecked) 
         try {
-            await triggerDevice(device.id);
+            await triggerDevice(device.id, homePodId);
+            console.log('Device triggered:', device.id, homePodId);
         } catch (error) {
             console.error('Error triggering device:', error);
         }
