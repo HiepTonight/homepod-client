@@ -74,6 +74,7 @@ const Homes = () => {
             home={home}
             removeHome={removeHome}
             isEditMode={isEditMode}
+            onClick={() => handleHomeClick(home.id)}
           />
         ))}
       </div>
