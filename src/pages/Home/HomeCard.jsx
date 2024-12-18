@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
-import deleteHome from '../../apis/Homes/DeleteHome';
+import getUserHome from '../../apis/Homes/GetUserHome';
 
 const HomeCard = ({ home, removeHome, isEditMode }) => {
   const navigate = useNavigate();
+  const [homeData, setHomeData] = useState(null);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const data = await getUserHome(home.id);
+        setHomeData(data.data);
+      } catch (error) {
+        console.error('Error fetching home data:', error);
+      }
+    };
+
+    fetchHomeData();
+  }, [home.id]);
 
   const handleHomeClick = () => {
-    navigate(`/home/${home.id}`);
+    navigate(`/home/${home.id}`, { state: { homeData } });
   };
 
-  const handleDelete = async (e) => {
-    e.stopPropagation();
+  const handleDelete = async () => {
     try {
-      await deleteHome(home.id);
+      // Gọi API để xóa home nếu cần
       removeHome(home.id);
     } catch (error) {
       console.error('Error deleting home:', error);
@@ -24,7 +37,10 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
   return (
     <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4' onClick={handleHomeClick}>
       <button
-        onClick={handleDelete}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleDelete();
+        }}
         className={`flex justify-center items-center absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
       >
         <IoTrashOutline />
