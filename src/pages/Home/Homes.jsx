@@ -49,7 +49,7 @@ const Homes = () => {
   return (
     <div className='p-5 divide-y divide-gray-500'>
       <div className='flex justify-between items-center pb-6'>
-        <h1 className='text-2xl font-bold text-white mb-4 items-center'>Your Homes</h1>
+        <h1 className='text-2xl font-bold text-white items-center'>Your Homes</h1>
         <div className='flex gap-2'>
           <button 
             className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-3 cursor-pointer transition-colors duration-300 ${isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'}`} 
