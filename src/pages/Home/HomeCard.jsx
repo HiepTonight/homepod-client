@@ -1,9 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
 
 const HomeCard = ({ home, removeHome, isEditMode }) => {
+  const navigate = useNavigate();
+
+  const handleHomeClick = () => {
+    navigate(`/home/${home.id}`);
+  };
 
   const handleDelete = async () => {
     try {
@@ -15,7 +20,7 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
   };
 
   return (
-    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4'>
+    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4' onClick={handleHomeClick}>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -25,10 +30,10 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
       >
         <IoTrashOutline />
       </button>
-      <Link to={`/home/${home.id}`} className='flex justify-between items-center pb-4'>
+      <div className='flex justify-between items-center pb-4'>
         <h1 className='text-xl font-semibold text-white'>{home.title}</h1>
         <IoHome className='text-gray-400 text-3xl' />
-      </Link>
+      </div>
       <div className='flex justify-between items-center text-gray-400'>
         <p>{home.description}</p>
       </div>
