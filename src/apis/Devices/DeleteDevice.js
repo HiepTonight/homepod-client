@@ -3,9 +3,12 @@ import { API_ROOT } from '../../utils/constants';
 
 const deleteDevice = async (deviceId) => {
   try {
-    const response = await axios.delete(`${API_ROOT}/api/v1/devices/${deviceId}`, {
+    const token = localStorage.getItem('token');
+    const response = await axios.delete(`${API_ROOT}/api/v1/home/device/${deviceId}`, {
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+
       },
     });
     return response.data;
