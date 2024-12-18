@@ -38,6 +38,7 @@ const SensorData = ({ homePodId }) => {
     const fetchData = async () => {
       try {
         const data = await getLatestSensorData(homePodId);
+        console.log('Sensor data:', homePodId);
         setTemp(data.data.temp);
         setHumi(data.data.humi);
         setLight(data.data.light);

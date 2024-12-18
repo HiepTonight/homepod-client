@@ -16,7 +16,7 @@ const Home = () => {
     const fetchHomeData = async () => {
       try {
         const data = await getUserHome(homeId);
-        setHomeData(data);
+        setHomeData(data.data);
       } catch (error) {
         console.error('Error fetching home data:', error);
       }
@@ -33,11 +33,11 @@ const Home = () => {
     <div className='p-5'>
       <div className='grid grid-cols-2 gap-4 pb-5'>
         <div className='grid grid-cols-2 gap-4'>
-          <SensorData homeId={homeId} />
-          <WeatherForecast homeId={homeId} />
+          <SensorData homeId={homeId} homePodId={homeData.homePodId} />
+          <WeatherForecast homeId={homeId} homePodId={homeData.homePodId} />
         </div>
-        <DataStatics homeId={homeId} className="" />
-        <Devices homeId={homeId} />
+        <DataStatics homeId={homeId} homePodId={homeData.homePodId} className="" />
+        <Devices homeId={homeId} homePodId={homeData.homePodId} />
       </div>
       <MyRoom homeId={homeId} />
     </div>
