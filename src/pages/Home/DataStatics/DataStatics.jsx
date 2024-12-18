@@ -5,7 +5,7 @@ import getYesterdaySensorData from '../../../apis/SensorData/GetYesterdaySensorD
 import getTodaySensorData from '../../../apis/SensorData/GetTodaySensorData';
 import get7daySensorData from '../../../apis/SensorData/Get7daySensorData';
 
-const DataStatics = () => {
+const DataStatics = ({ homePodId }) => {
     const [selectedData, setSelectedData] = useState('Temp');
     const [selectedDayRange, setSelectedDayRange] = useState('Today'); // Set default to 'Today'
     const [apiData, setApiData] = useState([]); // Add state for API data
@@ -139,11 +139,12 @@ const DataStatics = () => {
             try {
                 let response;
                 if (selectedDayRange === 'Yesterday') {
-                    response = await getYesterdaySensorData();
+                    response = await getYesterdaySensorData(homePodId);
                 } else if (selectedDayRange === 'Today') {
-                    response = await getTodaySensorData();
+                    response = await getTodaySensorData(homePodId);
+                    console.log(response);
                 } else if (selectedDayRange === 'Last 7 days') {
-                    response = await get7daySensorData();
+                    response = await get7daySensorData(homePodId);
                 }
                 if (response.success) {
                     setApiData(response.data);
@@ -154,7 +155,7 @@ const DataStatics = () => {
         };
 
         fetchData();
-    }, [selectedDayRange]);
+    }, [selectedDayRange, homePodId]);
 
     useEffect(() => {
         if (chartRef.current && typeof ApexCharts !== "undefined") {

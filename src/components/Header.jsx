@@ -3,7 +3,7 @@ import { HiChevronDown } from "react-icons/hi2";
 
 const Header = () => {
   return (
-    <div className='flex justify-between items-center p-4'>
+    <div className='flex justify-between items-center p-4 bg-[#0c0f11]'>
       <div>
         <h1 className='text-xs text-white'>Welcome Back!</h1>
         <p className='text-xl font-semibold text-white'>Hiep Tran</p>

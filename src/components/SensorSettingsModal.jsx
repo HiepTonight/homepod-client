@@ -7,7 +7,6 @@ import getHomeOption from '../apis/Homes/GetHomeOption';
 import applyHomeOption from '../apis/Homes/ApplyHomeOption';
 
 const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
-    const home = "675d1648a9e8034a78b32495";
 
     const [settings, setSettings] = useState({
         temperature: {
@@ -33,7 +32,8 @@ const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
     useEffect(() => {
         const fetchHomeOption = async () => {
             try {
-                const data = await getHomeOption(home);
+                const data = await getHomeOption(homeId);
+                setControlType(data.data.controlType);
                 setSettings({
                     temperature: {
                         high: data.data.tempAutoOption.high ?? '',
@@ -222,7 +222,8 @@ const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
             <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-3 items-center">
                 {(isSchedule ? schedule[sensor].devices : settings[sensor][`${condition}Devices`]).map(device => {
                     const deviceInfo = devices.find(d => d.id === device.id);
-                    const DeviceIcon = deviceInfo ? deviceInfo.icon : null;
+                    if (!deviceInfo) return null; // Add this check
+                    const DeviceIcon = deviceInfo.icon;
                     return (
                         <div key={device.id} className="flex justify-between items-center bg-[#12171b] rounded-lg p-1 shadow-lg">
                             <div className='flex items-center justify-around ml-1'>
@@ -278,7 +279,7 @@ const SensorSettingsModal = ({ isVisible, onClose, devices, homeId }) => {
                     lowDevices: settings.light.lowDevices
                 }
             };
-            const response = await applyHomeOption(home, formattedSettings);
+            const response = await applyHomeOption(homeId, formattedSettings);
             console.log('Settings applied:', response.data);
             onClose();
         } catch (error) {

@@ -3,23 +3,23 @@ import { FaTemperatureHalf } from "react-icons/fa6"
 import { MdWaterDrop } from "react-icons/md"
 import { CiLight } from "react-icons/ci"
 import { TbAirConditioning } from "react-icons/tb"
-import { getLatestSensorData } from "../../../apis/SensorData/getLatestSensorData.js"
+import getLatestSensorData from "../../../apis/SensorData/getLatestSensorData.js"
 import { connect, disconnect } from "../../../apis/Mqtt.js"
 
-const SensorData = () => {
+const SensorData = ({ homePodId }) => {
 
   const [temp, setTemp] = useState(null);
   const [humi, setHumi] = useState(null);
   const [light, setLight] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const socket = new WebSocket('ws://localhost:8080/api/v1/websocket'); // Replace with your WebSocket server URL
-
     const handleMessage = (data) => {
       console.log('Received message:', data);
       setTemp(data.temp);
       setHumi(data.humi);
       setLight(data.light);
+      setLoading(false);
     };
 
     // Handle connection errors
@@ -27,30 +27,62 @@ const SensorData = () => {
       console.error('MQTT error:', error);
     };
 
-    connect(handleMessage, handleError);
+    connect(homePodId, handleMessage, handleError);
 
     return () => {
-      disconnect();
+      disconnect(homePodId);
     };
-  }, []);
+  }, [homePodId]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getLatestSensorData();
+        const data = await getLatestSensorData(homePodId);
         setTemp(data.data.temp);
         setHumi(data.data.humi);
         setLight(data.data.light);
-        // console.log('Sensor data:', data.data);
+        setLoading(false);
       } catch (err) {
         console.log(err.message || 'Có lỗi xảy ra khi gọi API');
       }
     };
 
     fetchData();
-  }, []);
+  }, [homePodId]);
 
-  // const { temp, humi, light } = sensorData?.data || {};
+  if (loading) {
+    return (
+      <div className='p-5 shadow bg-gradient-to-r from-[#1a1c1e] to-[#090d11] rounded-xl'>
+        <h1 className='text-2xl font-bold text-white mb-4 '>Sensor Data</h1>
+        <div className='p-2 grid grid-cols-2 gap-8 animate-pulse'>
+          <div className='space-y-3 text-gray-300'>
+            <div className='h-8 bg-gray-700 rounded w-24'></div>
+            <div className='flex items-center space-x-2'>
+              <FaTemperatureHalf className="text-yellow-500" /> <div className='h-4 bg-gray-700 rounded w-16'></div>
+            </div>
+          </div>
+          <div className='space-y-3 text-gray-300'>
+            <div className='h-8 bg-gray-700 rounded w-24'></div>
+            <div className='flex items-center space-x-2'>
+              <MdWaterDrop className="text-blue-500" /> <div className='h-4 bg-gray-700 rounded w-16'></div>
+            </div>
+          </div>
+          <div className='space-y-3 text-gray-300'>
+            <div className='h-8 bg-gray-700 rounded w-24'></div>
+            <div className='flex items-center space-x-2'>
+              <CiLight className="text-yellow-300" /> <div className='h-4 bg-gray-700 rounded w-16'></div>
+            </div>
+          </div>
+          <div className='space-y-3 text-gray-300'>
+            <div className='h-8 bg-gray-700 rounded w-24'></div>
+            <div className='flex items-center space-x-2'>
+              <TbAirConditioning className="text-green-500" /> <div className='h-4 bg-gray-700 rounded w-16'></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='p-5 shadow bg-gradient-to-r from-[#1a1c1e] to-[#090d11] rounded-xl'>
