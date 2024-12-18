@@ -9,6 +9,7 @@ const DataStatics = ({ homePodId }) => {
     const [selectedData, setSelectedData] = useState('Temp');
     const [selectedDayRange, setSelectedDayRange] = useState('Today'); // Set default to 'Today'
     const [apiData, setApiData] = useState([]); // Add state for API data
+    const [loading, setLoading] = useState(true);
 
     const dataOptions = useMemo(() => ({
         Temp: {
@@ -149,8 +150,10 @@ const DataStatics = ({ homePodId }) => {
                 if (response.success) {
                     setApiData(response.data);
                 }
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setLoading(false);
             }
         };
 
@@ -180,6 +183,21 @@ const DataStatics = ({ homePodId }) => {
                 return 'Data Timeline';
         }
     };
+
+    if (loading) {
+        return (
+            <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative animate-pulse">
+                <div className="flex justify-between">
+                    <div>
+                        <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Data Chart</h5>
+                        <p className="text-base font-normal text-gray-500 dark:text-gray-400">Loading...</p>
+                    </div>
+                </div>
+                <div className="h-32 bg-gray-700 rounded mt-4"></div>
+                <div className="h-10 bg-gray-700 rounded mt-4"></div>
+            </div>
+        );
+    }
 
     return (
         <div>
