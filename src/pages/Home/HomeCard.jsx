@@ -1,29 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
-import getUserHome from '../../apis/Homes/GetUserHome';
 
 const HomeCard = ({ home, removeHome, isEditMode }) => {
-  const navigate = useNavigate();
-  const [homeData, setHomeData] = useState(null);
-
-  useEffect(() => {
-    const fetchHomeData = async () => {
-      try {
-        const data = await getUserHome(home.id);
-        setHomeData(data.data);
-      } catch (error) {
-        console.error('Error fetching home data:', error);
-      }
-    };
-
-    fetchHomeData();
-  }, [home.id]);
-
-  const handleHomeClick = () => {
-    navigate(`/home/${home.id}`, { state: { homeData } });
-  };
 
   const handleDelete = async () => {
     try {
@@ -35,7 +15,7 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
   };
 
   return (
-    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4' onClick={handleHomeClick}>
+    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4'>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -45,10 +25,10 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
       >
         <IoTrashOutline />
       </button>
-      <div className='flex justify-between items-center pb-4'>
+      <Link to={`/home/${home.id}`} className='flex justify-between items-center pb-4'>
         <h1 className='text-xl font-semibold text-white'>{home.title}</h1>
         <IoHome className='text-gray-400 text-3xl' />
-      </div>
+      </Link>
       <div className='flex justify-between items-center text-gray-400'>
         <p>{home.description}</p>
       </div>
