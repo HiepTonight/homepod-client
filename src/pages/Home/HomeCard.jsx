@@ -20,7 +20,7 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
   };
 
   return (
-    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-4' 
+    <div className='flex flex-col relative justify-between gap-4 bg-gray-800 rounded-lg shadow-lg p-2 sm:p-5 cursor-pointer transition-transform transform hover:scale-[104%] mt-2' 
       onClick={handleHomeClick}>
       <button
         onClick={(e) => {
@@ -31,8 +31,8 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
       >
         <IoTrashOutline />
       </button>
-      <div className='flex justify-between items-center pb-4'>
-        <h1 className='text-xl font-semibold text-white'>{home.title}</h1>
+      <div className='flex justify-between items-center'>
+        <h1 className='text-lg sm:text-xl font-semibold text-white'>{home.title}</h1>
         <IoHome className='text-gray-400 text-3xl' />
       </div>
       <div className='flex justify-between items-center text-gray-400'>

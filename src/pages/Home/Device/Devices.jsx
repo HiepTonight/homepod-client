@@ -77,7 +77,7 @@ const Devices = ( {homePodId} ) => {
     return (
       <div className="pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6">
         <div className="flex justify-between items-center pb-6">
-          <h1 className="text-xl font-semibold text-white">Device</h1>
+          <h1 className="text-sm sm:text-xl font-semibold text-white">Device</h1>
           <div className="flex justify-between items-center">
             <div className="flex justify-between gap-2">
               <button
@@ -86,7 +86,7 @@ const Devices = ( {homePodId} ) => {
                 }`}
                 onClick={toggleEditMode}
               >
-                <p className="">Edit</p>
+                <p className="hidden sm:flex">Edit</p>
                 <TiEdit />
               </button>
 
@@ -103,7 +103,7 @@ const Devices = ( {homePodId} ) => {
                 onClick={openModal}
                 className="flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-3 cursor-pointer "
               >
-                <p>Add Device</p>
+                <p className="hidden sm:flex">Add Device</p>
                 <GoPlus />
               </button>
             </div>
@@ -121,34 +121,34 @@ const Devices = ( {homePodId} ) => {
   return (
     <div className="pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6">
       <div className="flex justify-between items-center pb-6">
-        <h1 className="text-xl font-semibold text-white">Device</h1>
+        <h1 className="text-sm sm:text-xl font-semibold text-white">Device</h1>
 
         <div className="flex justify-between items-center">
           <div className="flex justify-between gap-2">
             <button
-              className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-3 cursor-pointer transition-colors duration-300 ${
+              className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-2 sm:px-3 cursor-pointer transition-colors duration-300 ${
                 isEditMode ? "bg-blue-600 text-white" : "text-gray-400 bg-gray-700"
               }`}
               onClick={toggleEditMode}
             >
-              <p className="">Edit</p>
+              <p className="hidden sm:flex">Edit</p>
               <TiEdit />
             </button>
 
             <button
               onClick={openSensorSettings}
-              className="flex justify-between items-center gap-[3px] text-white bg-gray-600 px-4 py-2 rounded-md"
+              className="flex justify-between items-center gap-[3px] text-white bg-gray-600 p-1 px-2 sm:px-3 rounded-md"
             >
-              Settings
+              <p className="hidden sm:flex">Setting</p>
               <IoMdSettings />
             </button>
 
             <button
               type="button"
               onClick={openModal}
-              className="flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-3 cursor-pointer "
+              className="flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-2 sm:px-3 cursor-pointer "
             >
-              <p>Add Device</p>
+              <p className="hidden sm:flex">Add Device</p>
               <GoPlus />
             </button>
 

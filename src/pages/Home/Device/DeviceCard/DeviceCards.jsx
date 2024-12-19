@@ -59,7 +59,7 @@ const DeviceCard = ({device, removeDevice, isEditMode, homePodId }) => {
         </div>
         <div className='flex justify-between pl-1 text-gray-500 dark:text-gray-400 '>
             <span className='text-3xl font-bold'>{React.createElement(device.icon)}</span>
-            <p className='font-bold'>{device.description}</p>
+            <p className='text-sm sm:text-base font-semibold sm:font-bold'>{device.description}</p>
         </div>
     </div>
   )

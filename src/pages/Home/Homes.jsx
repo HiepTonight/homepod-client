@@ -48,21 +48,21 @@ const Homes = () => {
 
   return (
     <div className='p-5 divide-y divide-gray-500'>
-      <div className='flex justify-between items-center pb-6'>
-        <h1 className='text-2xl font-bold text-white items-center'>Your Homes</h1>
+      <div className='flex justify-between items-center pb-2'>
+        <h1 className='text-sm sm:text-2xl font-bold text-white items-center'>Your Homes</h1>
         <div className='flex gap-2'>
           <button 
-            className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-3 cursor-pointer transition-colors duration-300 ${isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'}`} 
+            className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-2 sm:px-3 cursor-pointer transition-colors duration-300 ${isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'}`} 
             onClick={toggleEditMode}
           >
-            <p className=''>Edit</p>
+            <p className='hidden sm:flex'>Edit</p>
             <TiEdit />
           </button>
           <button 
-            className='flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-3 cursor-pointer' 
+            className='flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-2 sm:px-3 cursor-pointer' 
             onClick={handleAddHome}
           >
-            <p>Add Home</p>
+            <p className='hidden sm:flex'>Add Home</p>
             <MdOutlineAddHome />
           </button>
         </div>
