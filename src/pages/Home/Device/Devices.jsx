@@ -10,10 +10,12 @@ import { GoPlus } from "react-icons/go";
 import { TiEdit } from "react-icons/ti";
 import { IoMdSettings } from "react-icons/io";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const Devices = ( {homePodId} ) => {
-  const { homeId } = useParams();
+
+  const [searchParams] = useSearchParams();
+  const homeId = searchParams.get('id');
 
   const getIconComponent = (iconName) => {
     switch (iconName) {

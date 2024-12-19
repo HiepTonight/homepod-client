@@ -143,7 +143,6 @@ const DataStatics = ({ homePodId }) => {
                     response = await getYesterdaySensorData(homePodId);
                 } else if (selectedDayRange === 'Today') {
                     response = await getTodaySensorData(homePodId);
-                    console.log(response);
                 } else if (selectedDayRange === 'Last 7 days') {
                     response = await get7daySensorData(homePodId);
                 }
