@@ -1,8 +1,24 @@
 {
   "rewrites": [
     {
+      "source": "/home/:homeId",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/members",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/"
+      "destination": "/index.html"
     }
   ]
 }
