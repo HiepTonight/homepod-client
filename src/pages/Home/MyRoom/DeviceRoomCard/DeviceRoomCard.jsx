@@ -25,8 +25,8 @@ const DeviceRoomCard = ({deviceRoom}) => {
         </div>
         
         <div className="flex flex-col pl-6 pb-6 justify-end h-full">
-            <h1 className="text-gray-500 dark:text-white text-xl font-normal">{deviceRoom.specific}</h1>
-            <pc className='text-gray-500'>{deviceRoom.name}</pc>
+            <h1 className="text-white text text-base sm:text-xl font-normal">{deviceRoom.specific}</h1>
+            <pc className='text-sm sm:text-base text-gray-500'>{deviceRoom.name}</pc>
         </div>
     </div>
   )
