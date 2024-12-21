@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { Outlet } from 'react-router-dom';
-
+import { SidebarProvider, SidebarTrigger } from "../components/ui/sidebar"
+import { AppSidebar } from "./app-sidebar"
 const Layout = () => {
   const navigate = useNavigate();
 

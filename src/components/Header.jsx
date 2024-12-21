@@ -1,5 +1,7 @@
 import {GoBell} from 'react-icons/go'
 import { HiChevronDown } from "react-icons/hi2";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/Avatar";
+
 
 const Header = () => {
   return (
@@ -20,11 +22,15 @@ const Header = () => {
             <GoBell />
             <span className='absolute top-0 right-0 -mt-1 -mr-1 flex justify-center items-center bg-red-600 text-white font-semibold text-[10px] w-5 h-4 rounded-full border-2 border-white'>9</span>
           </button>
-          <div className='flex justify-around items-center gap-2 bg-[#1a1c1e] p-2 rounded-lg'>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          {/* <div className='flex justify-around items-center gap-2 bg-[#1a1c1e] p-2 rounded-lg'>
             <img className='w-6 g=6 rounded-full border-2 border-gray-500' src="https://randomuser.me/api/portraits/men/50.jpg" alt="" />
             <p className='text-[#808183] font-semibold'>Hiep Tran</p>
             <HiChevronDown className='text-[#808183]'/>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

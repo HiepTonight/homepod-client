@@ -42,10 +42,10 @@ const DeviceModal = ({ isVisible, onClose, addDevice, homeId }) => {
             <div tabIndex="-1" aria-hidden={!isVisible} className=" overflow-y-auto overflow-x-hidden fixed flex top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     {/* <!-- Modal content --> */}
-                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div className="relativ rounded-lg shadow dark:bg-gray-900">
                         {/* <!-- Modal header --> */}
                         <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                            <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                            <h3 className="text-lg font-semibold text-white">
                                 Create New Device
                             </h3>
                             <button onClick={onClose} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
@@ -68,12 +68,12 @@ const DeviceModal = ({ isVisible, onClose, addDevice, homeId }) => {
                             )}
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
-                                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                    <label htmlFor="name" className="block mb-2 text-sm font-mediumtext-white">Name</label>
                                     <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type device name" required="" value={deviceData.name} onChange={handleChange} />
                                 </div>
                                 <div className="col-span-2">
-                                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                                    <select id="category" name="icon" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value={deviceData.icon} onChange={handleChange}>
+                                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-white">Category</label>
+                                    <select id="category" name="icon" className="bg-gray-500 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" value={deviceData.icon} onChange={handleChange}>
                                         <option selected="">Select Device Type</option>
                                         <option value="CgSmartHomeRefrigerator">Refrigerator</option>
                                         <option value="MdOutlineSensorDoor">Door</option>
