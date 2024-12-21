@@ -1,6 +1,6 @@
 import {GoBell} from 'react-icons/go'
 import { HiChevronDown } from "react-icons/hi2";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/Avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/Avatar";
 
 
 const Header = () => {
