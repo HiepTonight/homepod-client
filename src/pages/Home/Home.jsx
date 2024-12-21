@@ -36,7 +36,7 @@ const Home = () => {
 
   return (
     <div className='p-5'>
-      <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4 pb-5'>
+      <div className='flex flex-col xl:grid xl:grid-cols-2 gap-4 pb-5'>
         <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4'>
           <SensorData homeId={homeId} homePodId={homeData.homePodId} />
           <WeatherForecast homeId={homeId} homePodId={homeData.homePodId} />
