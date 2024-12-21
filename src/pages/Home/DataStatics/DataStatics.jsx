@@ -200,7 +200,7 @@ const DataStatics = ({ homePodId }) => {
 
     return (
         <div>
-            <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative">
+            <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative max-h-full">
                 <div className="flex justify-between">
                     <div>
                         <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Data Chart</h5>
