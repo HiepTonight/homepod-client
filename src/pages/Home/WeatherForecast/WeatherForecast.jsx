@@ -12,7 +12,7 @@ const WeatherForecast = () => {
       try {
         const response = await axios.get(current);
         setWeatherData(response.data);
-        console.log(response);
+        // console.log(response);
       } catch (error) {
         console.error('Error fetching weather data:', error);
       }

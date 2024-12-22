@@ -48,7 +48,7 @@ const Device = ( {homePodId} ) => {
 
   const fetchDevices = async () => {
     try {
-      const devices = await getAllDevices(homeId);
+      const devices = await getAllDevices(homePodId);
       console.log('Devices:', devices); 
       const mappedDevices = devices.map((device) => ({
         ...device,
@@ -182,7 +182,7 @@ const Device = ( {homePodId} ) => {
         isVisible={isModalVisible}
         onClose={closeModal}
         addDevice={addDevice}
-        homeId={homeId}
+        homePodId={homePodId}
       />
     </div>
   );

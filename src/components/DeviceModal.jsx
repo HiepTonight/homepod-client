@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import createDevice from '../apis/Devices/CreateDevice';
 
-const DeviceModal = ({ isVisible, onClose, addDevice, homeId }) => {
+const DeviceModal = ({ isVisible, onClose, addDevice, homePodId }) => {
+    console.log('HomePodId:', homePodId);
     const [deviceData, setDeviceData] = useState({
         name: '',
         icon: '',
@@ -25,7 +26,7 @@ const DeviceModal = ({ isVisible, onClose, addDevice, homeId }) => {
         }
 
         try {
-            const createdDevice = await createDevice(homeId, deviceData);
+            const createdDevice = await createDevice(homePodId, deviceData);
             addDevice(createdDevice.data);
             setDeviceData({ name: '', icon: '', description: '', status: 0 }); // Reset form data
             onClose();

@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { API_ROOT } from '../../utils/constants';
 
-const getAllDevices = async (homeId) => {
+const getAllDevices = async (homePodId) => {
   try {
+    console.log('HomePodId:', homePodId);
     const token = localStorage.getItem('token');
     const response = await axios.get(`${API_ROOT}/api/v1/home/device`, {
       headers: {
@@ -10,7 +11,7 @@ const getAllDevices = async (homeId) => {
         'Authorization': `Bearer ${token}`
       },
       params: {
-        id: homeId,
+        id: homePodId,
       },
     });
     return response.data.data;

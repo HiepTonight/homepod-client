@@ -49,7 +49,19 @@ const HomePage = () => {
   }
 
   if (!homeData) {
-    return <div>Loading...</div>;
+    return <div>
+      <div className="p-5">
+        <div className="flex flex-col xl:grid xl:grid-cols-2 gap-4 pb-5">
+          <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4'>
+            <Skeleton className="h-72 mb-4" />
+            <Skeleton className="h-72 mb-4" />
+          </div>
+          <Skeleton className="h-72 mb-4" />
+          <Skeleton className="h-52 col-span-2 mb-4" />
+        </div>
+        <Skeleton className="h-96 mb-4" />
+      </div>
+    </div>;
   }
 
   return (

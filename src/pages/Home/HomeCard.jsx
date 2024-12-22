@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IoTrashOutline } from "react-icons/io5";
 import { IoHome } from "react-icons/io5";
+import deleteHome from '../../apis/Homes/DeleteHome';
 
 const HomeCard = ({ home, removeHome, isEditMode }) => {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
   const handleDelete = async () => {
     try {
       // Gọi API để xóa home nếu cần
+      await deleteHome(home.id);
       removeHome(home.id);
     } catch (error) {
       console.error('Error deleting home:', error);
