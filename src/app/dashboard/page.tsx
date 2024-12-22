@@ -52,7 +52,7 @@ const Homes = () => {
 
   return (
     <div className='p-5 '>
-      <div className='flex flex-col justify-around gap-4 bg-[#1a1c1e] p-5 rounded-xl shadow-lg'>
+      <div className='flex flex-col justify-around gap-4 bg-[#1a1c1e] p-5 rounded-xl shadow-lg '>
         <div className='flex justify-between items-center pb-2'>
           <h1 className='text-sm sm:text-2xl font-medium text-white items-center'>Your Homes</h1>
           <div className='flex gap-2'>
