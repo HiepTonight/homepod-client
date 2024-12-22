@@ -54,7 +54,7 @@ const SensorData = ({ homePodId }) => {
   if (loading) {
     return (
       <div className='p-5 shadow bg-gradient-to-r from-[#1a1c1e] to-[#090d11] rounded-xl'>
-        <h1 className='text-2xl font-bold text-white mb-4 '>Sensor Data</h1>
+        <h1 className='text-xl font-semibold text-white mb-4 '>Sensor Data</h1>
         <div className='p-2 grid grid-cols-2 gap-8 animate-pulse'>
           <div className='space-y-3 text-gray-300'>
             <div className='h-8 bg-gray-700 rounded w-24'></div>

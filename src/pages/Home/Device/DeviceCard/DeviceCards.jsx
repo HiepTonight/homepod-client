@@ -3,6 +3,8 @@ import { HiChevronDown } from "react-icons/hi2"
 import { IoTrashOutline } from "react-icons/io5";
 
 import Dropdown from '../../../../components/Dropdown'
+import { Switch } from "@/components/ui/switch"
+
 import deleteDevice from '../../../../apis/Devices/DeleteDevice'
 import triggerDevice from '../../../../apis/Devices/TriggerDevice'
 
