@@ -57,7 +57,7 @@ const WeatherForecast = () => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="flex flex-col bg-gradient-to-r from-[#192131] to-[#0d2214] rounded p-4 w-full">
+      <div className="flex flex-col bg-gradient-to-r from-[#192131] to-[#0d2214] rounded-lg p-4 w-full">
         <div className="font-bold text-xl text-white">{weatherData.name}</div>
         <div className="text-sm text-gray-400">{new Date().toLocaleDateString()}</div>
         <div className="text-6xl self-center inline-flex items-center justify-center rounded-lg text-zinc-100 h-24 w-24">

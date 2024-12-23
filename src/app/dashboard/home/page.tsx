@@ -3,7 +3,7 @@ import { useOutletContext, useSearchParams } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import getHomeDetails from '../../../apis/Homes/GetUserHome';
-import SensorData from '@/pages/Home/SensorData/SensorData';
+import SensorData from './sensorData/page';
 import WeatherForecast from '@/pages/Home/WeatherForecast/WeatherForecast';
 import DataStatics from '@/pages/Home/DataStatics/DataStatics';
 import Devices from './device/page';
