@@ -3,7 +3,6 @@ import axios from 'axios';
 import createDevice from '../apis/Devices/CreateDevice';
 
 const DeviceModal = ({ isVisible, onClose, addDevice, homePodId }) => {
-    console.log('HomePodId:', homePodId);
     const [deviceData, setDeviceData] = useState({
         name: '',
         icon: '',
