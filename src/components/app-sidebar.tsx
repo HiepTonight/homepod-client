@@ -57,7 +57,7 @@ const data = {
       title: "Script",
       url: "#",
       icon: SquareTerminal,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "History",

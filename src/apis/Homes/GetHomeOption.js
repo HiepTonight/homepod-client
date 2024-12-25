@@ -10,7 +10,7 @@ const getHomeOption = async (homeId) => {
                 'Authorization': `Bearer ${token}`
             },
         });
-        console.log('response', response);
+        // console.log('response', response);
         return response.data;
     } catch (error) {
         console.error('Error fetching devices:', error);
