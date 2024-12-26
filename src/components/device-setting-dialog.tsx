@@ -21,8 +21,11 @@ import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Settings } from 'lucide-react'
 import { toast } from 'sonner'
+import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt, DoorClosed } from 'lucide-react'
+
 
 const DeviceSettingDialog = ({ devices, homeId }) => {
+    console.log('Devices:', devices)
     const [settings, setSettings] = useState({
         temperature: {
             high: '',
@@ -194,6 +197,16 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
         }))
     }
 
+    const iconMap = {
+        Heater: Heater,
+        Tv: Tv,
+        Refrigerator: Refrigerator,
+        SquarePower: SquarePower,
+        Lightbulb: Lightbulb,
+        Bolt: Bolt,
+        DoorClosed: DoorClosed
+    }
+
     const DeviceControls = ({ sensor, condition, isSchedule }) => (
         <div className='mt-2'>
             <div className='flex justify-between items-center'>
@@ -222,20 +235,23 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                     </div>
                     {dropdownVisible && selectedSensor === sensor && selectedCondition === condition && (
                         <div className='absolute right-0 mt-2 w-40 border border-gray-600 rounded-md shadow-lg z-10'>
-                            {devices.map((device) => (
-                                <Button
-                                    key={device.id}
-                                    onClick={() =>
-                                        isSchedule
-                                            ? handleAddScheduleDevice(sensor, device.id)
-                                            : handleAddDevice(sensor, condition, device.id)
-                                    }
-                                    className='flex items-center justify-between w-full text-left text-white bg-gray-800 hover:text-black transition-colors'
-                                >
-                                    <device.icon className='mr-2' />
-                                    {device.name}
-                                </Button>
-                            ))}
+                            {devices.map((device) => {
+                                const DeviceIcon = iconMap[device.icon]
+                                return (
+                                    <Button
+                                        key={device.id}
+                                        onClick={() =>
+                                            isSchedule
+                                                ? handleAddScheduleDevice(sensor, device.id)
+                                                : handleAddDevice(sensor, condition, device.id)
+                                        }
+                                        className='flex items-center justify-between w-full text-left text-white bg-gray-800 hover:text-black transition-colors'
+                                    >
+                                        {DeviceIcon && <DeviceIcon className='mr-2' size={16} />}
+                                        {device.name}
+                                    </Button>
+                                )
+                            })}
                         </div>
                     )}
                 </div>
@@ -244,7 +260,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                 {(isSchedule ? schedule[sensor].devices : settings[sensor][`${condition}Devices`]).map((device) => {
                     const deviceInfo = devices.find((d) => d.id === device.id)
                     if (!deviceInfo) return null // Add this check
-                    const DeviceIcon = deviceInfo.icon
+                    const DeviceIcon = iconMap[deviceInfo.icon]
                     return (
                         <div
                             key={device.id}
@@ -513,7 +529,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                             </div>
                         </>
                     )}
-                    <DialogFooter>
+                    <DialogFooter className='flex gap-2'>
                         <DialogClose asChild>
                             <Button type='button' variant='secondary' className=''>
                                 Cancel
