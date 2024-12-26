@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -9,6 +9,9 @@ import {
     DialogTrigger,
     DialogClose
 } from '@/components/ui/dialog'
+import { toast } from 'sonner'
+import { AlertCircle, Loader } from 'lucide-react'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { SidebarMenuSubButton } from '@/components/ui/sidebar'
@@ -18,19 +21,50 @@ import { Button } from '@/components/ui/button'
 import { Sparkles } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt } from 'lucide-react'
+import createDevice from '@/apis/Devices/CreateDevice'
 
-export function DeviceCreateDialog() {
-    const [formData, setFormData] = React.useState({
+export function DeviceCreateDialog({ addDevice, homePodId }) {
+    const [formData, setFormData] = useState({
         name: '',
-        description: '',
-        deviceType: ''
+        icon: '',
+        description: ''
     })
+    const [alertVisible, setAlertVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log('Form data:', formData)
-        // ...do something with form data...
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormData({ ...formData, [name]: value })
     }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const { name, icon, description } = formData
+        if (!name || !icon || !description) {
+            setAlertVisible(true)
+            return
+        }
+
+        setIsLoading(true)
+        try {
+            const createdDevice = await createDevice(homePodId, formData)
+            addDevice(createdDevice.data)
+            setFormData({ name: '', icon: '', description: '' }) // Reset form data
+            toast('Device have been created', {
+                description: 'Your device have been successfully created.',
+                action: {
+                    label: 'Undo',
+                    onClick: () => console.log('Undo')
+                }
+            })
+        } catch (error) {
+            console.error('Error:', error)
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
+    const isFormValid = formData.name && formData.icon && formData.description
 
     return (
         <Dialog>
@@ -51,6 +85,13 @@ export function DeviceCreateDialog() {
                     </DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
+                    {alertVisible && (
+                          <Alert variant='destructive'>
+                                    <AlertCircle className='h-4 w-4' />
+                                    <AlertTitle>Error</AlertTitle>
+                                    <AlertDescription>Please fill in all fields.</AlertDescription>
+                                </Alert>
+                    )}
                     <div className='grid gap-4 py-4'>
                         <div className='grid grid-cols-4 items-center gap-4'>
                             <Label htmlFor='name' className='text-right'>
@@ -58,29 +99,33 @@ export function DeviceCreateDialog() {
                             </Label>
                             <Input
                                 id='name'
+                                name='name'
                                 placeholder='My sweet home!'
                                 className='col-span-3'
+                                required={true}
                                 value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor='username' className='text-right'>
+                            <Label htmlFor='description' className='text-right'>
                                 Description
                             </Label>
                             <Textarea
                                 id='description'
+                                name='description'
                                 placeholder='This is my sweet home!'
+                                required={true}
                                 className='col-span-3'
                                 value={formData.description}
-                                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                onChange={handleChange}
                             />
                         </div>
                         <div className='grid grid-cols-4 items-center gap-4'>
-                            <Label htmlFor='username' className='text-right'>
+                            <Label htmlFor='icon' className='text-right'>
                                 Device Type
                             </Label>
-                            <Select onValueChange={(val) => setFormData({ ...formData, deviceType: val })}>
+                            <Select onValueChange={(val) => setFormData({ ...formData, icon: val })}>
                                 <SelectTrigger className='col-span-3'>
                                     <SelectValue placeholder='Select' />
                                 </SelectTrigger>
@@ -127,11 +172,16 @@ export function DeviceCreateDialog() {
                     </div>
                     <DialogFooter>
                         <DialogClose asChild>
-                            <Button type='button' variant='secondary' className='mr-2'>
+                            <Button type='button' variant='secondary' className='mr-2' onClick={() => setAlertVisible(false)}>
                                 Cancel
                             </Button>
                         </DialogClose>
-                        <Button type='submit'>Add new Device</Button>
+                        <DialogClose asChild>
+                        <Button type='submit' disabled={!isFormValid || isLoading} className={!isFormValid ? 'bg-gray-400' : ''}>
+                            {isLoading ? <Loader className='animate-spin' size={16} /> : 'Add new Device'}
+                        </Button>
+                        </DialogClose>
+                        
                     </DialogFooter>
                 </form>
             </DialogContent>
