@@ -2,6 +2,7 @@
 
 import { ChevronRight, Home, type LucideIcon } from "lucide-react"
 import { House } from 'lucide-react';
+import React from "react"
 
 import {
   Collapsible,
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/sidebar"
 import { HomeCreateDialog } from "./home-create-dialog";
 import { DeviceToast } from "./device-toast";
+import { Link } from "react-router-dom";
 
 export function NavMain({
   items,
@@ -91,9 +93,9 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <Link to={subItem.url}>
                           <span>{subItem.title}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

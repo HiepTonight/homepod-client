@@ -20,7 +20,7 @@ import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { Sparkles } from 'lucide-react'
 import { Plus } from 'lucide-react'
-import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt } from 'lucide-react'
+import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt, DoorClosed } from 'lucide-react'
 import createDevice from '@/apis/Devices/CreateDevice'
 
 export function DeviceCreateDialog({ addDevice, homePodId }) {
@@ -71,7 +71,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
             <DialogTrigger asChild>
                 <Button className='gap-1 bg-blue-600 text-white hover:bg-blue-500 hover:scale-105 transition-transform'>
                     <Plus />
-                    Add Device
+                    <p className='hidden sm:flex'>Add Device</p>
                 </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[450px] bg-[#18191f] overflow-y-auto max-h-[70vh] rounded-lg shadow-lg p-4 transition-all duration-300'>
@@ -86,11 +86,11 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
                     {alertVisible && (
-                          <Alert variant='destructive'>
-                                    <AlertCircle className='h-4 w-4' />
-                                    <AlertTitle>Error</AlertTitle>
-                                    <AlertDescription>Please fill in all fields.</AlertDescription>
-                                </Alert>
+                        <Alert variant='destructive'>
+                            <AlertCircle className='h-4 w-4' />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>Please fill in all fields.</AlertDescription>
+                        </Alert>
                     )}
                     <div className='grid gap-4 py-4'>
                         <div className='grid grid-cols-4 items-center gap-4'>
@@ -100,7 +100,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                             <Input
                                 id='name'
                                 name='name'
-                                placeholder='My sweet home!'
+                                placeholder='eg: Washing Machine'
                                 className='col-span-3'
                                 required={true}
                                 value={formData.name}
@@ -114,7 +114,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                             <Textarea
                                 id='description'
                                 name='description'
-                                placeholder='This is my sweet home!'
+                                placeholder='What is this device for?'
                                 required={true}
                                 className='col-span-3'
                                 value={formData.description}
@@ -148,6 +148,12 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                                             Television
                                         </div>
                                     </SelectItem>
+                                    <SelectItem value='DoorClosed'>
+                                        <div className='flex items-center gap-2'>
+                                            <DoorClosed size={16} />
+                                            Door
+                                        </div>
+                                    </SelectItem>
                                     <SelectItem value='SquarePower'>
                                         <div className='flex items-center gap-2'>
                                             <SquarePower size={16} />
@@ -170,18 +176,21 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                             </Select>
                         </div>
                     </div>
-                    <DialogFooter>
+                    <DialogFooter className='flex gap-2'>
                         <DialogClose asChild>
-                            <Button type='button' variant='secondary' className='mr-2' onClick={() => setAlertVisible(false)}>
+                            <Button type='button' variant='secondary' onClick={() => setAlertVisible(false)}>
                                 Cancel
                             </Button>
                         </DialogClose>
                         <DialogClose asChild>
-                        <Button type='submit' disabled={!isFormValid || isLoading} className={!isFormValid ? 'bg-gray-400' : ''}>
-                            {isLoading ? <Loader className='animate-spin' size={16} /> : 'Add new Device'}
-                        </Button>
+                            <Button
+                                type='submit'
+                                disabled={!isFormValid || isLoading}
+                                className={!isFormValid ? 'bg-gray-400' : ''}
+                            >
+                                {isLoading ? <Loader className='animate-spin' size={16} /> : 'Add new Device'}
+                            </Button>
                         </DialogClose>
-                        
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -8,6 +8,7 @@ import Layout from './app/layout.tsx'
 import Dashboard from './app/dashboard/page.tsx'
 import Login from './app/login/page.tsx'
 import Home from './app/dashboard/home/page.tsx'
+import Setting from './app/setting/page.tsx'
 import { Toaster } from '@/components/ui/sonner'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path='home' element={<Home />} />
                     <Route path='members' element={<Members />} />
+                    <Route path='setting' element={<Setting />} />
                 </Route>
                 <Route path='login' element={<Login />} />
                 <Route path='*' element={<NotFound />} /> {/* Thêm route cho trang 404 */}
