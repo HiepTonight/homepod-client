@@ -45,7 +45,7 @@ const handleResponseErr = async (err) => {
         console.log('Refresh token:', refreshToken)
 
         if (!refreshToken) {
-            window.location.href = '/login'
+            // window.location.href = '/login'
             return Promise.reject(err)
         }
 
