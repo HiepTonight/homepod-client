@@ -52,7 +52,7 @@ const Device = ({ homePodId }) => {
     const fetchDevices = async () => {
         try {
             const devices = await getAllDevices(homePodId)
-            console.log('Devices:', devices)
+            // console.log('Devices:', devices)
             const mappedDevices = devices.map((device) => ({
                 ...device,
                 icon: getIconComponent(device.icon)
@@ -149,7 +149,7 @@ const Device = ({ homePodId }) => {
             <div className='grid md:grid-cols-2 xl:grid-cols-5 gap-4 '>
                 {devices &&
                     devices.map((device) => (
-                        <div className='hover:scale-105 transition-transform'>
+                        <div key={device.id} className='hover:scale-105 transition-transform'>
                             <DeviceCard
                                 key={device.id}
                                 device={device}

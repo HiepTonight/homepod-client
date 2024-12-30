@@ -4,8 +4,9 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { Switch } from '@/components/ui/switch'
 import moment from 'moment-timezone'
 import { formatDistanceToNow, format } from 'date-fns'
-import deleteDevice from '@/apis/Devices/DeleteDevice'
-import triggerDevice from '@/apis/Devices/TriggerDevice'
+import { deleteDevice, triggerDevice } from '@/apis/Devices/DeviceService'
+// import deleteDevice from '@/apis/Devices/DeleteDevice'
+// import triggerDevice from '@/apis/Devices/TriggerDevice'
 import { toast } from 'sonner'
 
 const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
@@ -19,7 +20,7 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
     }, [device.status])
 
     useEffect(() => {
-        console.log('Device icon:', device.icon)
+        // console.log('Device icon:', device.icon)
         import(`lucide-react`).then((icons) => {
             setIconComponent(icons[device.icon as keyof typeof icons] as LucideIcon)
         })
