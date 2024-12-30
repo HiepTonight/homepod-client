@@ -56,13 +56,13 @@ const Homes = () => {
     }
 
     return (
-        <div className='p-5 grid grid-cols-3 gap-4'>
+        <div className='p-5 flex flex-col lg:grid lg:grid-cols-3 gap-4'>
             <div className=' justify-around gap-4  p-5 rounded-xl shadow-lg col-span-2 bg-gradient-to-r from-[#1b2a55] to-[#081d41]'>
                 <div className='flex justify-between items-center pb-2'>
                     <h1 className='text-sm sm:text-xl font-medium text-white items-center'>Your sweet homes!</h1>
                     <div className='flex gap-2'>
                         <Button
-                            className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-2 sm:px-3 cursor-pointer transition-colors duration-300 ${isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'}`}
+                            className={` transition-colors duration-300 ${isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'}`}
                             onClick={toggleEditMode}
                         >
                             <p className='hidden sm:flex'>Edit</p>
