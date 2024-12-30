@@ -39,34 +39,30 @@ const handleResponseErr = async (err) => {
     ) {
         originalRequest._retry = true
 
-        // const refreshToken = Cookies.get('refreshToken');
         const refreshToken = localStorage.getItem('refreshToken')
 
-        console.log('Refresh token:', refreshToken)
-
-        if (!refreshToken) {
-            // window.location.href = '/login'
-            return Promise.reject(err)
-        }
+        // if (!refreshToken) {
+        //     // window.location.href = '/login'
+        //     localStorage.removeItem('token')
+        //     return Promise.reject(err)
+        // }
 
         try {
             const res = await axiosClient.post('/user/refresh-token', {
                 refreshToken: refreshToken
             })
 
+            // console.log('res', res) 
+
             const newAccessToken = res.data.data.accessToken
 
-            // Cookies.set('token', newAccessToken);
             localStorage.setItem('token', newAccessToken)
 
             originalRequest.headers.Authorization = `Bearer ${newAccessToken}`
 
             return axiosClient(originalRequest)
         } catch (error) {
-            // Cookies.remove('token');
-            // Cookies.remove('refreshToken');
-            // Cookies.remove('userId');
-
+            // console.log('error', error)
             localStorage.removeItem('token')
             localStorage.removeItem('refreshToken')
             localStorage.removeItem('userId')
@@ -76,6 +72,8 @@ const handleResponseErr = async (err) => {
             return Promise.reject(error)
         }
     }
+
+    return Promise.reject(err)
 }
 
 axiosClient.interceptors.request.use(
