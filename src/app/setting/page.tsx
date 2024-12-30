@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Settings, Search } from 'lucide-react'
 import { Sidebar } from '@/components/ui/sidebar'
 import { Input } from '@/components/ui/input'
@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@radix-ui/react-separator'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
+import { AuthContext } from '@/context/AuthProvider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import getUserHomes from '@/apis/Homes/GetUserHomes'
 import getUserInfo from '@/apis/Auth/getUserInfo'
@@ -24,6 +25,21 @@ const page = () => {
     const [currentView, setCurrentView] = useState('information')
     const [animating, setAnimating] = useState(false)
     const [homes, setHomes] = useState([])
+    const { userInfo } = useContext(AuthContext)
+    console.log('userInfo', userInfo)
+
+    useEffect(() => {
+        if (userInfo) {
+            setUser({
+                username: userInfo.username || '',
+                displayName: userInfo.displayName || '',
+                email: userInfo.email || '',
+                phone: userInfo.phone || '',
+                about: userInfo.about || '',
+                defaultHomeId: userInfo.defaultHomeId || ''
+            })
+        }
+    }, [userInfo])
 
     useEffect(() => {
         const fetchHomes = async () => {
@@ -37,24 +53,24 @@ const page = () => {
         fetchHomes()
     }, [])
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const data = await getUserInfo()
-                setUser({
-                    username: data.data.username || '',
-                    displayName: data.data.displayName || '',
-                    email: data.data.email || '',
-                    phone: data.data.phone || '',
-                    about: data.data.about || '',
-                    defaultHomeId: data.data.defaultHomeId || ''
-                })
-            } catch (error) {
-                console.error('Error fetching user info:', error)
-            }
-        }
-        fetchUserInfo()
-    }, [])
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         try {
+    //             const data = await getUserInfo()
+    //             setUser({
+    //                 username: data.data.username || '',
+    //                 displayName: data.data.displayName || '',
+    //                 email: data.data.email || '',
+    //                 phone: data.data.phone || '',
+    //                 about: data.data.about || '',
+    //                 defaultHomeId: data.data.defaultHomeId || ''
+    //             })
+    //         } catch (error) {
+    //             console.error('Error fetching user info:', error)
+    //         }
+    //     }
+    //     fetchUserInfo()
+    // }, [])
 
     const handleViewChange = (view) => {
         if (currentView !== view) {

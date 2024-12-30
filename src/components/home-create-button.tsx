@@ -9,14 +9,17 @@ import {
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog'
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { toast } from 'sonner'
 import { SidebarMenuSubButton } from '@/components/ui/sidebar'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
-import { Sparkles } from 'lucide-react'
+import { Sparkles, HousePlus, AlertCircle } from 'lucide-react'
 import createHome from '../apis/Homes/CreateHome'
+import { DialogClose } from '@radix-ui/react-dialog'
 
-export function HomeCreateDialog({ addHome }) {
+export function HomeCreateButton({ addHome }) {
     const [homeData, setHomeData] = useState({
         title: '',
         description: '',
@@ -41,20 +44,27 @@ export function HomeCreateDialog({ addHome }) {
             const createdHome = await createHome(homeData)
             addHome(createdHome.data)
             setHomeData({ title: '', description: '', homePodId: '' }) // Reset form data
+            toast('Home have been created', {
+                description: 'Your home have been successfully created.',
+                action: {
+                    label: 'Undo',
+                    onClick: () => console.log('Undo')
+                }
+            })
         } catch (error) {
             console.error('Error:', error)
         }
     }
 
+    const isFormValid = homeData.title && homeData.description && homeData.homePodId
+
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <SidebarMenuSubButton asChild>
-                    <div className='cursor-pointer flex justify-between items-center'>
-                        Add Home
-                        <Plus />
-                    </div>
-                </SidebarMenuSubButton>
+                <Button className='text-white bg-blue-600 hover:bg-blue-500'>
+                    Add Home
+                    <HousePlus />
+                </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[450px] bg-[#18191f]'>
                 <DialogHeader>
@@ -68,27 +78,11 @@ export function HomeCreateDialog({ addHome }) {
                 </DialogHeader>
                 <form onSubmit={handleSubmit} className='grid gap-4 py-4'>
                     {alertVisible && (
-                        <div
-                            className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4'
-                            role='alert'
-                        >
-                            <strong className='font-bold'>Error!</strong>
-                            <span className='block sm:inline'> Please fill in all fields.</span>
-                            <span
-                                onClick={() => setAlertVisible(false)}
-                                className='absolute top-0 bottom-0 right-0 px-4 py-3'
-                            >
-                                <svg
-                                    className='fill-current h-6 w-6 text-red-500'
-                                    role='button'
-                                    xmlns='http://www.w3.org/2000/svg'
-                                    viewBox='0 0 20 20'
-                                >
-                                    <title>Close</title>
-                                    <path d='M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 10-1.414 1.414L8.828 10l-3.176 3.176a1 1 0 101.414 1.414L10 12.828l2.934 2.934a1 1 0 001.414-1.414L11.172 10l3.176-3.176z' />
-                                </svg>
-                            </span>
-                        </div>
+                        <Alert variant='destructive'>
+                            <AlertCircle className='h-4 w-4' />
+                            <AlertTitle>Error</AlertTitle>
+                            <AlertDescription>Please fill in all fields.</AlertDescription>
+                        </Alert>
                     )}
                     <div className='grid grid-cols-4 items-center gap-4'>
                         <Label htmlFor='title' className='text-right'>
@@ -130,7 +124,11 @@ export function HomeCreateDialog({ addHome }) {
                         />
                     </div>
                     <DialogFooter>
-                        <Button type='submit'>Save changes</Button>
+                        <DialogClose asChild>
+                            <Button type='submit' disabled={!isFormValid} className={!isFormValid ? 'bg-gray-400' : ''}>
+                                Save changes
+                            </Button>
+                        </DialogClose>
                     </DialogFooter>
                 </form>
             </DialogContent>

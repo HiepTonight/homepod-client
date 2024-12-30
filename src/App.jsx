@@ -10,22 +10,25 @@ import Login from './app/login/page.tsx'
 import Home from './app/dashboard/home/page.tsx'
 import Setting from './app/setting/page.tsx'
 import { Toaster } from '@/components/ui/sonner'
+import { AuthProvider } from './context/AuthProvider'
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path='/' element={<Layout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path='home' element={<Home />} />
-                    <Route path='members' element={<Members />} />
-                    <Route path='setting' element={<Setting />} />
-                </Route>
-                <Route path='login' element={<Login />} />
-                <Route path='*' element={<NotFound />} /> {/* Thêm route cho trang 404 */}
-            </Routes>
-            <Toaster />
-        </BrowserRouter>
+        <AuthProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<Layout />}>
+                        <Route index element={<Dashboard />} />
+                        <Route path='home' element={<Home />} />
+                        <Route path='members' element={<Members />} />
+                        <Route path='setting' element={<Setting />} />
+                    </Route>
+                    <Route path='login' element={<Login />} />
+                    <Route path='*' element={<NotFound />} /> {/* Thêm route cho trang 404 */}
+                </Routes>
+                <Toaster />
+            </BrowserRouter>
+        </AuthProvider>
     )
 }
 

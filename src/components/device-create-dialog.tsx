@@ -21,7 +21,8 @@ import { Button } from '@/components/ui/button'
 import { Sparkles } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt, DoorClosed } from 'lucide-react'
-import createDevice from '@/apis/Devices/CreateDevice'
+// import createDevice from '@/apis/Devices/CreateDevice'
+import { createDevice } from '@/apis/Devices/DeviceService'
 
 export function DeviceCreateDialog({ addDevice, homePodId }) {
     const [formData, setFormData] = useState({
@@ -48,7 +49,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
         setIsLoading(true)
         try {
             const createdDevice = await createDevice(homePodId, formData)
-            addDevice(createdDevice.data)
+            addDevice(createdDevice.data.data)
             setFormData({ name: '', icon: '', description: '' }) // Reset form data
             toast('Device have been created', {
                 description: 'Your device have been successfully created.',

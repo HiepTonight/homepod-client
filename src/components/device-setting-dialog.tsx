@@ -25,7 +25,6 @@ import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt, DoorCl
 
 
 const DeviceSettingDialog = ({ devices, homeId }) => {
-    console.log('Devices:', devices)
     const [settings, setSettings] = useState({
         temperature: {
             high: '',
