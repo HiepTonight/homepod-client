@@ -33,7 +33,10 @@ const handleResponseSuccess = (res) => {
 const handleResponseErr = async (err) => {
     const originalRequest = err.config
 
-    if (err.response.status === 401  && !originalRequest._retry || err.response.status === 500 && !originalRequest._retry) {
+    if (
+        (err.response.status === 401 && !originalRequest._retry) ||
+        (err.response.status === 500 && !originalRequest._retry)
+    ) {
         originalRequest._retry = true
 
         // const refreshToken = Cookies.get('refreshToken');
@@ -41,7 +44,10 @@ const handleResponseErr = async (err) => {
 
         console.log('Refresh token:', refreshToken)
 
-        if (!refreshToken) return Promise.reject(err)
+        if (!refreshToken) {
+            window.location.href = '/login'
+            return Promise.reject(err)
+        }
 
         try {
             const res = await axiosClient.post('/user/refresh-token', {
