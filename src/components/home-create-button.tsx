@@ -62,7 +62,8 @@ export function HomeCreateButton({ addHome }) {
         <Dialog>
             <DialogTrigger asChild>
                 <Button className='text-white bg-blue-600 hover:bg-blue-500'>
-                    Add Home
+                    <p className='hidden sm:flex'>Add Home</p>
+                    
                     <HousePlus />
                 </Button>
             </DialogTrigger>
