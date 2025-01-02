@@ -4,9 +4,9 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { Switch } from '@/components/ui/switch'
 import moment from 'moment-timezone'
 import { formatDistanceToNow, format } from 'date-fns'
-import { deleteDevice, triggerDevice } from '@/apis/Devices/DeviceService'
+import { deleteDevice } from '@/apis/Devices/DeviceService'
 // import deleteDevice from '@/apis/Devices/DeleteDevice'
-// import triggerDevice from '@/apis/Devices/TriggerDevice'
+import triggerDevice from '@/apis/Devices/TriggerDevice'
 import { toast } from 'sonner'
 
 const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
