@@ -16,8 +16,10 @@ const deleteDevice = async (deviceId) => {
     return await axiosClient.delete(`/home/device/${deviceId}`)
 }
 
-const triggerDevice = async (deviceId) => {
-    return await axiosClient.post(`/home/device/${deviceId}/trigger`)
+const triggerDevice = async (deviceId, homePodId) => {
+    return await axiosClient.post(`/home/device/${deviceId}/trigger`, {
+        homePodId: homePodId
+    })
 }
 
 export { getAllDevices, createDevice, deleteDevice, triggerDevice }
