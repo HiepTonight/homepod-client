@@ -3,8 +3,7 @@ import axios from 'axios'
 import { GoPlus } from 'react-icons/go'
 import { TiEdit } from 'react-icons/ti'
 import { FaMinus } from 'react-icons/fa'
-import getHomeOption from '../apis/Homes/GetHomeOption'
-import applyHomeOption from '../apis/Homes/ApplyHomeOption'
+import { getHomeOption, updateHomeOption } from '@/apis/Homes/HomeService'
 import {
     Dialog,
     DialogContent,
@@ -50,25 +49,25 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
         const fetchHomeOption = async () => {
             try {
                 const data = await getHomeOption(homeId)
-                setControlType(data.data.controlType)
+                setControlType(data.controlType)
                 setSettings({
                     temperature: {
-                        high: data.data.tempAutoOption.high ?? '',
-                        low: data.data.tempAutoOption.low ?? '',
-                        highDevices: data.data.tempAutoOption.highDevices,
-                        lowDevices: data.data.tempAutoOption.lowDevices
+                        high: data.tempAutoOption.high ?? '',
+                        low: data.tempAutoOption.low ?? '',
+                        highDevices: data.tempAutoOption.highDevices,
+                        lowDevices: data.tempAutoOption.lowDevices
                     },
                     humidity: {
-                        high: data.data.humiAutoOption.high ?? '',
-                        low: data.data.humiAutoOption.low ?? '',
-                        highDevices: data.data.humiAutoOption.highDevices,
-                        lowDevices: data.data.humiAutoOption.lowDevices
+                        high: data.humiAutoOption.high ?? '',
+                        low: data.humiAutoOption.low ?? '',
+                        highDevices: data.humiAutoOption.highDevices,
+                        lowDevices: data.humiAutoOption.lowDevices
                     },
                     light: {
-                        high: data.data.lightAutoOption.high ?? '',
-                        low: data.data.lightAutoOption.low ?? '',
-                        highDevices: data.data.lightAutoOption.highDevices,
-                        lowDevices: data.data.lightAutoOption.lowDevices
+                        high: data.lightAutoOption.high ?? '',
+                        low: data.lightAutoOption.low ?? '',
+                        highDevices: data.lightAutoOption.highDevices,
+                        lowDevices: data.lightAutoOption.lowDevices
                     }
                 })
             } catch (error) {
@@ -330,8 +329,8 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                     lowDevices: settings.light.lowDevices
                 }
             }
-            const response = await applyHomeOption(homeId, formattedSettings)
-            console.log('Settings applied:', response.data)
+            const response = await updateHomeOption(homeId, formattedSettings)
+            console.log('Settings applied:', response)
             toast('Settings have been saved', {
                 description: 'Your device settings have been successfully updated.',
                 action: {
@@ -339,7 +338,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                     onClick: () => console.log('Undo')
                 }
             })
-            onClose()
+            // onClose()
         } catch (error) {
             console.error('Error saving settings:', error)
         }

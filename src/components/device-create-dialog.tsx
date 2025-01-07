@@ -49,7 +49,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
         setIsLoading(true)
         try {
             const createdDevice = await createDevice(homePodId, formData)
-            addDevice(createdDevice.data.data)
+            addDevice(createdDevice)
             setFormData({ name: '', icon: '', description: '' }) // Reset form data
             toast('Device have been created', {
                 description: 'Your device have been successfully created.',

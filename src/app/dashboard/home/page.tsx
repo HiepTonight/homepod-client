@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useOutletContext, useSearchParams } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
+import { getHome, connectEventSource, getStreamAxios } from '@/apis/Homes/HomeService'
 import getHomeDetails from '../../../apis/Homes/GetUserHome'
 import SensorData from './sensorData/page'
 import WeatherForecast from '@/pages/Home/WeatherForecast/WeatherForecast'
@@ -11,7 +12,7 @@ import MyRoom from '@/pages/Home/MyRoom/MyRoom'
 
 const HomePage = () => {
     const [searchParams] = useSearchParams()
-    const { onHomeNameChange } = useOutletContext()
+    // const { onHomeNameChange } = useOutletContext()
     const homeId = searchParams.get('id')
     const [homeData, setHomeData] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -19,10 +20,10 @@ const HomePage = () => {
     useEffect(() => {
         const fetchHomeDetails = async () => {
             try {
-                const data = await getHomeDetails(homeId)
+                const data = await getHome(homeId)
                 setHomeData(data)
                 setLoading(false)
-                console.log(onHomeNameChange(data.name))
+                // console.log(onHomeNameChange(data.name))
             } catch (error) {
                 console.error('Error fetching home details:', error)
                 setLoading(false)
@@ -30,7 +31,66 @@ const HomePage = () => {
         }
 
         fetchHomeDetails()
-    }, [homeId, onHomeNameChange])
+
+        return () => {
+            // console.log('Component unmounted')
+            setHomeData(null)
+        }
+    }, [homeId])
+
+    useEffect(() => {
+        let timeout
+        let retryCount = 0
+        const maxRetries = 5
+        let isMounted = true
+
+        if (!homeData?.homePodId) return
+
+        const connectEventSource = () => {
+            const eventSource = new EventSource(
+                `http://localhost:8080/api/v1/home/sse?homePodId=${homeData?.homePodId}`
+            )
+
+            eventSource.onopen = () => {
+                console.log('Connection to EventSource established successfully.')
+                retryCount = 0
+            }
+
+            eventSource.addEventListener('DEVICE_UPDATE_EVENT', (event) => {
+                const data = JSON.parse(event.data)
+                console.log('EventSource message:', data)
+            })
+
+            eventSource.addEventListener('SENSOR_DATA_UPDATE_EVENT', (event) => {
+                const data = JSON.parse(event.data)
+                console.log('EventSource message:', data)
+            })
+
+            eventSource.onerror = (error) => {
+                console.error('EventSource error:', error)
+                if (error.eventPhase === EventSource.CLOSED) {
+                    eventSource.close()
+                    if (retryCount < maxRetries && isMounted) {
+                        retryCount++
+                        timeout = setTimeout(connectEventSource, 1000) // Thiết lập lại kết nối sau 1 giây
+                    } else {
+                        console.error('Max retries reached. Stopping reconnection attempts.')
+                    }
+                }
+            }
+
+            return eventSource
+        }
+
+        const eventSource = connectEventSource()
+
+        return () => {
+            console.log('Closing EventSource connection due to component unmount or page navigation.')
+            isMounted = false
+            eventSource.close()
+            clearTimeout(timeout)
+        }
+    }, [homeData?.homePodId])
 
     if (loading) {
         return (

@@ -4,9 +4,7 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { Switch } from '@/components/ui/switch'
 import moment from 'moment-timezone'
 import { formatDistanceToNow, format } from 'date-fns'
-import { deleteDevice } from '@/apis/Devices/DeviceService'
-// import deleteDevice from '@/apis/Devices/DeleteDevice'
-import triggerDevice from '@/apis/Devices/TriggerDevice'
+import { deleteDevice, triggerDevice } from '@/apis/Devices/DeviceService'
 import { toast } from 'sonner'
 
 const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
@@ -38,8 +36,8 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
         const newStatus = isChecked ? 0 : 1
         setIsChecked(!isChecked)
         try {
-            await triggerDevice(device.id, homePodId)
-            console.log('Device triggered:', device.id, homePodId)
+            const data = await triggerDevice(device.id, homePodId)
+            // console.log('Device triggered:', data)
         } catch (error) {
             console.error('Error triggering device:', error)
         }

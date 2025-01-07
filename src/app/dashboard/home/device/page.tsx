@@ -1,8 +1,8 @@
 import React from 'react'
 import DeviceCard from './deviceId/page'
-import getAllDevices from '@/apis/Devices/GetAllDevices'
+import { getAllDevices } from '@/apis/Devices/DeviceService'
 import SensorSettingsModal from '@/components/SensorSettingsModal'
-import { type LucideIcon } from "lucide-react"
+import { type LucideIcon } from 'lucide-react'
 import { Skeleton } from '@/components/ui/skeleton'
 import { CgSmartHomeRefrigerator } from 'react-icons/cg'
 import { PiPlugCharging, PiLightbulbFilament } from 'react-icons/pi'
@@ -81,42 +81,28 @@ const Device = ({ homePodId }) => {
     if (loading) {
         return (
             <div className='pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6'>
-                <div className='flex justify-between items-center pb-6'>
-                    <h1 className='text-sm sm:text-xl font-semibold text-white'>Device</h1>
+                <div className='flex justify-between items-center pb-4'>
+                    <h1 className='text-lg sm:text-xl font-semibold text-white'>Device</h1>
                     <div className='flex justify-between items-center'>
                         <div className='flex justify-between gap-2'>
-                            <button
-                                className={`flex justify-between items-center gap-[3px] rounded-md p-1 px-3 cursor-pointer transition-colors duration-300 ${
+                            <Button
+                                className={`gap-1 bg-slate-600 text-white hover:bg-slate-500 transition-transform cursor-pointer transition-colors duration-300 ${
                                     isEditMode ? 'bg-blue-600 text-white' : 'text-gray-400 bg-gray-700'
                                 }`}
                                 onClick={toggleEditMode}
                             >
-                                <p className='hidden sm:flex'>Edit</p>
                                 <TiEdit />
-                            </button>
+                                <p className='hidden sm:flex'>Edit</p>
+                            </Button>
 
-                            <button
-                                onClick={openSensorSettings}
-                                className='flex justify-between items-center gap-[3px] text-white bg-gray-600 px-4 py-2 rounded-md'
-                            >
-                                Settings
-                                <IoMdSettings />
-                            </button>
-
-                            <button
-                                type='button'
-                                onClick={openModal}
-                                className='flex justify-between items-center gap-[3px] text-white bg-blue-600 rounded-md p-1 px-3 cursor-pointer '
-                            >
-                                <p className='hidden sm:flex'>Add Device</p>
-                                <GoPlus />
-                            </button>
+                            <DeviceSettingDialog devices={devices} homeId={homeId} />
+                            <DeviceCreateDialog addDevice={addDevice} homePodId={homePodId} />
                         </div>
                     </div>
                 </div>
-                <div className='grid md:grid-cols-2 xl:grid-cols-5 gap-4 animate-pulse'>
+                <div className='grid md:grid-cols-2 xl:grid-cols-5 gap-4'>
                     {[...Array(5)].map((_, index) => (
-                        <Skeleton className='h-56 bg-[#272a30]' />
+                        <div key={index} className='h-56 bg-[#272a30] rounded-lg animate-pulse'></div>
                     ))}
                 </div>
             </div>
@@ -136,8 +122,8 @@ const Device = ({ homePodId }) => {
                             }`}
                             onClick={toggleEditMode}
                         >
-                            <p className='hidden sm:flex'>Edit</p>
                             <TiEdit />
+                            <p className='hidden sm:flex'>Edit</p>
                         </Button>
 
                         <DeviceSettingDialog devices={devices} homeId={homeId} />
