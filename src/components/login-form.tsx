@@ -5,14 +5,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { signIn, getUserInfo } from '@/apis/Auth/AuthService'
-import { AuthContext } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthProvider'
 import login from '@/apis/Auth/login'
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'form'>) {
     const [credentials, setCredentials] = useState({ username: '', password: '' })
     const [error, setError] = useState('')
     const [loading, setLoading] = useState(false)
-    const { setUserInfo } = useContext(AuthContext)
+    const { setUserInfo, handleLogin } = useAuth()
     const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,11 +30,13 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
                 // localStorage.setItem('token', response.data.accessToken)
                 const { userInfo, accessToken, refreshToken } = response.data
 
-                localStorage.setItem('token', accessToken)
+                handleLogin(accessToken, refreshToken)
 
-                localStorage.setItem('refreshToken', refreshToken)
+                // localStorage.setItem('token', accessToken)
 
-                // setUserInfo(userInfo)
+                // localStorage.setItem('refreshToken', refreshToken)
+
+                setUserInfo(userInfo)
 
                 navigate('/')
             } else {

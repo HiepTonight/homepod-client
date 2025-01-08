@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@radix-ui/react-separator'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
-import { AuthContext } from '@/context/AuthProvider'
+import { useAuth } from '@/context/AuthProvider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import getUserHomes from '@/apis/Homes/GetUserHomes'
 import getUserInfo from '@/apis/Auth/getUserInfo'
@@ -25,8 +25,8 @@ const page = () => {
     const [currentView, setCurrentView] = useState('information')
     const [animating, setAnimating] = useState(false)
     const [homes, setHomes] = useState([])
-    const { userInfo } = useContext(AuthContext)
-    console.log('userInfo', userInfo)
+    const { userInfo } = useAuth()
+    // console.log('userInfo', userInfo)
 
     useEffect(() => {
         if (userInfo) {
