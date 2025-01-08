@@ -9,6 +9,7 @@ import WeatherForecast from '@/pages/Home/WeatherForecast/WeatherForecast'
 import DataStatics from '@/pages/Home/DataStatics/DataStatics'
 import Devices from './device/page'
 import MyRoom from '@/pages/Home/MyRoom/MyRoom'
+import { API_ROOT, API_VERSION } from '@/utils/constants'
 import { set } from 'date-fns'
 
 const HomePage = () => {
@@ -51,7 +52,7 @@ const HomePage = () => {
 
         const connectEventSource = () => {
             const eventSource = new EventSource(
-                `http://localhost:8080/api/v1/home/sse?homePodId=${homeData?.homePodId}`
+                `${API_ROOT}${API_VERSION}/home/sse?homePodId=${homeData?.homePodId}`
             )
 
             eventSource.onopen = () => {
