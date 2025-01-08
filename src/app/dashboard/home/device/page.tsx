@@ -17,7 +17,7 @@ import { Button } from '@/components/ui/button'
 import { DeviceCreateDialog } from '@/components/device-create-dialog'
 import DeviceSettingDialog from '@/components/device-setting-dialog'
 
-const Device = ({ homePodId }) => {
+const Device = ({ homePodId, updatedDevices }) => {
     const [searchParams] = useSearchParams()
     const homeId = searchParams.get('id')
 
@@ -69,6 +69,17 @@ const Device = ({ homePodId }) => {
         fetchDevices()
     }, [homeId])
 
+    useEffect(() => {
+        if (updatedDevices.length > 0) {
+            setDevices((prevDevices) =>
+                prevDevices.map((device) => {
+                    const updated = updatedDevices.find((d) => d.id === device.id);
+                    return updated ? { ...device, ...updated } : device;
+                })
+            );
+        }
+    }, [updatedDevices]);
+
     const removeDevice = (deviceId) => {
         setDevices(devices.filter((device) => device.id !== deviceId))
     }
@@ -78,6 +89,7 @@ const Device = ({ homePodId }) => {
         setDevices((prevDevices) => [...prevDevices, deviceWithIcon])
     }
 
+    
     if (loading) {
         return (
             <div className='pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6'>

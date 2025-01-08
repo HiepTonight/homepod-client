@@ -15,6 +15,7 @@ const HomePage = () => {
     // const { onHomeNameChange } = useOutletContext()
     const homeId = searchParams.get('id')
     const [homeData, setHomeData] = useState(null)
+    const [updatedDevices, setUpdatedDevices] = useState([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -57,9 +58,13 @@ const HomePage = () => {
             }
 
             eventSource.addEventListener('DEVICE_UPDATE_EVENT', (event) => {
-                const data = JSON.parse(event.data)
-                console.log('EventSource message:', data)
-            })
+                try {
+                    const data = JSON.parse(event.data);
+                    setUpdatedDevices(data);
+                } catch (error) {
+                    console.error('Error parsing event data:', error);
+                }
+            });
 
             eventSource.addEventListener('SENSOR_DATA_UPDATE_EVENT', (event) => {
                 const data = JSON.parse(event.data)
@@ -135,7 +140,7 @@ const HomePage = () => {
                 </div>
                 <DataStatics homeId={homeId} homePodId={homeData.homePodId} className='' />
 
-                <Devices homeId={homeId} homePodId={homeData.homePodId} />
+                <Devices homeId={homeId} homePodId={homeData.homePodId} updatedDevices={updatedDevices} />
             </div>
             <MyRoom homeId={homeId} />
         </div>
