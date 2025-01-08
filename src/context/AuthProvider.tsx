@@ -1,4 +1,4 @@
-import { React, useEffect } from 'react'
+import { React, useContext, useEffect } from 'react'
 import { useState } from 'react'
 import { createContext } from 'react'
 // import Cookies from 'js-cookie'
@@ -11,6 +11,16 @@ export const AuthProvider = ({ children }) => {
     // const [userId, setUserId] = useState(Cookies.get('userId'))
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
 
+    const handleLogin = (accessToken, refreshToken) => {
+        localStorage.setItem('token', accessToken)
+
+        localStorage.setItem('refreshToken', refreshToken)
+    }
+
+    const isAuthenticated = () => {
+        return !!localStorage.getItem('token')
+    }
+
     const handleLogOut = () => {
         // Cookies.remove('token');
         // Cookies.remove('refreshToken');
@@ -21,7 +31,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('userId')
 
         setUserInfo(null)
-        window.location.reload()
+        window.location.reload
+        window.location.href = '/login'
     }
 
     // console.log('userInfo', userInfo)
@@ -40,5 +51,17 @@ export const AuthProvider = ({ children }) => {
         }
     }, [localStorage.getItem('token')])
 
-    return <AuthContext.Provider value={{ userInfo, handleLogOut, setUserId, setUserInfo }}>{children}</AuthContext.Provider>
+    return (
+        <AuthContext.Provider value={{ userInfo, handleLogOut, handleLogin, setUserId, setUserInfo, isAuthenticated }}>
+            {children}
+        </AuthContext.Provider>
+    )
+}
+
+export const useAuth = () => {
+    const context = useContext(AuthContext)
+    if (!context) {
+        throw new Error('useAuth must be used within an AuthProvider')
+    }
+    return context
 }

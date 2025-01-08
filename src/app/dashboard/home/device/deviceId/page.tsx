@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { type LucideIcon, LucideProps } from "lucide-react"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+import { type LucideIcon, LucideProps } from 'lucide-react'
 import { IoTrashOutline } from 'react-icons/io5'
 import { Switch } from '@/components/ui/switch'
 import moment from 'moment-timezone'
@@ -71,14 +82,38 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
                 isDeleting ? 'scale-0' : 'scale-100'
             }`}
         >
-            <button
+            {/* <button
                 onClick={handleDelete}
                 className={`flex justify-center items-center absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${
                     isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'
                 }`}
             >
                 <IoTrashOutline />
-            </button>
+            </button> */}
+            <AlertDialog>
+                <AlertDialogTrigger asChild>
+                    <button
+                        className={`flex justify-center items-center absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${
+                            isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'
+                        }`}
+                    >
+                        <IoTrashOutline />
+                    </button>
+                </AlertDialogTrigger>
+                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete your account and remove your data
+                            from our servers.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
             <div className='flex justify-between w-full px-4'>
                 <div className={`transition-colors duration-500 ${isChecked ? 'text-green-500' : 'text-gray-400'}`}>
                     {isChecked ? 'ON' : 'OFF'}
