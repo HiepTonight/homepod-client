@@ -19,6 +19,7 @@ import { NavProjects } from "@/components/nav-projects"
 import { NavUser } from "@/components/nav-user"
 import { TeamSwitcher } from "@/components/team-switcher"
 import { NavSite } from "@/components/nav-site"
+import { AuthContext } from '@/context/AuthProvider'
 
 import {
   Sidebar,
@@ -159,6 +160,8 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+      const { userInfo } = React.useContext(AuthContext)
+  
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
