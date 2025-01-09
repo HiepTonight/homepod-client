@@ -6,6 +6,27 @@ import { getUserInfo } from '@/apis/Auth/AuthService'
 
 export const AuthContext = createContext({})
 
+export enum AuthActionType {
+    INITIALIZE = 'INITIALIZE',
+    SIGN_IN = 'SIGN_IN',
+    SIGN_OUT = 'SIGN_OUT',
+}
+
+export interface PayloadAction<T> {
+    type: AuthActionType
+    payload: T
+}
+
+export interface AuthContextType {
+
+}
+
+// const initialState: AuthState = {
+//     isAuthenticated: false,
+//     isInitialized: false,
+//     user: null,
+// }
+
 export const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState(null)
     // const [userId, setUserId] = useState(Cookies.get('userId'))
@@ -18,6 +39,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     const isAuthenticated = () => {
+        console.log('isAuthenticated', !!localStorage.getItem('token'))
         return !!localStorage.getItem('token')
     }
 
