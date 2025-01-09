@@ -146,7 +146,7 @@ const HomePage = () => {
 
                 <Devices homeId={homeId} homePodId={homeData.homePodId} updatedDevices={updatedDevices} />
             </div>
-            <MyRoom homeId={homeId} />
+            {/* <MyRoom homeId={homeId} /> */}
         </div>
     )
 }
