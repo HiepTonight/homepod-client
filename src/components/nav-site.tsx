@@ -8,6 +8,7 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  HousePlug
 } from "lucide-react"
 
 import {
