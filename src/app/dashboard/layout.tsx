@@ -14,6 +14,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Search, Bell } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { ThemeToggle } from "@/components/global/theme-toggle"
 
 export default function Page() {
     const location = useLocation()
@@ -44,7 +45,7 @@ export default function Page() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem>
-                                    <BreadcrumbLink href='/'>Home</BreadcrumbLink>
+                                    <BreadcrumbLink href='/dashboard'>Home</BreadcrumbLink>
                                 </BreadcrumbItem>
                                 {homeId && homeName && (
                                     <>
@@ -58,8 +59,9 @@ export default function Page() {
                         </Breadcrumb>
                     </div>
                     <div className='flex items-center gap-2 px-4'>
+                        <ThemeToggle />
                         <Button className='bg-gray-600 hover:bg-gray-500 h-9 rounded-md px-3'>
-                          <Bell className='text-white' size={20}/>
+                            <Bell className='text-white' size={20} />
                         </Button>
                         <div className='relative hidden md:flex'>
                             <Input placeholder='Look for something ?' className='pl-10' />
@@ -67,7 +69,9 @@ export default function Page() {
                         </div>
                     </div>
                 </header>
-                <Outlet context={{ onHomeNameChange: handleHomeNameChange }} />
+                <main className='max-h-screen'>
+                    <Outlet context={{ onHomeNameChange: handleHomeNameChange }} />
+                </main>
             </SidebarInset>
         </SidebarProvider>
     )

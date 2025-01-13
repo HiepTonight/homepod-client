@@ -23,7 +23,7 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
     const navigate = useNavigate()
 
     const handleHomeClick = () => {
-        navigate(`/home?id=${home.id}`)
+        navigate(`/dashboard/home?id=${home.id}`)
     }
 
     const handleDelete = async () => {
