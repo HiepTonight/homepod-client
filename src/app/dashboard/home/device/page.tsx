@@ -122,9 +122,9 @@ const Device = ({ homePodId, updatedDevices }) => {
     }
 
     return (
-        <div className='pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6 transition-all duration-300'>
+        <div className='h-full pb-4 max-w col-span-2 rounded-xl shadow bg-gradient-to-r from-[#1b1c1d] to-[#111b24] p-4 md:p-6 transition-all duration-300'>
             <div className='flex justify-between items-center pb-4'>
-                <h1 className='text-lg sm:text-xl font-semibold text-white'>Device</h1>
+                <h1 className='text-lg sm:text-xl font-semibold text-white'>Quick Access</h1>
 
                 <div className='flex justify-between items-center'>
                     <div className='flex justify-between gap-2'>

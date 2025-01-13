@@ -41,7 +41,7 @@ export function LoginForm({ className, handleSignupToggle, ...props }: React.Com
 
                 setUserInfo(userInfo)
 
-                navigate('/')
+                navigate('/dashboard')
             } else {
                 setError('Invalid username or password')
             }

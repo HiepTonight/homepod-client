@@ -37,15 +37,6 @@ const MyRoom = () => {
             </div>
         </div>
 
-        {/* <div className='text-gray-500 dark:text-gray-400 sm:flex justify-start gap-8 cursor-pointer pb-8 shadow-lg'>
-            <p>Living Room</p>
-            <p>Dining Room</p>
-            <p>Bed Room</p>
-            <p>Bath Room</p>
-            <p>Backyard</p>
-            <p>Garage</p>
-        </div> */}
-
         <div className='sm:hidden'>
         <select className='w-full p-2 rounded-md bg-[#06080a] text-gray-500 mb-4'>
           {rooms.map((room, index) => (

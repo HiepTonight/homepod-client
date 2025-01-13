@@ -9,6 +9,7 @@ import WeatherForecast from '@/pages/Home/WeatherForecast/WeatherForecast'
 import DataStatics from '@/pages/Home/DataStatics/DataStatics'
 import Devices from './device/page'
 import MyRoom from '@/pages/Home/MyRoom/MyRoom'
+import { TemperatureControl } from '@/components/temperature-control'
 import { API_ROOT, API_VERSION } from '@/utils/constants'
 import { set } from 'date-fns'
 
@@ -51,9 +52,7 @@ const HomePage = () => {
         if (!homeData?.homePodId) return
 
         const connectEventSource = () => {
-            const eventSource = new EventSource(
-                `${API_ROOT}${API_VERSION}/home/sse?homePodId=${homeData?.homePodId}`
-            )
+            const eventSource = new EventSource(`${API_ROOT}${API_VERSION}/home/sse?homePodId=${homeData?.homePodId}`)
 
             eventSource.onopen = () => {
                 console.log('Connection to EventSource established successfully.')
@@ -62,12 +61,12 @@ const HomePage = () => {
 
             eventSource.addEventListener('DEVICE_UPDATE_EVENT', (event) => {
                 try {
-                    const data = JSON.parse(event.data);
-                    setUpdatedDevices(data);
+                    const data = JSON.parse(event.data)
+                    setUpdatedDevices(data)
                 } catch (error) {
-                    console.error('Error parsing event data:', error);
+                    console.error('Error parsing event data:', error)
                 }
-            });
+            })
 
             eventSource.addEventListener('SENSOR_DATA_UPDATE_EVENT', (event) => {
                 const data = JSON.parse(event.data)
@@ -143,10 +142,18 @@ const HomePage = () => {
                     <WeatherForecast homeId={homeId} homePodId={homeData.homePodId} />
                 </div>
                 <DataStatics homeId={homeId} homePodId={homeData.homePodId} className='' />
-
-                <Devices homeId={homeId} homePodId={homeData.homePodId} updatedDevices={updatedDevices} />
+                <div className='col-span-2'>
+                        {' '}
+                        <Devices homeId={homeId} homePodId={homeData.homePodId} updatedDevices={updatedDevices} />
+                    </div>
+                {/* <div className='col-span-2 grid grid-cols-3 gap-4'>
+                    
+                    <div className='col-span-1'>
+                        <TemperatureControl />
+                    </div>
+                </div> */}
             </div>
-            {/* <MyRoom homeId={homeId} /> */}
+            <MyRoom homeId={homeId} />
         </div>
     )
 }
