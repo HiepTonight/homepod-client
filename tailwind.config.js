@@ -9,6 +9,8 @@ export default {
   	container: {
   		center: true,
   		screens: {
+			'md': '700px',
+			'lg' : '1000px',
   			'2xl': '1400px'
   		}
   	},

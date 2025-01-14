@@ -1,4 +1,5 @@
-import { Card } from "@/components/ui/card"
+import { Card } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 
 export function DashboardPreview() {
     return (
@@ -6,6 +7,9 @@ export function DashboardPreview() {
             <div className='absolute inset-0 bg-gradient-to-br from-rose-500/20 via-blue-500/20 to-purple-500/20 blur-3xl opacity-50' />
             <div className='container relative'>
                 <div className='text-center max-w-2xl mx-auto mb-12'>
+                    <Badge className='mb-4' variant='outline'>
+                        Product
+                    </Badge>
                     <h2 className='text-3xl font-bold mb-4'>Helpful Dashboard for Your Entire Home</h2>
                     <p className='text-muted-foreground'>
                         From light bulbs and plugs to thermostats, cameras, locks, and other devices. Monitor and
@@ -30,7 +34,7 @@ export function DashboardPreview() {
                         {/* Dashboard content */}
                         <div className='p-6'>
                             <img
-                                loading='lazy'
+                                // loading='lazy'
                                 src='./dashboard.png'
                                 alt='Dashboard interface'
                                 width={800}
