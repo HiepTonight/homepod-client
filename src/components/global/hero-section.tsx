@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/Switch'
 import { ThermometerSnowflake } from 'lucide-react';
 
 export function HeroSection() {
@@ -61,7 +62,7 @@ export function HeroSection() {
                                     </Button>
                                 </div>
                                 <div className='flex items-center gap-2'>
-                                    <div className='relative w-12 h-6 bg-primary rounded-full'>
+                                    <div className='relative w-12 h-6 bg-primary dark:bg-slate-800 rounded-full'>
                                         <div className='absolute right-1 top-1 w-4 h-4 bg-white rounded-full' />
                                     </div>
                                     <span className='text-sm text-muted-foreground'>22°C</span>

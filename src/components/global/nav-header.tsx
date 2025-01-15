@@ -51,9 +51,9 @@ export function NavHeader() {
                 <div className='flex items-center gap-4'>
                     <ThemeToggle className={'text-gray-500'} dark={''} />
                     <a href='/dashboard'>
-                        <Button className='bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4'>
+                        <Button className='bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4 transition-all duration-300'>
                             Get Started
-                            <ArrowRight />
+                            <ArrowRight className='' />
                         </Button>
                     </a>
                 </div>

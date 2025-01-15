@@ -5,14 +5,14 @@ import { motion } from 'framer-motion'
 import { Badge } from "@/components/ui/badge"
 
 const brands = [
-  { name: "PHILIPS", logo: "/philips-logo.svg" },
+  { name: "PHILIPS", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Philips_logo_new.svg/500px-Philips_logo_new.svg.png" },
   { name: "NEST", logo: "/nest-logo.svg" },
-  { name: "XIAOMI", logo: "/xiaomi-logo.svg" },
-  { name: "HUAWEI", logo: "/huawei-logo.svg" },
-  { name: "SAMSUNG", logo: "/samsung-logo.svg" },
-  { name: "APPLE", logo: "/apple-logo.svg" },
-  { name: "GOOGLE", logo: "/google-logo.svg" },
-  { name: "AMAZON", logo: "/amazon-logo.svg" },
+  { name: "XIAOMI", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Xiaomi_logo.svg/200px-Xiaomi_logo.svg.png" },
+  { name: "HUAWEI", logo: "https://upload.wikimedia.org/wikipedia/en/thumb/0/04/Huawei_Standard_logo.svg/236px-Huawei_Standard_logo.svg.png" },
+  { name: "SAMSUNG", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/800px-Samsung_Logo.svg.png" },
+  { name: "APPLE", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/488px-Apple_logo_black.svg.png" },
+  { name: "GOOGLE", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png" },
+  { name: "AMAZON", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/640px-Amazon_logo.svg.png" },
   { name: "SONOS", logo: "/sonos-logo.svg" },
   { name: "LUTRON", logo: "/lutron-logo.svg" }
 ]
