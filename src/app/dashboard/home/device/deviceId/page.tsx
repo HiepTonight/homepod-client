@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 import {
     AlertDialog,
@@ -10,17 +12,30 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
-import { type LucideIcon, LucideProps } from 'lucide-react'
-import { IoTrashOutline } from 'react-icons/io5'
+import { type LucideIcon, Trash2 } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import moment from 'moment-timezone'
-import { formatDistanceToNow, format } from 'date-fns'
 import { deleteDevice, triggerDevice } from '@/apis/Devices/DeviceService'
 import { toast } from 'sonner'
 
-const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
+interface DeviceCardProps {
+    device: {
+        id: string
+        name: string
+        status: number
+        icon: string
+        updatedAt: string
+    }
+    removeDevice: (id: string) => void
+    isEditMode: boolean
+    homePodId: string
+}
+
+const DeviceCard: React.FC<DeviceCardProps> = ({ device, removeDevice, isEditMode, homePodId }) => {
     const [isChecked, setIsChecked] = useState(device.status === 1)
-    const [isOpen, setIsOpen] = useState(false)
     const [isDeleting, setIsDeleting] = useState(false)
     const [IconComponent, setIconComponent] = useState<LucideIcon | null>(null)
 
@@ -29,15 +44,14 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
     }, [device.status])
 
     useEffect(() => {
-        // console.log('Device icon:', device.icon)
-        import(`lucide-react`).then((icons) => {
+        import('lucide-react').then((icons) => {
             setIconComponent(icons[device.icon as keyof typeof icons] as LucideIcon)
         })
     }, [device.icon])
 
     const handleToggle = async () => {
         const currentDate = moment().tz('Asia/Ho_Chi_Minh').format('dddd, MMMM DD, YYYY [at] h:mm A')
-        toast(`${device.name} has been trigger`, {
+        toast(`${device.name} has been ${isChecked ? 'turned off' : 'turned on'}`, {
             description: currentDate,
             action: {
                 label: 'Undo',
@@ -47,10 +61,10 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
         const newStatus = isChecked ? 0 : 1
         setIsChecked(!isChecked)
         try {
-            const data = await triggerDevice(device.id, homePodId)
-            // console.log('Device triggered:', data)
+            await triggerDevice(device.id, homePodId)
         } catch (error) {
             console.error('Error triggering device:', error)
+            toast.error('Failed to trigger device. Please try again.')
         }
     }
 
@@ -60,71 +74,86 @@ const DeviceCard = ({ device, removeDevice, isEditMode, homePodId }) => {
             try {
                 await deleteDevice(device.id)
                 removeDevice(device.id)
+                toast.success(`${device.name} has been deleted`)
             } catch (error) {
                 console.error('Error deleting device:', error)
+                toast.error('Failed to delete device. Please try again.')
+                setIsDeleting(false)
             }
-        }, 300) // Match the duration of the animation
+        }, 300)
     }
 
     const updatedAt = moment(device.updatedAt).tz('Asia/Ho_Chi_Minh')
-    const isDeviceOn = device.status === 1
     const timeZone = 'Asia/Ho_Chi_Minh'
-    const currentTime = moment().tz(timeZone).format('YYYY-MM-DD HH:mm:ss')
-
-    // console.log(`Current time in ${timeZone}: ${currentTime}`)
     const timeText = isChecked
-        ? `${moment().tz(timeZone).fromNow(updatedAt)}`
-        : `${moment().tz(timeZone).format('MMM DD, YYYY, hh:mm A')}`
+        ? `${moment().tz(timeZone).from(updatedAt, true)}`
+        : `${updatedAt.format('MMM DD, YYYY, hh:mm A')}`
 
     return (
-        <div
-            className={`flex flex-col justify-around items-center bg-[#272a30] rounded-xl shadow-lg p-4 relative transition-transform duration-300 ${
-                isDeleting ? 'scale-0' : 'scale-100'
-            }`}
+        <Card
+            className={`group relative overflow-hidden transition-all duration-300 ease-in-out
+                          ${isDeleting ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}
+                          hover:shadow-lg hover:-translate-y-1 
+                          bg-gradient-to-br from-gray-50 to-gray-100 
+                          dark:from-gray-800 dark:to-gray-900
+                          border border-gray-200 dark:border-gray-700`}
         >
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <button
-                        className={`flex justify-center items-center absolute -top-2.5 -right-2.5 w-6 h-6 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${
-                            isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'
-                        }`}
+            <CardContent className='p-6'>
+                <div className='flex justify-between items-center mb-4'>
+                    <Badge variant={isChecked ? 'success' : 'secondary'} className='text-xs font-medium'>
+                        {isChecked ? 'ON' : 'OFF'}
+                    </Badge>
+                    <Switch checked={isChecked} onCheckedChange={handleToggle} />
+                </div>
+                <div className='flex justify-center items-center mb-6'>
+                    <div
+                        className={`p-4 rounded-full transition-colors duration-300 ${isChecked ? 'bg-blue-100 dark:bg-blue-900' : 'bg-gray-200 dark:bg-gray-700'}`}
                     >
-                        <IoTrashOutline />
-                    </button>
-                </AlertDialogTrigger>
-                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account and remove your data
-                            from our servers.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-            <div className='flex justify-between w-full px-4'>
-                <div className={`transition-colors duration-500 ${isChecked ? 'text-green-500' : 'text-gray-400'}`}>
-                    {isChecked ? 'ON' : 'OFF'}
+                        {IconComponent && (
+                            <IconComponent
+                                size={40}
+                                className={`transition-colors duration-300 ${isChecked ? 'text-blue-500 dark:text-blue-400' : 'text-gray-500 dark:text-gray-400'}`}
+                            />
+                        )}
+                    </div>
                 </div>
-                <Switch checked={isChecked} onCheckedChange={handleToggle} />
-            </div>
-            <div className='flex justify-center items-center mt-4 bg-[#373b41] rounded-full p-2 w-20 h-20'>
-                {IconComponent && <IconComponent size={32} />}
-            </div>
-            <div className='mt-4 flex flex-col mt-2 justify-around items-center gap-1'>
-                <h2>{device.name}</h2>
-                <div className='flex items-center gap-2'>
-                    <span
-                        className={`w-2 h-2 rounded-full transition-colors duration-500 ${isChecked ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}
-                    ></span>
-                    <p className='font-light text-gray-400'>{timeText}</p>
+                <div className='text-center'>
+                    <h2 className='text-lg font-semibold text-gray-800 dark:text-white mb-2'>{device.name}</h2>
+                    <div className='flex items-center justify-center gap-2'>
+                        <span
+                            className={`w-2 h-2 rounded-full ${isChecked ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}
+                        ></span>
+                        <p className='text-sm text-gray-500 dark:text-gray-400'>{timeText}</p>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </CardContent>
+            {isEditMode && (
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button
+                            variant='destructive'
+                            size='icon'
+                            className='absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                        >
+                            <Trash2 className='h-4 w-4' />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Delete {device.name}?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete the device and remove its
+                                data from our servers.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            )}
+        </Card>
     )
 }
 

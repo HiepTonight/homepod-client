@@ -22,7 +22,6 @@ import { Settings } from 'lucide-react'
 import { toast } from 'sonner'
 import { PlugZap, Heater, Tv, Refrigerator, SquarePower, Lightbulb, Bolt, DoorClosed } from 'lucide-react'
 
-
 const DeviceSettingDialog = ({ devices, homeId }) => {
     const [settings, setSettings] = useState({
         temperature: {
@@ -347,7 +346,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className='gap-1 bg-slate-600 text-white hover:bg-slate-500 transition-transform'>
+                <Button size='sm' className='gap-2 bg-gray-400 dark:bg-gray-800 text-white hover:bg-gray-300 dark:hover:bg-gray-600 transition-all'>
                     <Settings size={20} />
                     <p className='hidden sm:flex'>Setting</p>
                 </Button>

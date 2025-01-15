@@ -29,10 +29,10 @@ const RecentActivities = () => {
     }, [])
 
     return (
-        <div className='h-full p-4 rounded-lg shadow-lg bg-gradient-to-r from-[#1b1c1d] to-[#111b24]'>
+        <div className='h-full p-4 rounded-lg shadow-lg bg-gradient-to-br from-gray-100 to-gray-200 dark:from-[#1b1c1d] darKto-[#111b24]'>
             <div className='mb-2 flex justify-between items-center'>
-                <Label className='text-base font-medium text-white'>Recent Activities</Label>
-                <Label className='font-normal text-gray-400'>View all</Label>
+                <Label className='text-base font-medium text-gray-700 dark:text-white'>Recent Activities</Label>
+                <Label className='font-normal cursor-pointer text-gray-500 dark:text-gray-400'>View all</Label>
             </div>
             <ul className='space-y-2'>
                 {isLoading
@@ -49,13 +49,13 @@ const RecentActivities = () => {
                     : activities.map((activity) => (
                           <li
                               key={activity.id}
-                              className='text-gray-300 flex justify-between items-center hover:bg-gray-800 transition-colors duration-300 p-2 rounded-md'
+                              className='text-gray-500 dark:text-gray-300 flex justify-between items-center hover:bg-gray-300 dark:hover:bg-gray-800 transition-colors duration-300 p-2 rounded-md'
                           >
                               <div>
                                   <Label>{activity.description}</Label>
                                   <div className='text-sm text-gray-500'>{activity.timestamp}</div>
                               </div>
-                              <div className='hover:bg-gray-700 transition-colors duration-300 p-1 rounded-md'>
+                              <div className='hover:bg-gray-400 dark:hover:bg-gray-700 transition-colors duration-300 p-1 rounded-md'>
                                   <Ellipsis size={20} />
                               </div>
                           </li>

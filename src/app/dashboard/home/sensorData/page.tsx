@@ -59,9 +59,9 @@ const SensorData = ({ homePodId }) => {
     if (loading) {
         return (
             <div className='grid grid-cols-2 gap-4 justify-center'>
-                <div className='col-span-2 bg-gradient-to-r from-[#73743c] to-[#3d4210] flex flex-col justify-between p-4 rounded-lg shadow-lg'>
+                <div className='col-span-2 bg-gradient-to-br from-[#cdcf50] to-[#a9b52a] dark:from-[#73743c] dark:to-[#3d4210] flex flex-col justify-between p-4 rounded-lg shadow-lg'>
                     <div className='flex items-center justify-between'>
-                        <HiOutlineLightBulb className='text-4xl' />
+                        <HiOutlineLightBulb className='text-gray-100 text-4xl' />
                         <Switch />
                     </div>
                     <div className='flex justify-between items-end'>
@@ -77,15 +77,15 @@ const SensorData = ({ homePodId }) => {
                         </div>
                     </div>
                 </div>
-                <div className='bg-gradient-to-r from-[#2a4174] to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
-                    <p className='font-light text-xl'>Humidity</p>{' '}
+                <div className='bg-gradient-to-br from-[#446cc3] to-[#113894] dark:from-[#2a4174] dark:to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
+                    <p className='font-light text-xl text-gray-200 dark:text-white'>Humidity</p>{' '}
                     <div className='flex items-center justify-between'>
                         <RiWaterPercentLine className='text-2xl 3xl:text-3xl' />
                         <Skeleton className='h-6 w-12' />
                     </div>
                 </div>
-                <div className='bg-gradient-to-r from-[#2a4174] to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
-                    <p className='font-light text-xl'>Heat</p>
+                <div className='bg-gradient-to-br from-[#446cc3] to-[#113894] dark:from-[#2a4174] dark:to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
+                    <p className='font-light text-xl text-gray-200 dark:text-white'>Heat</p>
                     <div className='flex items-center justify-between'>
                         <LuWaves className='text-2xl 3xl:text-3xl' />
                         <Skeleton className='h-6 w-12' />
@@ -97,36 +97,36 @@ const SensorData = ({ homePodId }) => {
 
     return (
         <div className='grid grid-cols-2 gap-4 justify-center'>
-            <div className='col-span-2 bg-gradient-to-r from-[#73743c] to-[#3d4210] flex flex-col justify-between p-4 rounded-lg shadow-lg'>
+            <div className='transition-colors duration-300 col-span-2 bg-gradient-to-br from-[#cdcf50] to-[#a9b52a] dark:from-[#73743c] dark:to-[#3d4210] flex flex-col justify-between p-4 rounded-lg shadow-lg'>
                 <div className='flex items-center justify-between'>
-                    <HiOutlineLightBulb className='text-4xl' />
+                    <HiOutlineLightBulb className='text-4xl text-gray-200 dark:text-white' />
                     <Switch />
                 </div>
                 <div className='flex justify-between items-end'>
                     <div className='flex flex-col items-start'>
-                        <h1 className='font-medium'>Light</h1>
-                        <p className='font-light animate-pulse'>Device</p>
-                        <p className='font-light'>250kWh</p>
+                        <h1 className='font-medium text-gray-100 dark:text-white'>Light</h1>
+                        <p className='font-light animate-pulse text-gray-100 dark:text-white'>Device</p>
+                        <p className='font-light text-gray-100 dark:text-white'>250kWh</p>
                     </div>
                     <div className='flex flex-col items-end'>
-                        <h1 className='font-medium'>{light} % </h1>
-                        <h1 className='font-medium animate-pulse'>....</h1>
-                        <p className='font-light'>Power on time</p>
+                        <h1 className='font-medium text-gray-100 dark:text-white'>{light} % </h1>
+                        <h1 className='font-medium animate-pulse text-gray-100 dark:text-white'>....</h1>
+                        <p className='font-light text-gray-100 dark:text-white'>Power on time</p>
                     </div>
                 </div>
             </div>
-            <div className='bg-gradient-to-r from-[#2a4174] to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
-                <p className='font-light text-xl'>Humidity</p>
+            <div className='transition-colors duration-300 bg-gradient-to-br from-[#446cc3] to-[#113894] dark:from-[#2a4174] dark:to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
+                <p className='font-light text-xl text-gray-200 dark:text-white'>Humidity</p>
                 <div className='flex items-center justify-between'>
-                    <RiWaterPercentLine className='text-2xl 3xl:text-3xl' />
-                    <h1 className='font-medium text-2xl 3xl:text-3xl'>{humi} %</h1>
+                    <RiWaterPercentLine className='text-2xl 3xl:text-3xl text-gray-200 dark:text-white' />
+                    <h1 className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'>{humi} %</h1>
                 </div>
             </div>
-            <div className='bg-gradient-to-r from-[#2a4174] to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
-                <p className='font-light text-xl'>Heat</p>
+            <div className='transition-colors duration-300 bg-gradient-to-br from-[#446cc3] to-[#113894] dark:from-[#2a4174] dark:to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-lg shadow-lg'>
+                <p className='font-light text-xl text-gray-200 dark:text-white'>Heat</p>
                 <div className='flex items-center justify-between'>
-                    <LuWaves className='text-2xl 3xl:text-3xl' />
-                    <h1 className='font-medium text-2xl 3xl:text-3xl'>{temp} °C</h1>
+                    <LuWaves className='text-2xl 3xl:text-3xl text-gray-200 dark:text-white' />
+                    <h1 className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'>{temp} °C</h1>
                 </div>
             </div>
         </div>

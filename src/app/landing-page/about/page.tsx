@@ -92,7 +92,7 @@ export default function AboutPage() {
                                 </div>
                             ))}
                         </div>
-                        <div className='bg-primary rounded-3xl p-12 text-center text-white'>
+                        <div className='bg-primary dark:bg-[#085d94] rounded-3xl p-12 text-center text-white'>
                             <h2 className='text-3xl font-bold mb-6'>Join Our Team</h2>
                             <p className='max-w-2xl mx-auto mb-8'>
                                 We're always looking for talented individuals who share our passion for innovation and

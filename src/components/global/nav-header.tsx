@@ -49,13 +49,13 @@ export function NavHeader() {
                 </nav>
 
                 <div className='flex items-center gap-4'>
-                    <ThemeToggle />
-                    <Link to='/dashboard'>
+                    <ThemeToggle className={'text-gray-500'} dark={''} />
+                    <a href='/dashboard'>
                         <Button className='bg-primary hover:bg-primary/90 text-primary-foreground rounded-full px-4'>
                             Get Started
                             <ArrowRight />
                         </Button>
-                    </Link>
+                    </a>
                 </div>
             </div>
         </header>
