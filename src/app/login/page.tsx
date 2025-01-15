@@ -29,7 +29,7 @@ export default function LoginPage() {
                                 isLogin ? 'translate-x-0 opacity-100' : 'absolute top-0 -translate-x-full opacity-0'
                             }`}
                         >
-                            <LoginForm handleSignupToggle={handleToggle} />
+                            <LoginForm handleSignupToggle={handleToggle} isActive={isLogin} />
                         </div>
 
                         <div
@@ -37,7 +37,7 @@ export default function LoginPage() {
                                 !isLogin ? 'translate-x-0 opacity-100' : 'absolute top-0 translate-x-full opacity-0'
                             }`}
                         >
-                            <SignupForm handleLoginToggle={handleToggle} />
+                            <SignupForm handleLoginToggle={handleToggle} isActive={!isLogin} />
                         </div>
                     </div>
                 </div>

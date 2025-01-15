@@ -14,7 +14,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { Search, Bell } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { ThemeToggle } from "@/components/global/theme-toggle"
+import { ThemeToggle } from '@/components/global/theme-toggle'
 
 export default function Page() {
     const location = useLocation()
@@ -42,7 +42,8 @@ export default function Page() {
                     <div className='flex items-center gap-2 px-4'>
                         <SidebarTrigger className='-ml-1' />
                         <Separator orientation='vertical' className='mr-2 h-4' />
-                        <Breadcrumb>
+                        Welcome home!
+                        {/* <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink href='/dashboard'>Home</BreadcrumbLink>
@@ -56,20 +57,24 @@ export default function Page() {
                                     </>
                                 )}
                             </BreadcrumbList>
-                        </Breadcrumb>
+                        </Breadcrumb> */}
                     </div>
                     <div className='flex items-center gap-2 px-4'>
-                        <ThemeToggle />
-                        <Button className='bg-gray-600 hover:bg-gray-500 h-9 rounded-md px-3'>
-                            <Bell className='text-white' size={20} />
-                        </Button>
                         <div className='relative hidden md:flex'>
                             <Input placeholder='Look for something ?' className='pl-10' />
                             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
                         </div>
+                        <ThemeToggle className={'bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'} dark={'text-white'} />
+                        <Button
+                            variant='ghost'
+                            size='icon'
+                            className='bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
+                        >
+                            <Bell className='text-white' size={20} />
+                        </Button>
                     </div>
                 </header>
-                <main className='max-h-screen'>
+                <main className='h-full'>
                     <Outlet context={{ onHomeNameChange: handleHomeNameChange }} />
                 </main>
             </SidebarInset>

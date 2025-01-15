@@ -19,7 +19,7 @@ export default function HowItWorksPage() {
                                 Simple Steps to Transform Your Home
                             </h1>
                             <p className='text-xl text-gray-600 dark:text-gray-300'>
-                                Get started with Voltex in minutes. Our intuitive setup process makes it easy to create
+                                Get started with HomePod in minutes. Our intuitive setup process makes it easy to create
                                 your perfect smart home environment.
                             </p>
                         </div>
@@ -36,7 +36,7 @@ export default function HowItWorksPage() {
                                     step: '02',
                                     title: 'Connect Devices',
                                     description:
-                                        'Add your smart devices to the Voltex platform using our simple setup wizard.',
+                                        'Add your smart devices to the HomePod platform using our simple setup wizard.',
                                     image: 'https://images.unsplash.com/photo-1558002038-1055907df827'
                                 },
                                 {
@@ -76,20 +76,20 @@ export default function HowItWorksPage() {
                             <Accordion type='single' collapsible className='w-full'>
                                 {[
                                     {
-                                        question: 'What devices are compatible with Voltex?',
-                                        answer: "Voltex works with most major smart home brands including Philips Hue, Samsung SmartThings, Nest, Ring, and many others. We're constantly adding support for new devices."
+                                        question: 'What devices are compatible with HomePod?',
+                                        answer: "HomePod works with most major smart home brands including Philips Hue, Samsung SmartThings, Nest, Ring, and many others. We're constantly adding support for new devices."
                                     },
                                     {
-                                        question: 'Do I need special hardware to use Voltex?',
-                                        answer: 'No special hardware is required. Voltex works with your existing smart home devices through their native connectivity options (WiFi, Bluetooth, etc.).'
+                                        question: 'Do I need special hardware to use HomePod?',
+                                        answer: 'No special hardware is required. HomePod works with your existing smart home devices through their native connectivity options (WiFi, Bluetooth, etc.).'
                                     },
                                     {
-                                        question: 'How secure is the Voltex platform?',
+                                        question: 'How secure is the HomePod platform?',
                                         answer: 'Security is our top priority. We use bank-level encryption for all data transmission and storage, and regularly undergo security audits to ensure your smart home stays protected.'
                                     },
                                     {
-                                        question: 'Can multiple family members use Voltex?',
-                                        answer: 'Yes! You can add multiple users to your Voltex account and set different permission levels for each family member.'
+                                        question: 'Can multiple family members use HomePod?',
+                                        answer: 'Yes! You can add multiple users to your HomePod account and set different permission levels for each family member.'
                                     },
                                     {
                                         question: 'What happens if my internet goes down?',

@@ -24,7 +24,7 @@ const WeatherForecast = () => {
     if (!weatherData) {
         return (
             <div className='flex items-center justify-center'>
-                <div className='flex flex-col bg-gradient-to-r from-[#192131] to-[#0d2214] rounded p-4 w-full h-full animate-pulse'>
+                <div className='flex flex-col bg-gradient-to-br from-[#4869ac] to-[#23984a] dark:from-[#203b5c] dark:to-[#12321d] rounded p-4 w-full h-full animate-pulse'>
                     <div className='font-bold text-xl text-white bg-gray-700 rounded w-24 h-6 mb-2'></div>
                     <div className='text-sm text-gray-400 bg-gray-700 rounded w-32 h-4 mb-4'></div>
                     <div className='text-6xl self-center inline-flex items-center justify-center rounded-lg text-zinc-100 h-24 w-24 bg-gray-700'></div>
@@ -57,7 +57,7 @@ const WeatherForecast = () => {
 
     return (
         <div className='flex items-center justify-center'>
-            <div className='flex flex-col bg-gradient-to-r from-[#192131] to-[#0d2214] rounded-lg p-4 w-full h-full'>
+            <div className='flex flex-col bg-gradient-to-br from-[#4869ac] to-[#23984a] dark:from-[#203b5c] dark:to-[#12321d] rounded-lg p-4 w-full h-full'>
                 <div className='font-bold text-xl text-white'>{weatherData.name}</div>
                 <div className='text-sm text-gray-400'>{new Date().toLocaleDateString()}</div>
                 <div className='text-6xl self-center inline-flex items-center justify-center rounded-lg text-zinc-100 h-24 w-24'>

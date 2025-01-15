@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Badge } from '@/components/ui/badge'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -10,10 +11,13 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 
 import { useNavigate } from 'react-router-dom'
 import { IoTrashOutline } from 'react-icons/io5'
 import { IoHome } from 'react-icons/io5'
+import { House } from 'lucide-react'
 import { deleteHome } from '../../apis/Homes/HomeService'
 // import deleteHome from '../../apis/Homes/DeleteHome';
 
@@ -39,53 +43,71 @@ const HomeCard = ({ home, removeHome, isEditMode }) => {
     }
 
     return (
-        <div
-            className={`flex flex-col relative justify-between gap-2 bg-slate-900 rounded-lg shadow-lg p-4 sm:p-5 cursor-pointer transition-transform transform duration-300 ${isDeleting ? 'scale-0' : 'scale-100'}`}
+        <Card
+            className={`group relative overflow-hidden cursor-pointer transition-all duration-300 ease-in-out
+                  ${isDeleting ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}
+                  hover:shadow-lg hover:-translate-y-1 
+                  bg-gradient-to-br from-white to-gray-100 
+                  dark:from-gray-800 dark:to-gray-900
+                  border border-gray-200 dark:border-gray-700`}
             onClick={handleHomeClick}
         >
-            {/* <button
-                onClick={(e) => {
-                    e.stopPropagation()
-                    handleDelete()
-                }}
-                className={`flex justify-center items-center absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
-            >
-                <IoTrashOutline />
-            </button> */}
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            // handleDelete()
-                        }}
-                        className={`flex justify-center items-center absolute top-2 right-2 w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-700 transition-opacity duration-300 ${isEditMode ? 'opacity-100 visible' : 'opacity-0 invisible'}`}
+            <div className='absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 ease-in-out' />
+            <CardHeader className='pb-2'>
+                <div className='flex justify-between items-center'>
+                    <CardTitle className='text-lg font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300'>
+                        {home.title}
+                    </CardTitle>
+                    <House className='text-gray-500 dark:text-gray-400 text-2xl group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300' />
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p className='text-gray-600 dark:text-gray-300 text-sm line-clamp-2 group-hover:text-gray-800 dark:group-hover:text-gray-100 transition-colors duration-300 mb-3'>
+                    {home.description}
+                </p>
+                <div className='flex justify-between items-center'>
+                    <Badge
+                        variant='secondary'
+                        className='bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100'
                     >
-                        <IoTrashOutline />
-                    </button>
-                </AlertDialogTrigger>
-                <AlertDialogContent onClick={(e) => e.stopPropagation()}>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account and remove your data
-                            from our servers.
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={handleDelete}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-            <div className='flex justify-between items-center'>
-                <h1 className='text-lg sm:text-base font-semibold text-white'>{home.title}</h1>
-                <IoHome className='text-gray-400 text-2xl' />
-            </div>
-            <div className='flex justify-between items-center text-gray-400'>
-                <p>{home.description}</p>
-            </div>
-        </div>
+                        {home.rooms} {home.rooms === 1 ? 'Room' : 'Rooms'}
+                    </Badge>
+                    <Badge
+                        variant='secondary'
+                        className='bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-100'
+                    >
+                        {home.area} m²
+                    </Badge>
+                </div>
+            </CardContent>
+            {isEditMode && (
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button
+                            variant='destructive'
+                            size='icon'
+                            className='absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <IoTrashOutline className='h-4 w-4' />
+                        </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent onClick={(e) => e.stopPropagation()} className='sm:max-w-[425px]'>
+                        <AlertDialogHeader>
+                            <AlertDialogTitle>Confirm Deletion</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                Are you sure you want to delete "{home.title}"? This action cannot be undone, and all
+                                associated data will be permanently removed from our servers.
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            )}
+        </Card>
     )
 }
 

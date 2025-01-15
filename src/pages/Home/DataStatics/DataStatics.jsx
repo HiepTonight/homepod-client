@@ -4,6 +4,7 @@ import { Line } from 'react-chartjs-2';
 import getYesterdaySensorData from '../../../apis/SensorData/GetYesterdaySensorData';
 import getTodaySensorData from '../../../apis/SensorData/GetTodaySensorData';
 import get7daySensorData from '../../../apis/SensorData/Get7daySensorData';
+import { Skeleton } from '@/components/ui/skeleton'
 
 const DataStatics = ({ homePodId }) => {
     const [selectedData, setSelectedData] = useState('Temp');
@@ -185,25 +186,25 @@ const DataStatics = ({ homePodId }) => {
 
     if (loading) {
         return (
-            <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative animate-pulse">
+            <div className="w-full rounded-xl shadow bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-900 dark:to-gray-900 p-4 md:p-6 relative animate-pulse">
                 <div className="flex justify-between">
                     <div>
-                        <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Data Chart</h5>
+                        <h5 className="leading-none text-3xl font-bold text-gray-600 dark:text-white pb-2">Data Chart</h5>
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">Loading...</p>
                     </div>
                 </div>
-                <div className="h-32 bg-gray-700 rounded mt-4"></div>
-                <div className="h-10 bg-gray-700 rounded mt-4"></div>
+                <Skeleton className="h-32 bg-gray-700 rounded mt-4"/>
+                <Skeleton className="h-10 bg-gray-700 rounded mt-4"/>
             </div>
         );
     }
 
     return (
         <div>
-            <div className="w-full rounded-xl shadow bg-gradient-to-r from-[#1d1e1f] to-[#0f171f] p-4 md:p-6 relative max-h-full">
+            <div className="w-full rounded-xl shadow bg-gradient-to-br from-gray-200 to-gray-100 dark:from-gray-900 dark:to-gray-900 p-4 md:p-6 relative max-h-full">
                 <div className="flex justify-between">
                     <div>
-                        <h5 className="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2">Data Chart</h5>
+                        <h5 className="leading-none text-3xl font-bold text-gray-600 dark:text-white pb-2">Data Chart</h5>
                         <p className="text-base font-normal text-gray-500 dark:text-gray-400">{getTimelineText()}</p>
                     </div>
                     <div className="flex justify-between">

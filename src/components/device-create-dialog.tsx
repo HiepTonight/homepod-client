@@ -70,12 +70,12 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className='gap-1 bg-blue-600 text-white hover:bg-blue-500 hover:scale-105 transition-transform'>
+                <Button size='sm' className='gap-1 bg-blue-600 text-white hover:bg-blue-500 hover:scale-105 transition-transform'>
                     <Plus />
                     <p className='hidden sm:flex'>Add Device</p>
                 </Button>
             </DialogTrigger>
-            <DialogContent className='sm:max-w-[450px] bg-[#18191f] overflow-y-auto max-h-[70vh] rounded-lg shadow-lg p-4 transition-all duration-300'>
+            <DialogContent className='sm:max-w-[450px] bg-gray-100 dark:bg-[#18191f] overflow-y-auto max-h-[70vh] rounded-lg shadow-lg p-4 transition-all duration-300'>
                 <DialogHeader>
                     <DialogTitle className='flex items-center gap-3 items-start'>
                         Add your new Device
@@ -187,7 +187,7 @@ export function DeviceCreateDialog({ addDevice, homePodId }) {
                             <Button
                                 type='submit'
                                 disabled={!isFormValid || isLoading}
-                                className={!isFormValid ? 'bg-gray-400' : ''}
+                                className={!isFormValid ? 'dark:bg-gray-400' : ''}
                             >
                                 {isLoading ? <Loader className='animate-spin' size={16} /> : 'Add new Device'}
                             </Button>

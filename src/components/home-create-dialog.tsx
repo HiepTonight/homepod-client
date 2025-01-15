@@ -7,7 +7,8 @@ import {
     DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger
+    DialogTrigger,
+    DialogClose
 } from '@/components/ui/dialog'
 import { SidebarMenuSubButton } from '@/components/ui/sidebar'
 import { Input } from '@/components/ui/input'
@@ -46,6 +47,8 @@ export function HomeCreateDialog({ addHome }) {
         }
     }
 
+    const isFormValid = homeData.title && homeData.description && homeData.homePodId
+
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -56,7 +59,7 @@ export function HomeCreateDialog({ addHome }) {
                     </div>
                 </SidebarMenuSubButton>
             </DialogTrigger>
-            <DialogContent className='sm:max-w-[450px] bg-[#18191f]'>
+            <DialogContent className='sm:max-w-[450px] bg-gray-100 dark:bg-[#18191f]'>
                 <DialogHeader>
                     <DialogTitle className='flex items-center gap-3 items-start'>
                         Add your new Home
@@ -129,8 +132,21 @@ export function HomeCreateDialog({ addHome }) {
                             onChange={handleChange}
                         />
                     </div>
-                    <DialogFooter>
-                        <Button type='submit'>Save changes</Button>
+                    <DialogFooter className='flex gap-2'>
+                        <DialogClose asChild>
+                            <Button type='button' variant='secondary' onClick={() => setAlertVisible(false)}>
+                                Cancel
+                            </Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Button
+                                type='submit'
+                                disabled={!isFormValid}
+                                className={!isFormValid ? 'dark:bg-gray-400' : ''}
+                            >
+                                Save changes
+                            </Button>
+                        </DialogClose>
                     </DialogFooter>
                 </form>
             </DialogContent>

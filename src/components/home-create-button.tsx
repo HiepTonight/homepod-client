@@ -61,12 +61,12 @@ export function HomeCreateButton({ addHome }) {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className='text-white bg-blue-600 hover:bg-blue-500'>
+                <Button size='sm' className='text-white bg-blue-600 hover:bg-blue-500'>
                     <HousePlus />
                     <p className='hidden sm:flex'>Add Home</p>
                 </Button>
             </DialogTrigger>
-            <DialogContent className='sm:max-w-[450px] bg-[#18191f]'>
+            <DialogContent className='sm:max-w-[450px] bg-gray-100 dark:bg-[#18191f]'>
                 <DialogHeader>
                     <DialogTitle className='flex items-center gap-3 items-start'>
                         Add your new Home
@@ -123,9 +123,14 @@ export function HomeCreateButton({ addHome }) {
                             onChange={handleChange}
                         />
                     </div>
-                    <DialogFooter>
+                    <DialogFooter className='flex gap-2'>
                         <DialogClose asChild>
-                            <Button type='submit' disabled={!isFormValid} className={!isFormValid ? 'bg-gray-400' : ''}>
+                            <Button type='button' variant='secondary' onClick={() => setAlertVisible(false)}>
+                                Cancel
+                            </Button>
+                        </DialogClose>
+                        <DialogClose asChild>
+                            <Button type='submit' disabled={!isFormValid} className={!isFormValid ? 'dark:bg-gray-400' : ''}>
                                 Save changes
                             </Button>
                         </DialogClose>
