@@ -83,7 +83,7 @@ const Homes = () => {
                 </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-4 mt-2'>
                     {isLoading
-                        ? Array.from({ length: isXL ? 9 : 3 }).map((_, index) => (
+                        ? Array.from({ length: isXL ? 9 : 6 }).map((_, index) => (
                               <Card key={index} className='w-full'>
                                   <CardHeader className='pb-2'>
                                       <div className='flex justify-between items-center'>

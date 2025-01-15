@@ -47,7 +47,7 @@ export function ExploreMore() {
                     ].map((item, index) => (
                         <Card key={index} className='group hover:shadow-lg transition-all duration-300'>
                             <CardHeader>
-                                <div className='mb-4 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-300'>
+                                <div className='mb-4 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white dark:group-hover:text-black transition-all duration-300'>
                                     <item.icon className='w-6 h-6' />
                                 </div>
                                 <CardTitle className='text-2xl mb-2'>{item.title}</CardTitle>
@@ -57,7 +57,7 @@ export function ExploreMore() {
                                 <Link href={item.link} passHref>
                                     <Button
                                         variant='outline'
-                                        className='w-full group-hover:bg-primary group-hover:text-white transition-all duration-300'
+                                        className='w-full group-hover:bg-primary group-hover:text-white dark:group-hover:text-black transition-all duration-300'
                                     >
                                         {item.buttonText}
                                         <ArrowRight className='ml-2 w-4 h-4 transition-transform group-hover:translate-x-1' />

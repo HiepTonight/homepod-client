@@ -35,7 +35,7 @@ export function DashboardPreview() {
                         <div className='p-6'>
                             <img
                                 // loading='lazy'
-                                src='./dashboard.png'
+                                src='./dashboard1.png'
                                 alt='Dashboard interface'
                                 width={800}
                                 height={600}
