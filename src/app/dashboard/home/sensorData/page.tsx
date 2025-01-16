@@ -10,34 +10,22 @@ import getLatestSensorData from '@/apis/SensorData/getLatestSensorData.js'
 import { connect, disconnect } from '@/apis/Mqtt.js'
 import { Switch } from '@/components/ui/switch'
 import { Skeleton } from '@/components/ui/skeleton'
+import { motion, AnimatePresence } from 'framer-motion'
 import React from 'react'
 
-const SensorData = ({ homePodId }) => {
+const SensorData = ({ homePodId, updatedSensorData }) => {
     const [temp, setTemp] = useState(null)
     const [humi, setHumi] = useState(null)
     const [light, setLight] = useState(null)
     const [loading, setLoading] = useState(true)
 
-    // useEffect(() => {
-    //     const handleMessage = (data) => {
-    //         console.log('Received message:', data)
-    //         setTemp(data.temp)
-    //         setHumi(data.humi)
-    //         setLight(data.light)
-    //         setLoading(false)
-    //     }
-
-    //     // Handle connection errors
-    //     const handleError = (error) => {
-    //         console.error('MQTT error:', error)
-    //     }
-
-    //     connect(homePodId, handleMessage, handleError)
-
-    //     return () => {
-    //         disconnect(homePodId)
-    //     }
-    // }, [homePodId])
+    useEffect(() => {
+        if (updatedSensorData) {
+            setTemp(updatedSensorData.temp.toFixed(1))
+            setHumi(updatedSensorData.humi.toFixed(1))
+            setLight(updatedSensorData.light.toFixed(1))
+        }
+    }, [updatedSensorData])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -99,7 +87,7 @@ const SensorData = ({ homePodId }) => {
         <div className='grid grid-cols-2 gap-4 justify-center'>
             <div className='transition-colors duration-300 col-span-2 bg-gradient-to-br from-[#cdcf50] to-[#a9b52a] dark:from-[#73743c] dark:to-[#3d4210] flex flex-col justify-between p-4 rounded-md shadow-lg'>
                 <div className='flex items-center justify-between'>
-                    <HiOutlineLightBulb className='text-4xl text-gray-200 dark:text-white' />
+                    <HiOutlineLightBulb className='text-4xl text-gray-100 dark:text-white' />
                     <Switch />
                 </div>
                 <div className='flex justify-between items-end'>
@@ -109,7 +97,18 @@ const SensorData = ({ homePodId }) => {
                         <p className='font-light text-gray-100 dark:text-white'>250kWh</p>
                     </div>
                     <div className='flex flex-col items-end'>
-                        <h1 className='font-medium text-gray-100 dark:text-white'>{light} % </h1>
+                        <AnimatePresence mode='wait'>
+                            <motion.h1
+                                key={light}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                transition={{ duration: 0.3 }}
+                                className='font-medium text-gray-100 dark:text-white'
+                            >
+                                {light} %
+                            </motion.h1>
+                        </AnimatePresence>
                         <h1 className='font-medium animate-pulse text-gray-100 dark:text-white'>....</h1>
                         <p className='font-light text-gray-100 dark:text-white'>Power on time</p>
                     </div>
@@ -119,14 +118,36 @@ const SensorData = ({ homePodId }) => {
                 <p className='font-light text-xl text-gray-200 dark:text-white'>Humidity</p>
                 <div className='flex items-center justify-between'>
                     <RiWaterPercentLine className='text-2xl 3xl:text-3xl text-gray-200 dark:text-white' />
-                    <h1 className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'>{humi} %</h1>
+                    <AnimatePresence mode='wait'>
+                        <motion.h1
+                            key={humi}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                            className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'
+                        >
+                            {humi} %
+                        </motion.h1>
+                    </AnimatePresence>
                 </div>
             </div>
             <div className='transition-colors duration-300 bg-gradient-to-br from-[#446cc3] to-[#113894] dark:from-[#2a4174] dark:to-[#091a41] flex flex-col justify-center p-4 gap-4 rounded-md shadow-lg'>
                 <p className='font-light text-xl text-gray-200 dark:text-white'>Heat</p>
                 <div className='flex items-center justify-between'>
                     <LuWaves className='text-2xl 3xl:text-3xl text-gray-200 dark:text-white' />
-                    <h1 className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'>{temp} °C</h1>
+                    <AnimatePresence mode='wait'>
+                        <motion.h1
+                            key={temp}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -10 }}
+                            transition={{ duration: 0.3 }}
+                            className='font-medium text-2xl 3xl:text-3xl text-gray-200 dark:text-white'
+                        >
+                            {temp} °C
+                        </motion.h1>
+                    </AnimatePresence>
                 </div>
             </div>
         </div>
