@@ -207,7 +207,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
     const DeviceControls = ({ sensor, condition, isSchedule }) => (
         <div className='mt-2'>
             <div className='flex justify-between items-center'>
-                <Label className='block text-sm font-medium text-gray-200'>
+                <Label className='block text-sm font-medium text-gray-500 dark:text-gray-200'>
                     Devices to Control {isSchedule ? '' : `(${condition})`}
                 </Label>
                 <div className='relative'>
@@ -215,7 +215,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                         <Button
                             onClick={() => toggleEditMode(sensor, condition)}
                             variant={editMode[`${sensor}${condition}`] ? 'default' : 'secondary'}
-                            className='hover:scale-105 transition-transform h-8 w-8 p-0 text-sm'
+                            className='hover:scale-105 bg-gray-300 dark:bg-gray-600 transition-transform h-8 w-8 p-0 text-sm'
                         >
                             <TiEdit />
                         </Button>
@@ -351,7 +351,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                     <p className='hidden sm:flex'>Setting</p>
                 </Button>
             </DialogTrigger>
-            <DialogContent className='sm:max-w-[1200px] bg-[#18191f] overflow-y-auto max-h-[90vh] rounded-lg shadow-xl p-10 transition-all duration-300 hover:shadow-2xl'>
+            <DialogContent className='sm:max-w-[1200px] dark:bg-[#18191f] overflow-y-auto max-h-[90vh] rounded-lg shadow-xl p-10 transition-all duration-300 hover:shadow-2xl'>
                 <DialogHeader>
                     <div className='flex items-center gap-3 justify-between'>
                         <div className=''>
@@ -378,7 +378,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
                     {controlType === 'schedule' && (
-                        <div className='mb-6 bg-[#272a30] rounded-lg p-4 shadow-lg transition-transform hover:scale-[1.01]'>
+                        <div className='mb-6 dark:bg-[#272a30] rounded-lg p-4 shadow-lg transition-transform hover:scale-[1.01]'>
                             <h3 className='text-xl font-semibold capitalize mb-2 text-white'>Schedule</h3>
                             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                 <div>
@@ -437,11 +437,11 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                     )}
                     {controlType === 'threshold' && (
                         <>
-                            <div className='mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg'>
-                                <h3 className='text-xl font-semibold capitalize mb-2 text-white'>Temperature</h3>
+                            <div className='mb-6 bg-gray-100 dark:bg-[#272a30] rounded-lg p-2 shadow-lg'>
+                                <h3 className='text-xl font-semibold capitalize mb-2 text-gray-700 dark:text-white'>Temperature</h3>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>
                                             High Threshold
                                         </Label>
                                         <Input
@@ -454,7 +454,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                                         <DeviceControls sensor='temperature' condition='high' />
                                     </div>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>Low Threshold</Label>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>Low Threshold</Label>
                                         <Input
                                             type='number'
                                             name='temperature.low'
@@ -466,11 +466,11 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg'>
-                                <h3 className='text-xl font-semibold capitalize mb-2 text-white'>Humidity</h3>
+                            <div className='mb-6 bg-gray-100 dark:bg-[#272a30] rounded-lg p-2 shadow-lg'>
+                                <h3 className='text-xl font-semibold capitalize mb-2 text-gray-700 dark:text-white'>Humidity</h3>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>
                                             High Threshold
                                         </Label>
                                         <Input
@@ -483,7 +483,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                                         <DeviceControls sensor='humidity' condition='high' />
                                     </div>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>Low Threshold</Label>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>Low Threshold</Label>
                                         <Input
                                             type='number'
                                             name='humidity.low'
@@ -495,11 +495,11 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='mb-6 bg-[#272a30] rounded-lg p-2 shadow-lg'>
-                                <h3 className='text-xl font-semibold capitalize mb-2 text-white'>Light</h3>
+                            <div className='mb-6 bg-gray-100 dark:bg-[#272a30] rounded-lg p-2 shadow-lg'>
+                                <h3 className='text-xl font-semibold capitalize mb-2 text-gray-700 dark:text-white'>Light</h3>
                                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>
                                             High Threshold
                                         </Label>
                                         <Input
@@ -512,7 +512,7 @@ const DeviceSettingDialog = ({ devices, homeId }) => {
                                         <DeviceControls sensor='light' condition='high' />
                                     </div>
                                     <div>
-                                        <Label className='block text-sm font-medium text-gray-400'>Low Threshold</Label>
+                                        <Label className='block text-sm font-medium text-gray-600 dark:text-gray-400'>Low Threshold</Label>
                                         <Input
                                             type='number'
                                             name='light.low'
