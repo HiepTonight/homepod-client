@@ -34,6 +34,7 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "framer-motion": "^11.17.0",
+    "input-otp": "^1.4.2",
     "lucide-react": "^0.469.0",
     "moment-timezone": "^0.5.46",
     "mqtt": "^5.10.3",
