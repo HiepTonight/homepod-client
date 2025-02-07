@@ -18,6 +18,7 @@ const introspectToken = async (token) => {
 
 export {
     signIn,
+    signUp,
     getUserInfo,
     introspectToken
 }
