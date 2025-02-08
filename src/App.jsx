@@ -14,7 +14,6 @@ import Login from './app/login/page.tsx'
 import Home from './app/dashboard/home/page.tsx'
 import Setting from './app/dashboard/setting/page.tsx'
 import ProtectedRoutes from './utils/ProtectedRoutes'
-import OauthCallback from './utils/OauthCallBack.tsx'
 
 import { ThemeProvider } from './context/ThemeProvider.tsx'
 import LandingPageLayout from './app/landing-page/layout.tsx'
