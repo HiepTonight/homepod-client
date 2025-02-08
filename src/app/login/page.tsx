@@ -2,10 +2,46 @@ import { GalleryVerticalEnd, HousePlug } from 'lucide-react'
 import { SiHomeassistant } from 'react-icons/si'
 import { SignupForm } from '@/components/signup-form'
 import { LoginForm } from '@/components/login-form'
-import { useState } from 'react'
+import { useAuth } from '@/context/AuthProvider'
+import { googleSignInCallback } from '@/apis/Auth/AuthService'
 
-export default function LoginPage() {
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { set } from 'date-fns'
+
+export default function LoginPage({ state }) {
+    const navigate = useNavigate()
+    const { handleLogin, setUserInfo } = useAuth()
+    const [googleCallback, setGoogleCallback] = useState('')
     const [isLogin, setIsLogin] = useState(true)
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const code = urlParams.get('code')
+        setGoogleCallback(state)
+        const handleGoogleCallback = async () => {
+            try {
+                setLoading(true)
+
+                const response = await googleSignInCallback(code)
+                console.log('response', response)
+                const { userInfo, accessToken, refreshToken } = response
+
+                handleLogin(accessToken, refreshToken)
+                setUserInfo(userInfo)
+                navigate('/dashboard')
+            } catch (error) {
+                console.error('Error handling Google callback:', error)
+                navigate('/login')
+            } finally {
+                setLoading(false)
+            }
+        }
+        if (googleCallback === 'true') {
+            handleGoogleCallback()
+        }
+    }, [navigate])
 
     const handleToggle = () => {
         setIsLogin(!isLogin)
@@ -29,7 +65,12 @@ export default function LoginPage() {
                                 isLogin ? 'translate-x-0 opacity-100' : 'absolute top-0 -translate-x-full opacity-0'
                             }`}
                         >
-                            <LoginForm handleSignupToggle={handleToggle} isActive={isLogin} />
+                            <LoginForm
+                                handleSignupToggle={handleToggle}
+                                isActive={isLogin}
+                                loading={loading}
+                                setLoading={setLoading}
+                            />
                         </div>
 
                         <div
