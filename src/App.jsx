@@ -14,6 +14,7 @@ import Login from './app/login/page.tsx'
 import Home from './app/dashboard/home/page.tsx'
 import Setting from './app/dashboard/setting/page.tsx'
 import ProtectedRoutes from './utils/ProtectedRoutes'
+import OauthCallback from './utils/OauthCallBack.tsx'
 
 import { ThemeProvider } from './context/ThemeProvider.tsx'
 import LandingPageLayout from './app/landing-page/layout.tsx'
@@ -39,6 +40,7 @@ function App() {
                         <Route path='/about' element={<AboutPage />} />
                         <Route path='/how-it-works' element={<HowItWorksPage />} />
                         <Route path='/pricing' element={<PricingPage />} />
+                        <Route path='/auth/google/callback' element={<Login state={'true'} />} />
                         {/* <Route path='/blog' element={<BlogPage />} />
                         <Route path='/blog/:id' element={<BlogPostPage />} /> */}
 
