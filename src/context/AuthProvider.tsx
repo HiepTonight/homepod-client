@@ -9,7 +9,7 @@ export const AuthContext = createContext({})
 export enum AuthActionType {
     INITIALIZE = 'INITIALIZE',
     SIGN_IN = 'SIGN_IN',
-    SIGN_OUT = 'SIGN_OUT',
+    SIGN_OUT = 'SIGN_OUT'
 }
 
 export interface PayloadAction<T> {
@@ -17,9 +17,7 @@ export interface PayloadAction<T> {
     payload: T
 }
 
-export interface AuthContextType {
-
-}
+export interface AuthContextType {}
 
 // const initialState: AuthState = {
 //     isAuthenticated: false,
@@ -43,6 +41,10 @@ export const AuthProvider = ({ children }) => {
         return !!localStorage.getItem('token')
     }
 
+    const handleOauthState = (oauthState) => {
+        localStorage.setItem('oauth-state', oauthState)
+    }
+
     const handleLogOut = () => {
         // Cookies.remove('token');
         // Cookies.remove('refreshToken');
@@ -51,6 +53,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('token')
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('userId')
+        localStorage.removeItem('oauth-state')
 
         setUserInfo(null)
         window.location.reload
@@ -74,7 +77,9 @@ export const AuthProvider = ({ children }) => {
     }, [localStorage.getItem('token')])
 
     return (
-        <AuthContext.Provider value={{ userInfo, handleLogOut, handleLogin, setUserId, setUserInfo, isAuthenticated }}>
+        <AuthContext.Provider
+            value={{ userInfo, handleLogOut, handleLogin, handleOauthState, setUserId, setUserInfo, isAuthenticated }}
+        >
             {children}
         </AuthContext.Provider>
     )

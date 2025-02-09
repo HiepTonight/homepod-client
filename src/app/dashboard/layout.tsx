@@ -15,6 +15,7 @@ import { Search, Bell } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from '@/components/global/theme-toggle'
+import { NotificationButton } from '@/components/notification-button'
 
 export default function Page() {
     const location = useLocation()
@@ -65,13 +66,14 @@ export default function Page() {
                             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
                         </div>
                         <ThemeToggle className={'bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'} dark={'text-white'} />
-                        <Button
+                        {/* <Button
                             variant='ghost'
                             size='icon'
                             className='bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'
                         >
                             <Bell className='text-white' size={20} />
-                        </Button>
+                        </Button> */}
+                        <NotificationButton />
                     </div>
                 </header>
                 <main className='h-full'>

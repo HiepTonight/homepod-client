@@ -19,7 +19,7 @@ import { Sparkles, HousePlus, AlertCircle } from 'lucide-react'
 import createHome from '../apis/Homes/CreateHome'
 import { DialogClose } from '@radix-ui/react-dialog'
 
-export function HomeCreateButton({ addHome }) {
+export function HomeCreateButton({ addHome, title }) {
     const [homeData, setHomeData] = useState({
         title: '',
         description: '',
@@ -63,7 +63,7 @@ export function HomeCreateButton({ addHome }) {
             <DialogTrigger asChild>
                 <Button size='sm' className='text-white bg-blue-600 hover:bg-blue-500'>
                     <HousePlus />
-                    <p className='hidden sm:flex'>Add Home</p>
+                    {title ? <p className='hidden sm:flex'>{title}</p> : <p className='hidden sm:flex'>Add Home</p>}
                 </Button>
             </DialogTrigger>
             <DialogContent className='sm:max-w-[450px] bg-gray-100 dark:bg-[#18191f]'>
@@ -130,7 +130,11 @@ export function HomeCreateButton({ addHome }) {
                             </Button>
                         </DialogClose>
                         <DialogClose asChild>
-                            <Button type='submit' disabled={!isFormValid} className={!isFormValid ? 'dark:bg-gray-400' : ''}>
+                            <Button
+                                type='submit'
+                                disabled={!isFormValid}
+                                className={!isFormValid ? 'dark:bg-gray-400' : ''}
+                            >
                                 Save changes
                             </Button>
                         </DialogClose>
