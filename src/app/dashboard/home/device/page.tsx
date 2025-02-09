@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { DeviceCreateDialog } from '@/components/device-create-dialog'
 import DeviceSettingDialog from '@/components/device-setting-dialog'
+import { LampDesk } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion'
 
 const Device = ({ homePodId, updatedDevices }) => {
@@ -158,6 +159,19 @@ const Device = ({ homePodId, updatedDevices }) => {
                             </CardContent>
                         </Card>
                     ))}
+                </div>
+            ) : devices.length === 0 ? (
+                <div className='flex flex-col gap-4 h-full items-center justify-center'>
+                    <div className='rounded-full bg-accent w-20 h-20 flex items-center justify-center'>
+                        <LampDesk size={40} className='stroke-primary' />
+                    </div>
+                    <div className='flex flex-col gap-1 text-center'>
+                        <p className='font-bold text-gray-600'>No devices created yet!</p>
+                        <p className='text-sm text-muted-foreground'>
+                            Click the button below to create your first device
+                        </p>
+                    </div>
+                    <DeviceCreateDialog addDevice={addDevice} homePodId={homePodId} />
                 </div>
             ) : (
                 <AnimatePresence>
