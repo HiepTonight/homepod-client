@@ -57,7 +57,7 @@ export default function LoginPage() {
                     console.log('response', response)
                     const { userInfo, accessToken, refreshToken } = response
 
-                    handleLogin(accessToken, refreshToken)
+                    handleLogin(accessToken, refreshToken , userInfo)
                     setUserInfo(userInfo)
                     navigate('/dashboard')
                 } catch (error) {

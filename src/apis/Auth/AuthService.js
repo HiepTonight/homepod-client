@@ -1,7 +1,18 @@
 import axiosClient from '../axiosClient'
 
-const signIn = async (body) => {
-    return await axiosClient.post('/user/login', body)
+const signIn = async (credentials) => {
+    try {
+        const response = await axiosClient.post('/user/login', credentials)
+        if (response.data && response.data.success) {
+            // console.log('Sign in response:', response.data.data)
+            return response.data.data
+        } else {
+            throw new Error(response.data.message || 'Failed to sign in')
+        }
+    } catch (error) {
+        console.error('Error signing in:', error)
+        throw error
+    }
 }
 
 const signUp = async (body) => {
