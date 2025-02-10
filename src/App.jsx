@@ -40,7 +40,7 @@ function App() {
                         <Route path='/about' element={<AboutPage />} />
                         <Route path='/how-it-works' element={<HowItWorksPage />} />
                         <Route path='/pricing' element={<PricingPage />} />
-                        <Route path='/auth/google/callback' element={<OauthCallback />} />
+                        <Route path='auth/google/callback' element={<OauthCallback />} />
                         {/* <Route path='/blog' element={<BlogPage />} />
                         <Route path='/blog/:id' element={<BlogPostPage />} /> */}
 
