@@ -12,7 +12,7 @@ import { set } from 'date-fns'
 import { toast } from 'sonner'
 import { waitFor } from '@/lib/waitFor'
 
-export default function LoginPage({ state }) {
+export default function LoginPage() {
     const navigate = useNavigate()
     const { handleLogin, setUserInfo } = useAuth()
     const [googleCallback, setGoogleCallback] = useState('')
