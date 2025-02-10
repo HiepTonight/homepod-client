@@ -66,7 +66,7 @@ const Homes = () => {
     }
 
     return (
-        <div className='p-4 flex flex-col lg:grid lg:grid-cols-3 gap-4 h-full'>
+        <div className='px-4 py-1 flex flex-col lg:grid lg:grid-cols-3 gap-4 h-full'>
             <div className=' justify-around gap-4  p-5 rounded-lg shadow-lg col-span-2 bg-gradient-to-br from-gray-200 to-gray-300 dark:bg-gradient-to-r dark:from-[#1b2a55] dark:to-[#081d41]'>
                 <div className='flex justify-between items-center pb-2'>
                     <h1 className='text-sm sm:text-xl font-medium text-gray-600 dark:text-white items-center'>

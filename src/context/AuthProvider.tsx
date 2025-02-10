@@ -19,6 +19,17 @@ export interface PayloadAction<T> {
 
 export interface AuthContextType {}
 
+export interface UserInfo {
+    username: string
+    displayName: string
+    email: string
+    role?: string
+    avatar?: string
+    activated: boolean
+    phone?: string
+    about?: string
+}
+
 // const initialState: AuthState = {
 //     isAuthenticated: false,
 //     isInitialized: false,
@@ -26,14 +37,18 @@ export interface AuthContextType {}
 // }
 
 export const AuthProvider = ({ children }) => {
-    const [userInfo, setUserInfo] = useState(null)
+    const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem('userInfo')))
     // const [userId, setUserId] = useState(Cookies.get('userId'))
     const [userId, setUserId] = useState(localStorage.getItem('userId'))
+    const [token, setToken] = useState(localStorage.getItem('token'))
+
 
     const handleLogin = (accessToken, refreshToken) => {
         localStorage.setItem('token', accessToken)
 
         localStorage.setItem('refreshToken', refreshToken)
+
+        localStorage.setItem('userInfo', JSON.stringify(userInfo))
     }
 
     const isAuthenticated = () => {
@@ -54,6 +69,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('userId')
         localStorage.removeItem('oauth-state')
+        localStorage.removeItem('userInfo')
 
         setUserInfo(null)
         window.location.reload
@@ -64,17 +80,34 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         // call api info
-        if (localStorage.getItem('token')) {
+        if (token && !userInfo) {
             getUserInfo()
                 .then((res) => {
-                    setUserInfo(res.data.data)
-                    // console.log('res', res.data.data)
+                    setUserInfo(res)
+                    localStorage.setItem('userInfo', JSON.stringify(res))
+                    console.log('res', res)
                 })
                 .catch((err) => {
                     console.log(err)
                 })
         }
-    }, [localStorage.getItem('token')])
+    }, [token])
+
+    // useEffect(() => {
+    //     const fetchUserInfo = async () => {
+    //         if (localStorage.getItem('token')) {
+    //             getUserInfo()
+    //                 .then((res) => {
+    //                     setUserInfo(res.data.data)
+    //                     // console.log('res', res.data.data)
+    //                 })
+    //                 .catch((err) => {
+    //                     console.log(err)
+    //                 })
+    //         }
+    //     }
+    //     fetchUserInfo()
+    // }, [localStorage.getItem('token')])
 
     return (
         <AuthContext.Provider

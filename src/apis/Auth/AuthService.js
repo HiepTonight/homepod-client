@@ -47,7 +47,18 @@ const googleSignInCallback = async (code) => {
 } 
 
 const getUserInfo = async () => {
-    return await axiosClient.get('/user/me')
+    try {
+        const response = await axiosClient.get('/user/me')
+        if (response.data && response.data.success) {
+            // console.log('User info:', response.data.data)
+            return response.data.data
+        } else {
+            throw new Error(response.data.message || 'Failed to fetch user info')
+        }
+    } catch (error) {
+        console.error('Error fetching user info:', error)
+        throw error
+    }
 }
 
 const introspectToken = async (token) => {
