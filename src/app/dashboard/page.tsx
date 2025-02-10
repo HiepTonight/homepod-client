@@ -12,7 +12,7 @@ import { getUserHomes } from '@/apis/Homes/HomeService'
 import RecentActivities from '@/components/recent-activities'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { InboxIcon, LampDesk  } from 'lucide-react'
+import { InboxIcon, LampDesk, LampCeiling   } from 'lucide-react'
 
 interface HomeProps {
     onHomeNameChange: (name: string) => void
@@ -107,11 +107,11 @@ const Homes = () => {
                     </div>
                 ) : homes.length === 0 ? (
                     <div className='flex flex-col gap-4 items-center justify-center mt-44'>
-                        <div className='rounded-full bg-accent w-20 h-20 flex items-center justify-center'>
-                            <InboxIcon size={40} className='stroke-primary' />
+                        <div className='rounded-full bg-accent w-24 h-24 flex items-center justify-center'>
+                            <LampCeiling size={40} className='stroke-primary' />
                         </div>
                         <div className='flex flex-col gap-1 text-center'>
-                            <p className='font-bold text-gray-600'>No homes created yet!</p>
+                            <p className='font-bold text-gray-600 dark:text-gray-200'>No homes created yet!</p>
                             <p className='text-sm text-muted-foreground'>
                                 Click the button below to create your first home
                             </p>
