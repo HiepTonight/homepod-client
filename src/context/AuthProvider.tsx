@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token'))
 
 
-    const handleLogin = (accessToken, refreshToken) => {
+    const handleLogin = (accessToken, refreshToken, userInfo) => {
         localStorage.setItem('token', accessToken)
 
         localStorage.setItem('refreshToken', refreshToken)
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         // call api info
-        if (token && !userInfo) {
+        if (token && !userInfo || token && userInfo === null || token && userInfo === undefined) {
             getUserInfo()
                 .then((res) => {
                     setUserInfo(res)

@@ -34,33 +34,25 @@ export function LoginForm({
         e.preventDefault()
         setLoading(true)
         try {
-            const response = await login(credentials)
+            const response = await signIn(credentials)
 
-            if (response.data && response.data.accessToken) {
-                // localStorage.setItem('token', response.data.accessToken)
-                const { userInfo, accessToken, refreshToken } = response.data
+            const { userInfo, accessToken, refreshToken } = response
 
-                handleLogin(accessToken, refreshToken)
+            handleLogin(accessToken, refreshToken, userInfo)
 
-                // localStorage.setItem('token', accessToken)
+            setUserInfo(userInfo)
 
-                // localStorage.setItem('refreshToken', refreshToken)
-
-                setUserInfo(userInfo)
-
-                navigate('/dashboard')
-            } else {
-                setError('Invalid username or password')
-            }
+            navigate('/dashboard')
+            
         } catch (error) {
             setError('Invalid username or password')
-            toast('Device have been created', {
-                description: 'Your device have been successfully created.',
-                action: {
-                    label: 'Undo',
-                    onClick: () => console.log('Undo')
-                }
-            })
+            // toast('Device have been created', {
+            //     description: 'Your device have been successfully created.',
+            //     action: {
+            //         label: 'Undo',
+            //         onClick: () => console.log('Undo')
+            //     }
+            // })
         } finally {
             setLoading(false)
         }
