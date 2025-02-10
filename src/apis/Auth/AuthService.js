@@ -10,7 +10,7 @@ const signUp = async (body) => {
 
 const oAuthSignIn = async (loginType) => {
     try {
-        const response = await axiosClient.post('/user/oauth/soccial-login', {
+        const response = await axiosClient.post('/user/oauth/social-login', {
             params: {
                 loginType: loginType
             }

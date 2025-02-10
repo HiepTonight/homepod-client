@@ -1,6 +1,6 @@
-// export const API_ROOT = "http://localhost:8080";
+export const API_ROOT = "http://localhost:8080";
 
-export const API_ROOT = "https://smarthome-server-f5cl.onrender.com";
+// export const API_ROOT = "https://smarthome-server-f5cl.onrender.com";
 export const API_VERSION = "/api/v1";
 
 

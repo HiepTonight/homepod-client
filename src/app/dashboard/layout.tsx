@@ -65,7 +65,10 @@ export default function Page() {
                             <Input placeholder='Look for something ?' className='pl-10' />
                             <Search className='absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400' />
                         </div>
-                        <ThemeToggle className={'bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'} dark={'text-white'} />
+                        <ThemeToggle
+                            className={'bg-gray-400 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700'}
+                            dark={'text-white'}
+                        />
                         {/* <Button
                             variant='ghost'
                             size='icon'
