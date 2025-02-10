@@ -13,8 +13,8 @@ import Dashboard from './app/dashboard/page.tsx'
 import Login from './app/login/page.tsx'
 import Home from './app/dashboard/home/page.tsx'
 import Setting from './app/dashboard/setting/page.tsx'
-import CallBack from './components/callback.tsx'
 import ProtectedRoutes from './utils/ProtectedRoutes'
+import OauthCallback from './app/login/oauth-callback/page.tsx'
 
 import { ThemeProvider } from './context/ThemeProvider.tsx'
 import LandingPageLayout from './app/landing-page/layout.tsx'
@@ -40,7 +40,7 @@ function App() {
                         <Route path='/about' element={<AboutPage />} />
                         <Route path='/how-it-works' element={<HowItWorksPage />} />
                         <Route path='/pricing' element={<PricingPage />} />
-                        <Route path='/auth/google/callback' element={<CallBack />} />
+                        <Route path='/auth/google/callback' element={<OauthCallback />} />
                         {/* <Route path='/blog' element={<BlogPage />} />
                         <Route path='/blog/:id' element={<BlogPostPage />} /> */}
 
