@@ -102,7 +102,7 @@ const HomePage = () => {
 
     if (loading) {
         return (
-            <div className='p-5'>
+            <div className='px-4'>
                 <div className='flex flex-col xl:grid xl:grid-cols-2 gap-4 pb-5'>
                     <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4'>
                         <Skeleton className='h-72 mb-4' />
@@ -119,7 +119,7 @@ const HomePage = () => {
     if (!homeData) {
         return (
             <div>
-                <div className='p-5'>
+                <div className='px-4 py-1'>
                     <div className='flex flex-col xl:grid xl:grid-cols-2 gap-4 pb-5'>
                         <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4'>
                             <Skeleton className='h-72 mb-4' />
@@ -135,7 +135,7 @@ const HomePage = () => {
     }
 
     return (
-        <div className='p-5'>
+        <div className='px-4 py-1'>
             <div className='flex flex-col xl:grid xl:grid-cols-2 gap-4 pb-5'>
                 <div className='flex flex-col sm:grid sm:grid-cols-2 gap-4'>
                     <SensorData homeId={homeId} homePodId={homeData.homePodId} updatedSensorData={updatedSensorData} />
