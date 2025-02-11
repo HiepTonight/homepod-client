@@ -34,11 +34,17 @@ The HomePod application allows users to:
 
 ## System Architecture
 
-<p align="center">
-  <img src="public/homepod-system-architecture.png" alt="HomePod System Architecture">
-</p>
+![Image](https://github.com/user-attachments/assetsf286c8f3-fa95-4833-b49a-b3a1b91c69f6)
 
 ## Demo
+
+![Image](https://github.com/user-attachments/assets/2f97ef09-f974-48af-ad12-8fd48f0984d6)
+
+![Image](https://github.com/user-attachments/assets/cdee8a72-0db9-4100-8747-3b1d9e189402)
+
+![Image](https://github.com/user-attachments/assets/d815081a-68a4-4161-8804-d2bc0aa5b2cd)
+
+![Image](https://github.com/user-attachments/assets/10a3b56c-854a-407c-860a-6c8274bd97a4)
 
 ## Installation
 
