@@ -1,13 +1,3 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-
 # HomePod - Smart Home Automation
 
 HomePod is an innovative smart home automation solution designed to bring modern convenience and connectivity to your living space. Leveraging cutting-edge technologies such as React, Spring Boot, MQTT, and BLE Mesh, HomePod creates a seamless ecosystem that interconnects various smart devices within your home.
@@ -16,6 +6,8 @@ HomePod is an innovative smart home automation solution designed to bring modern
 
 - [Introduction](#introduction)
 - [Features](#features)
+- [System Architecture](#system-architecture)
+- [Demo](#demo)
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
@@ -39,6 +31,14 @@ The HomePod application allows users to:
 - **Responsive Design**: Optimized for both desktop and mobile devices.
 - **User Authentication**: Secure login and registration.
 - **Notifications**: Receive notifications for important events.
+
+## System Architecture
+
+<p align="center">
+  <img src="public/homepod-system-architecture.png" alt="HomePod System Architecture">
+</p>
+
+## Demo
 
 ## Installation
 
