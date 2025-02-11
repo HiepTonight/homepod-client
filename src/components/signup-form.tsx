@@ -9,6 +9,9 @@ import { Progress } from '@/components/ui/progress'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import { useAuth } from '@/context/AuthProvider'
+import { useNavigate } from 'react-router-dom'
+import { isUsernameExist, isEmailExist, signUp, otpVerify } from '@/apis/Auth/AuthService'
 
 export function SignupForm({
     className,
@@ -16,15 +19,20 @@ export function SignupForm({
     isActive,
     ...props
 }: React.ComponentPropsWithoutRef<'div'>) {
+    const { handleLogin, setUserInfo } = useAuth()
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState({
         username: '',
         email: '',
         password: '',
+        confirmPassword: '',
         otp: ''
     })
     const [errors, setErrors] = useState<{ [key: string]: string }>({})
     const [isLoading, setIsLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+    const navigate = useNavigate()
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
@@ -41,28 +49,51 @@ export function SignupForm({
         }
     }
 
-    const validateStep = () => {
+    const validateStep = async () => {
         const newErrors: { [key: string]: string } = {}
 
         switch (step) {
             case 1:
                 if (formData.username.length < 3) {
                     newErrors.username = 'Username must be at least 3 characters long'
+                } else {
+                    try {
+                        const notValid = await isUsernameExist(formData.username)
+                        if (notValid) {
+                            newErrors.username = 'Username already exists'
+                        }
+                    } catch (error) {
+                        console.error('Error checking username:', error)
+                        newErrors.username = 'An error occurred. Please try again.'
+                    }
                 }
                 break
             case 2:
                 if (!/\S+@\S+\.\S+/.test(formData.email)) {
                     newErrors.email = 'Please enter a valid email address'
+                } else {
+                    try {
+                        const notValid = await isEmailExist(formData.email)
+                        if (notValid) {
+                            newErrors.email = 'Email already exists'
+                        }
+                    } catch (error) {
+                        console.error('Error checking email:', error)
+                        newErrors.email = 'An error occurred. Please try again.'
+                    }
                 }
                 break
             case 3:
                 if (formData.password.length < 8) {
                     newErrors.password = 'Password must be at least 8 characters long'
                 }
+                if (formData.password !== formData.confirmPassword) {
+                    newErrors.confirmPassword = 'Passwords do not match'
+                }
                 break
             case 4:
                 if (formData.otp.length !== 6) {
-                    newErrors.otp = 'Please enter a valid 6-digit OTP'
+                    newErrors.otp = 'Please enter a valid 6-digit OTP was sent to your email'
                 }
                 break
         }
@@ -71,9 +102,14 @@ export function SignupForm({
         return Object.keys(newErrors).length === 0
     }
 
-    const handleNext = () => {
-        if (validateStep() && step < 4) {
-            setStep((prev) => prev + 1)
+    const handleNext = async () => {
+        if (await validateStep()) {
+            if (step === 3) {
+                await handleCreateAccountAndSendOtp()
+            }
+            if (step < 4) {
+                setStep((prev) => prev + 1)
+            }
         }
     }
 
@@ -81,17 +117,36 @@ export function SignupForm({
         if (step > 1) setStep((prev) => prev - 1)
     }
 
+    const handleCreateAccountAndSendOtp = async () => {
+        setIsLoading(true)
+        try {
+            const { username, email, password, confirmPassword } = formData
+            signUp({ username, email, password, confirmPassword })
+            // console.log('Account created:', response)
+            // Handle successful account creation and OTP sending
+        } catch (error) {
+            console.error('Error creating account and sending OTP:', error)
+            setErrors({ submit: 'An error occurred during account creation. Please try again.' })
+        } finally {
+            setIsLoading(false)
+        }
+    }
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (validateStep()) {
+        if (await validateStep()) {
             setIsLoading(true)
             try {
-                // Here you would typically send the data to your backend
-                console.log('Form submitted:', formData)
-                // Simulate API call
-                await new Promise((resolve) => setTimeout(resolve, 2000))
-                // Handle successful signup
-                alert('Signup successful!')
+                if (step === 4) {
+                    const { email, otp } = formData
+                    const response = await otpVerify({ email, otp })
+                    console.log('OTP verified:', response)
+
+                    const { userInfo, accessToken, refreshToken } = response
+                    handleLogin(accessToken, refreshToken , userInfo)
+                    setUserInfo(userInfo)
+                    navigate('/dashboard')
+                } 
             } catch (error) {
                 console.error('Signup error:', error)
                 setErrors({ submit: 'An error occurred during signup. Please try again.' })
@@ -153,22 +208,51 @@ export function SignupForm({
                 return (
                     <div className='grid gap-2'>
                         <Label htmlFor='password'>Password</Label>
-                        <Input
-                            id='password'
-                            name='password'
-                            type='password'
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                            disabled={!isActive || isLoading}
-                        />
+                        <div className='relative'>
+                            <Input
+                                id='password'
+                                name='password'
+                                type={showPassword ? 'text' : 'password'}
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                                disabled={!isActive || isLoading}
+                            />
+                            <button
+                                type='button'
+                                className='absolute inset-y-0 right-0 flex items-center px-2'
+                                onClick={() => setShowPassword((prev) => !prev)}
+                            >
+                                {showPassword ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
+                        <Label htmlFor='confirmPassword'>Confirm password</Label>
+                        <div className='relative'>
+                            <Input
+                                id='confirmPassword'
+                                name='confirmPassword'
+                                type={showConfirmPassword ? 'text' : 'password'}
+                                value={formData.confirmPassword}
+                                onChange={handleChange}
+                                required
+                                disabled={!isActive || isLoading}
+                            />
+                            <button
+                                type='button'
+                                className='absolute inset-y-0 right-0 flex items-center px-2'
+                                onClick={() => setShowConfirmPassword((prev) => !prev)}
+                            >
+                                {showConfirmPassword ? 'Hide' : 'Show'}
+                            </button>
+                        </div>
                         {errors.password && <ErrorMessage message={errors.password} />}
+                        {errors.confirmPassword && <ErrorMessage message={errors.confirmPassword} />}
                     </div>
                 )
             case 4:
                 return (
-                    <div className='grid gap-2 justify-center'>
-                        <Label htmlFor='otp'>Enter OTP</Label>
+                    <div className='flex flex-col items-center gap-2 justify-center'>
+                        <Label htmlFor='otp mb-4'>Enter OTP</Label>
                         <InputOTP
                             maxLength={6}
                             value={formData.otp}

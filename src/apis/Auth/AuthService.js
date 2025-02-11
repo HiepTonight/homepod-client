@@ -16,7 +16,34 @@ const signIn = async (credentials) => {
 }
 
 const signUp = async (body) => {
-    return await axiosClient.post('/user/register', body)
+    try {
+        const response = await axiosClient.post('/user', body)
+        if (response.data && response.data.success) {
+            console.log('Sign up response:', response)
+            return response.data.data
+        } else {
+            throw new Error(response.data.message || 'Failed to sign up')
+        }
+    } catch (error) {
+        console.error('Error signing up:', error)
+        throw error
+    }
+}
+
+const otpVerify = async (body) => {
+    try {
+        console.log('body:', body)
+        const response = await axiosClient.post('/auth/verify', body)
+        if (response.data && response.data.success) {
+            console.log('Sign up response:', response)
+            return response.data.data
+        } else {
+            throw new Error(response.data.message || 'Failed to sign up')
+        }
+    } catch (error) {
+        console.error('Error signing up:', error)
+        throw error
+    }
 }
 
 const oAuthSignIn = async (loginType) => {
@@ -55,7 +82,7 @@ const googleSignInCallback = async (code) => {
         console.error('Error signing in with Google:', error)
         throw error
     }
-} 
+}
 
 const getUserInfo = async () => {
     try {
@@ -76,4 +103,56 @@ const introspectToken = async (token) => {
     return await axiosClient.post('/user/introspect', { token })
 }
 
-export { signIn, oAuthSignIn, signUp, getUserInfo, introspectToken, googleSignInCallback }
+const isUsernameExist = async (username) => {
+    try {
+        const response = await axiosClient.get('/user/username-exist', {
+            params: {
+                username: username
+            }
+        })
+        // console.log('Username exist:', response)
+        return response.data
+
+        // if (response.data ) {
+        //     console.log('Username exist:', response)
+        //     return response.data
+        // } else {
+        //     throw new Error(response.data.message || 'Failed to check username availability')
+        // }
+    } catch (error) {
+        console.error('Error checking username availability:', error)
+        throw error
+    }
+}
+
+const isEmailExist = async (email) => {
+    try {
+        const response = await axiosClient.get('/user/email-exist', {
+            params: {
+                email: email
+            }
+        })
+        return response.data
+
+        // if (response.data && response.status === 200) {
+        //     return response.data
+        // } else {
+        //     throw new Error(response.data.message || 'Failed to check email availability')
+        // }
+    } catch (error) {
+        console.error('Error checking email availability:', error)
+        throw error
+    }
+}
+
+export {
+    signIn,
+    oAuthSignIn,
+    signUp,
+    getUserInfo,
+    introspectToken,
+    googleSignInCallback,
+    isUsernameExist,
+    isEmailExist,
+    otpVerify
+}
