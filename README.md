@@ -34,17 +34,25 @@ The HomePod application allows users to:
 
 ## System Architecture
 
-![Image](https://github.com/user-attachments/assetsf286c8f3-fa95-4833-b49a-b3a1b91c69f6)
+![Image](https://github.com/user-attachments/assets/8feb8c72-7978-4a8d-b60e-640638cef35b)
 
 ## Demo
 
-![Image](https://github.com/user-attachments/assets/2f97ef09-f974-48af-ad12-8fd48f0984d6)
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <div style="flex: 1; min-width: 45%;">
+    <img src="https://github.com/user-attachments/assets/2f97ef09-f974-48af-ad12-8fd48f0984d6" alt="Demo Image 1" style="width: 100%;">
+  </div>
+    <div style="flex: 1; min-width: 45%;">
+    <img src="https://github.com/user-attachments/assets/d815081a-68a4-4161-8804-d2bc0aa5b2cd" alt="Demo Image 3" style="width: 100%;">
+  </div>
+  <div style="flex: 1; min-width: 45%;">
+    <img src="https://github.com/user-attachments/assets/cdee8a72-0db9-4100-8747-3b1d9e189402" alt="Demo Image 2" style="width: 100%;">
+  </div>
 
-![Image](https://github.com/user-attachments/assets/cdee8a72-0db9-4100-8747-3b1d9e189402)
-
-![Image](https://github.com/user-attachments/assets/d815081a-68a4-4161-8804-d2bc0aa5b2cd)
-
-![Image](https://github.com/user-attachments/assets/10a3b56c-854a-407c-860a-6c8274bd97a4)
+  <div style="flex: 1; min-width: 45%;">
+    <img src="https://github.com/user-attachments/assets/10a3b56c-854a-407c-860a-6c8274bd97a4" alt="Demo Image 4" style="width: 100%;">
+  </div>
+</div>
 
 ## Installation
 
@@ -79,7 +87,6 @@ To install and run this project on your local machine, follow these steps:
 
 Create a [.env](http://_vscodecontentref_/3) file in the root directory of the project and add the following environment variables:
 
-
 ## Docker Configuration
 
 To run the application in Docker, you can use the provided [Dockerfile](http://_vscodecontentref_/4). Run the following commands to build and run the container:
@@ -90,4 +97,5 @@ docker run -p 80:80 homepod-client
 ```
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for more details.
