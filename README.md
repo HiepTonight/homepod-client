@@ -8,9 +8,9 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 
-# IoT Dashboard
+# HomePod - Smart Home Automation
 
-IoT Dashboard is a web application that helps users manage and monitor IoT devices in their smart homes. This application is built using React and Vite, with Tailwind CSS for a modern and user-friendly interface.
+HomePod is an innovative smart home automation solution designed to bring modern convenience and connectivity to your living space. Leveraging cutting-edge technologies such as React, Spring Boot, MQTT, and BLE Mesh, HomePod creates a seamless ecosystem that interconnects various smart devices within your home.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ IoT Dashboard is a web application that helps users manage and monitor IoT devic
 
 ## Introduction
 
-The IoT Dashboard application allows users to:
+The HomePod application allows users to:
 
 - Manage IoT devices in their homes.
 - Monitor sensor data from devices.
@@ -47,7 +47,7 @@ To install and run this project on your local machine, follow these steps:
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/your-username/iot-dashboard.git
+    git clone https://github.com/HiepTonight/homepod-client.git
     cd iot-dashboard
     ```
 
@@ -65,7 +65,7 @@ To install and run this project on your local machine, follow these steps:
     npm run dev
     ```
 
-5. Open your browser and navigate to `http://localhost:3000`.
+5. Open your browser and navigate to `http://localhost:5173`.
 
 ## Configuration
 
@@ -79,8 +79,8 @@ Create a [.env](http://_vscodecontentref_/3) file in the root directory of the p
 To run the application in Docker, you can use the provided [Dockerfile](http://_vscodecontentref_/4). Run the following commands to build and run the container:
 
 ```sh
-docker build -t iot-dashboard .
-docker run -p 80:80 iot-dashboard
+docker build -t homepod-client .
+docker run -p 80:80 homepod-client
 ```
 
 ## License
