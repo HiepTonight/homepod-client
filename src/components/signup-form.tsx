@@ -9,6 +9,7 @@ import { Progress } from '@/components/ui/progress'
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@/components/ui/input-otp'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import { FiEye, FiEyeOff } from 'react-icons/fi'
 import { useAuth } from '@/context/AuthProvider'
 import { useNavigate } from 'react-router-dom'
 import { isUsernameExist, isEmailExist, signUp, otpVerify } from '@/apis/Auth/AuthService'
@@ -223,7 +224,7 @@ export function SignupForm({
                                 className='absolute inset-y-0 right-0 flex items-center px-2'
                                 onClick={() => setShowPassword((prev) => !prev)}
                             >
-                                {showPassword ? 'Hide' : 'Show'}
+                                {showPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
                         <Label htmlFor='confirmPassword'>Confirm password</Label>
@@ -242,7 +243,7 @@ export function SignupForm({
                                 className='absolute inset-y-0 right-0 flex items-center px-2'
                                 onClick={() => setShowConfirmPassword((prev) => !prev)}
                             >
-                                {showConfirmPassword ? 'Hide' : 'Show'}
+                                {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                             </button>
                         </div>
                         {errors.password && <ErrorMessage message={errors.password} />}
