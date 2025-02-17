@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import HomeCard from '../../pages/Home/HomeCard'
 import { GoPlus } from 'react-icons/go'
@@ -12,7 +13,8 @@ import { getUserHomes } from '@/apis/Homes/HomeService'
 import RecentActivities from '@/components/recent-activities'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { InboxIcon, LampDesk, LampCeiling   } from 'lucide-react'
+import { InboxIcon, LampDesk, LampCeiling } from 'lucide-react'
+import { containerVariants, itemVariants } from '@/utils/constants'
 
 interface HomeProps {
     onHomeNameChange: (name: string) => void
@@ -119,17 +121,24 @@ const Homes = () => {
                         <HomeCreateButton addHome={addHome} title={'Create your first home'} />
                     </div>
                 ) : (
-                    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-4 mt-2'>
+                    <motion.div
+                        variants={containerVariants}
+                        initial='hidden'
+                        animate='visible'
+                        className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-4 mt-2'
+                    >
                         {homes.map((home) => (
-                            <HomeCard
-                                key={home.id}
-                                home={home}
-                                removeHome={removeHome}
-                                isEditMode={isEditMode}
-                                // onClick={() => handleHomeClick(home.id)}
-                            />
+                            <motion.div variants={itemVariants} key={home.id}>
+                                <HomeCard
+                                    key={home.id}
+                                    home={home}
+                                    removeHome={removeHome}
+                                    isEditMode={isEditMode}
+                                    // onClick={() => handleHomeClick(home.id)}
+                                />{' '}
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </div>
             <div className='col-span-1 flex flex-col gap-4'>
